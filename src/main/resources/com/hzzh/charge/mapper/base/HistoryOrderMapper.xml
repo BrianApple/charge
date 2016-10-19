@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzzh.charge.dao.HistoryOrderDao">
+    <!--==========分页查询============-->
+    <resultMap id="order_map" type="com.hzzh.charge.model.po.HistoryOrder">
+        <result column="CARD_NO" property="cardNo"/>
+        <result column="CHARGE_BEGIN" property="chargeBegin"/>
+        <result column="CHARGE_END" property="chargeEnd"/>
+        <result column="ELECTRIC_CHARGE" property="electricCharge"/>
+        <result column="EXPENSE" property="expense"/>
+        <result column="BALANCE_" property="balance"/>
+        <result column="DEV_NAME" property="devName"/>
+        <result column="STATION_NAME" property="stationName"/>
+        <result column="CAR_NO" property="carNo"/>
+        <result column="COMPANY_ID" property="companyId"/>
+        <result column="STATUS_" property="status"/>
+    </resultMap>
+    <!--历史订单分页查询-->
+    <select id="queryPage" resultMap="order_map" parameterType="string">
+        SELECT
+        o.CAR_NO,
+        o.EXPENSE,
+        o.ELECTRIC_CHARGE,
+        o.CARD_NO,
+        o.STATION_NAME,
+        o.DEV_NAME,
+        o.CHARGE_BEGIN,
+        o.CHARGE_END,
+        o.BALANCE_,
+        o.COMPANY_ID,
+        o.STATUS_
+        FROM
+        t_ev_order o
+        <where>
+            and o.STATUS_='3'
+            <if test="startTime!=null and startTime!=''">
+                and DATE_FORMAT(o.CHARGE_BEGIN,'%Y%m%d%H%i%s') &gt;=DATE_FORMAT(#{startTime},'%Y%m%d%H%i%s')
+            </if>
+            <if test="endTime!=null and endTime!=''">
+                and DATE_FORMAT(o.CHARGE_END,'%Y%m%d%H%i%s') &lt;=DATE_FORMAT(#{endTime},'%Y%m%d%H%i%s')
+            </if>
+            <if test="stationName!='' and stationName!=null">
+                and o.STATION_NAME=#{stationName}
+            </if>
+            <if test="cardNo!='' and cardNo!=null">
+                and (o.CARD_NO LIKE '%${cardNo}%' or o.DEV_NAME LIKE '%${cardNo}%')
+            </if>
+            and o.COMPANY_ID=#{companyId}
+        </where>
+        order by o.CHARGE_BEGIN
+    </select>
+
+    <!--===========车辆月报表============-->
+    <resultMap id="report_Map" type="com.hzzh.charge.model.po.CarReport">
+        <result column="CAR_NO" property="carNo"/>
+        <result column="card_no" property="cardNo"/>
+        <result column="COMPANY_ID" property="companyId"/>
+        <result column="STATION_NAME" property="stationName"/>
+    </resultMap>
+
+    <select id="monthlyReport" resultMap="report_Map">
+        select
+        o.CAR_NO,
+        o.card_no,
+        o.charge_begin,
+        o.COMPANY_ID,
+        DATE_FORMAT(o.CHARGE_BEGIN,'%Y-%m') months,
+        ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE_J,0.00)),2) charge_J,
+        ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE_F,0.00)),2) charge_F,
+        ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE_P,0.00)),2) charge_P,
+        ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE_G,0.00)),2) charge_G,
+        ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE,0.00)),2) total_charge,
+        --
+        ROUND(SUM(IFNULL(O.EXPENSE_J,0.00)),2) expense_J,
+        ROUND(SUM(IFNULL(O.EXPENSE_F,0.00)),2) expense_F,
+        ROUND(SUM(IFNULL(O.EXPENSE_P,0.00)),2) expense_P,
+        ROUND(SUM(IFNULL(O.EXPENSE_G,0.00)),2) expense_G,
+        ROUND(SUM(IFNULL(o.EXPENSE,0.00)),2) total_expense
+        FROM
+        t_ev_order o
+        <where>
+            AND
+            o.COMPANY_ID=#{companyId}
+            -- 默认状态等于3
+            AND o.STATUS_='3'
+
+            <if test="dateTime!=null">
+                <choose>
+                    <when test='dateTime!=null and dateTime!=""'>
+                        and DATE_FORMAT(#{dateTime},'%Y%m%')=DATE_FORMAT(o.CHARGE_BEGIN,'%Y%m%')
+                        and DATE_FORMAT(#{dateTime},'%Y%m%d%') &lt; DATE_FORMAT(o.CHARGE_BEGIN,'%Y%m%d')
+                    </when>
+                    <otherwise>
+                        and DATE_FORMAT(o.CHARGE_BEGIN,'%Y%m%')=DATE_FORMAT(now(),'%Y%m%')
+                    </otherwise>
+                </choose>
+            </if>
+
+        </where>
+        --
+        group by o.car_no
+    </select>
+    <!--=====================车辆日统计报表========================-->
+    <select id="dailyReport" resultMap="report_Map">
+        select
+        o.CAR_NO,
+        o.card_no,
+        o.charge_begin,
+        o.COMPANY_ID,
+        DATE_FORMAT(o.CHARGE_BEGIN,'%Y-%m-%d %H:%i:%s') days,
+        ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE_J,0.00)),2) charge_J,
+        ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE_F,0.00)),2) charge_F,
+        ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE_P,0.00)),2) charge_P,
+        ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE_G,0.00)),2) charge_G,
+        ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE,0.00)),2) total_charge,
+        --
+        ROUND(SUM(IFNULL(O.EXPENSE_J,0.00)),2) expense_J,
+        ROUND(SUM(IFNULL(O.EXPENSE_F,0.00)),2) expense_F,
+        ROUND(SUM(IFNULL(O.EXPENSE_P,0.00)),2) expense_P,
+        ROUND(SUM(IFNULL(O.EXPENSE_G,0.00)),2) expense_G,
+        ROUND(SUM(IFNULL(o.EXPENSE,0.00)),2) total_expense
+        FROM
+        t_ev_order o
+        <where>
+            AND o.STATUS_='3'
+            <if test="dateTime!=null">
+                <choose>
+                    <when test='dateTime!=null and dateTime!=""'>
+                        AND DATE_FORMAT(#{dateTime},'%Y%m%d%') = DATE_FORMAT(o.CHARGE_BEGIN,'%Y%m%d%')
+                        AND DATE_FORMAT(#{dateTime},'%Y%m%d%H%i%s') &lt; DATE_FORMAT(o.CHARGE_BEGIN,'%Y%m%d%H%i%s')
+                    </when>
+                    <otherwise>
+                        And DATE_FORMAT(o.CHARGE_BEGIN,'%Y-%m-%d')=DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+                    </otherwise>
+                </choose>
+            </if>
+            AND o.COMPANY_ID=#{companyId}
+        </where>
+        group by o.car_no
+    </select>
+    <!--=====================场站月统计报表========================-->
+    <resultMap id="stationReport_Map" type="com.hzzh.charge.model.po.StationPo">
+        <result column="station_name" property="stationName"/>
+        <result column="COMPANY_ID" property="companyId"/>
+        <collection property="chargeInfo" ofType="com.hzzh.charge.model.po.StationReportPo">
+            <result column="station_name" property="stationName"/>
+            <result column="days" property="days"/>
+            <result column="total_charge" property="totalCharge"/>
+        </collection>
+    </resultMap>
+    <select id="stationReport" resultMap="stationReport_Map">
+        select
+        o.station_name,
+        o.charge_begin,
+        o.COMPANY_ID,
+        DATE_FORMAT(o.charge_begin,'%Y-%m-%d') days,
+        ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE,0.00)),2) total_charge
+        FROM
+        t_ev_order o
+        <where>
+            AND o.STATUS_='3'
+
+            <if test="dateTime!=null">
+                <choose>
+                    <when test='dateTime!="" and dateTime!=null'>
+                        and
+                        DATE_FORMAT(#{dateTime},'%Y%m%')=DATE_FORMAT(o.CHARGE_BEGIN,'%Y%m%')
+                        and
+                        DATE_FORMAT(#{dateTime},'%Y%m%d%') &lt;= DATE_FORMAT(o.CHARGE_BEGIN,'%Y%m%d')
+                    </when>
+                    <otherwise>
+                        AND
+                        DATE_FORMAT(o.charge_begin,'%Y%m')=DATE_FORMAT(NOW(),'%Y%m')
+                    </otherwise>
+                </choose>
+
+            </if>
+            and
+            o.COMPANY_ID=#{companyId}
+        </where>
+
+        group by
+        days,O.STATION_NAME
+        WITH ROLLUP
+    </select>
+
+</mapper>

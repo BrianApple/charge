@@ -1,0 +1,998 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzzh.charge.dao.OrderDao">
+    <resultMap id="BaseResultMap" type="com.hzzh.charge.model.Order">
+        <id column="GUID_" jdbcType="VARCHAR" property="guid" />
+        <result column="CAR_NO" jdbcType="VARCHAR" property="carNo" />
+        <result column="CARD_NO" jdbcType="VARCHAR" property="cardNo" />
+        <result column="COMPANY_ID" jdbcType="VARCHAR" property="companyId" />
+        <result column="STATION_CODE" jdbcType="VARCHAR" property="stationCode" />
+        <result column="STATION_NAME" jdbcType="VARCHAR" property="stationName" />
+        <result column="DEV_CODE" jdbcType="VARCHAR" property="devCode" />
+        <result column="DEV_NAME" jdbcType="VARCHAR" property="devName" />
+        <result column="CHARGE_BEGIN" jdbcType="VARCHAR" property="chargeBegin" />
+        <result column="CHARGE_END" jdbcType="VARCHAR" property="chargeEnd" />
+        <result column="ELECTRIC_CHARGE" jdbcType="DECIMAL" property="electricCharge" />
+        <result column="EXPENSE" jdbcType="VARCHAR" property="expense" />
+        <result column="RATE_J" jdbcType="VARCHAR" property="rateJ" />
+        <result column="RATE_F" jdbcType="VARCHAR" property="rateF" />
+        <result column="RATE_G" jdbcType="VARCHAR" property="rateG" />
+        <result column="RATE_P" jdbcType="VARCHAR" property="rateP" />
+        <result column="ELECTRIC_CHARGE_J" jdbcType="VARCHAR" property="electricChargeJ" />
+        <result column="ELECTRIC_CHARGE_F" jdbcType="VARCHAR" property="electricChargeF" />
+        <result column="ELECTRIC_CHARGE_G" jdbcType="VARCHAR" property="electricChargeG" />
+        <result column="ELECTRIC_CHARGE_P" jdbcType="VARCHAR" property="electricChargeP" />
+        <result column="EXPENSE_J" jdbcType="VARCHAR" property="expenseJ" />
+        <result column="EXPENSE_F" jdbcType="VARCHAR" property="expenseF" />
+        <result column="EXPENSE_G" jdbcType="VARCHAR" property="expenseG" />
+        <result column="EXPENSE_P" jdbcType="VARCHAR" property="expenseP" />
+        <result column="BALANCE_" jdbcType="VARCHAR" property="balance" />
+        <result column="STOP_REASON" jdbcType="VARCHAR" property="stopReason" />
+        <result column="CHARGE_TYPE" jdbcType="VARCHAR" property="chargeType" />
+        <result column="SEND_TAG" jdbcType="VARCHAR" property="sendTag" />
+        <result column="PORT_" jdbcType="VARCHAR" property="port" />
+        <result column="STATUS_" jdbcType="VARCHAR" property="status" />
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <foreach collection="oredCriteria" item="criteria" separator="or">
+            <if test="criteria.valid">
+                <trim prefix="(" prefixOverrides="and" suffix=")">
+                    <foreach collection="criteria.criteria" item="criterion">
+                        <choose>
+                            <when test="criterion.noValue">
+                                and ${criterion.condition}
+                            </when>
+                            <when test="criterion.singleValue">
+                                and ${criterion.condition} #{criterion.value}
+                            </when>
+                            <when test="criterion.betweenValue">
+                                and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                            </when>
+                            <when test="criterion.listValue">
+                                and ${criterion.condition}
+                                <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                    #{listItem}
+                                </foreach>
+                            </when>
+                        </choose>
+                    </foreach>
+                </trim>
+            </if>
+        </foreach>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <foreach collection="example.oredCriteria" item="criteria" separator="or">
+            <if test="criteria.valid">
+                <trim prefix="(" prefixOverrides="and" suffix=")">
+                    <foreach collection="criteria.criteria" item="criterion">
+                        <choose>
+                            <when test="criterion.noValue">
+                                and ${criterion.condition}
+                            </when>
+                            <when test="criterion.singleValue">
+                                and ${criterion.condition} #{criterion.value}
+                            </when>
+                            <when test="criterion.betweenValue">
+                                and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                            </when>
+                            <when test="criterion.listValue">
+                                and ${criterion.condition}
+                                <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                    #{listItem}
+                                </foreach>
+                            </when>
+                        </choose>
+                    </foreach>
+                </trim>
+            </if>
+        </foreach>
+    </sql>
+    <sql id="Base_Column_List">
+        teo.GUID_,
+        teo.CAR_NO,
+        teo.CARD_NO,
+        teo.COMPANY_ID,
+        teo.STATION_CODE,
+        teo.STATION_NAME,
+        teo.DEV_CODE,
+        teo.DEV_NAME,
+        teo.CHARGE_BEGIN,
+        teo.CHARGE_END,
+        teo.ELECTRIC_CHARGE,
+        teo.EXPENSE,
+        teo.RATE_J,
+        teo.RATE_F,
+        teo.RATE_G,
+        teo.RATE_P,
+        teo.ELECTRIC_CHARGE_J,
+        teo.ELECTRIC_CHARGE_F,
+        teo.ELECTRIC_CHARGE_G,
+        teo.ELECTRIC_CHARGE_P,
+        teo.EXPENSE_J,
+        teo.EXPENSE_F,
+        teo.EXPENSE_G,
+        teo.EXPENSE_P,
+        teo.BALANCE_,
+        teo.STOP_REASON,
+        teo.CHARGE_TYPE,
+        teo.SEND_TAG,
+        teo.PORT_,
+        teo.STATUS_
+    </sql>
+    <!-- 根据条件统计表中数据数量 所有数据 -->
+    <select id="countByExample" parameterType="com.hzzh.charge.model.OrderExample" resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            t_ev_order teo
+        where
+            1 = 1
+        <if test="_parameter != null">
+            <trim prefix="and (" suffix=")">
+                <include refid="Example_Where_Clause" />
+            </trim>
+        </if>
+    </select>
+    <!-- 根据条件查询表中数据 所有数据 -->
+    <select id="selectByExample" parameterType="com.hzzh.charge.model.OrderExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct 
+        </if>
+        <include refid="Base_Column_List" />
+        from
+            t_ev_order teo
+        where
+            1 = 1
+        <if test="_parameter != null">
+            <trim prefix="and (" suffix=")">
+                <include refid="Example_Where_Clause" />
+            </trim>
+        </if>
+        <if test="orderByClause != null">
+            order by
+                ${orderByClause}
+        </if>
+        <if test="currentSize != null">
+            limit #{currentSize} , #{pageSize}
+        </if>
+    </select>
+    <!-- 往表中插入一条数据 系统字段需要输入 -->
+    <insert id="insert" parameterType="com.hzzh.charge.model.Order">
+        insert into
+            t_ev_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            GUID_,
+            CAR_NO,
+            CARD_NO,
+            COMPANY_ID,
+            STATION_CODE,
+            STATION_NAME,
+            DEV_CODE,
+            DEV_NAME,
+            CHARGE_BEGIN,
+            CHARGE_END,
+            ELECTRIC_CHARGE,
+            EXPENSE,
+            RATE_J,
+            RATE_F,
+            RATE_G,
+            RATE_P,
+            ELECTRIC_CHARGE_J,
+            ELECTRIC_CHARGE_F,
+            ELECTRIC_CHARGE_G,
+            ELECTRIC_CHARGE_P,
+            EXPENSE_J,
+            EXPENSE_F,
+            EXPENSE_G,
+            EXPENSE_P,
+            BALANCE_,
+            STOP_REASON,
+            CHARGE_TYPE,
+            SEND_TAG,
+            PORT_,
+            STATUS_,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{guid,jdbcType=VARCHAR},
+            #{carNo,jdbcType=VARCHAR},
+            #{cardNo,jdbcType=VARCHAR},
+            #{companyId,jdbcType=VARCHAR},
+            #{stationCode,jdbcType=VARCHAR},
+            #{stationName,jdbcType=VARCHAR},
+            #{devCode,jdbcType=VARCHAR},
+            #{devName,jdbcType=VARCHAR},
+            #{chargeBegin,jdbcType=VARCHAR},
+            #{chargeEnd,jdbcType=VARCHAR},
+            #{electricCharge,jdbcType=DECIMAL},
+            #{expense,jdbcType=VARCHAR},
+            #{rateJ,jdbcType=VARCHAR},
+            #{rateF,jdbcType=VARCHAR},
+            #{rateG,jdbcType=VARCHAR},
+            #{rateP,jdbcType=VARCHAR},
+            #{electricChargeJ,jdbcType=VARCHAR},
+            #{electricChargeF,jdbcType=VARCHAR},
+            #{electricChargeG,jdbcType=VARCHAR},
+            #{electricChargeP,jdbcType=VARCHAR},
+            #{expenseJ,jdbcType=VARCHAR},
+            #{expenseF,jdbcType=VARCHAR},
+            #{expenseG,jdbcType=VARCHAR},
+            #{expenseP,jdbcType=VARCHAR},
+            #{balance,jdbcType=VARCHAR},
+            #{stopReason,jdbcType=VARCHAR},
+            #{chargeType,jdbcType=VARCHAR},
+            #{sendTag,jdbcType=VARCHAR},
+            #{port,jdbcType=VARCHAR},
+            #{status,jdbcType=VARCHAR},
+        </trim>
+    </insert>
+    <!-- 往表中批量插入数据 系统字段需要输入 -->
+    <insert id="insertList" parameterType="java.util.List">
+        insert into
+            t_ev_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            GUID_,
+            CAR_NO,
+            CARD_NO,
+            COMPANY_ID,
+            STATION_CODE,
+            STATION_NAME,
+            DEV_CODE,
+            DEV_NAME,
+            CHARGE_BEGIN,
+            CHARGE_END,
+            ELECTRIC_CHARGE,
+            EXPENSE,
+            RATE_J,
+            RATE_F,
+            RATE_G,
+            RATE_P,
+            ELECTRIC_CHARGE_J,
+            ELECTRIC_CHARGE_F,
+            ELECTRIC_CHARGE_G,
+            ELECTRIC_CHARGE_P,
+            EXPENSE_J,
+            EXPENSE_F,
+            EXPENSE_G,
+            EXPENSE_P,
+            BALANCE_,
+            STOP_REASON,
+            CHARGE_TYPE,
+            SEND_TAG,
+            PORT_,
+            STATUS_,
+        </trim>
+        <foreach collection="list" item="item" open="values (" close=")" separator=" ), ( ">
+            <trim suffixOverrides=",">
+                #{item.guid,jdbcType=VARCHAR},
+                #{item.carNo,jdbcType=VARCHAR},
+                #{item.cardNo,jdbcType=VARCHAR},
+                #{item.companyId,jdbcType=VARCHAR},
+                #{item.stationCode,jdbcType=VARCHAR},
+                #{item.stationName,jdbcType=VARCHAR},
+                #{item.devCode,jdbcType=VARCHAR},
+                #{item.devName,jdbcType=VARCHAR},
+                #{item.chargeBegin,jdbcType=VARCHAR},
+                #{item.chargeEnd,jdbcType=VARCHAR},
+                #{item.electricCharge,jdbcType=DECIMAL},
+                #{item.expense,jdbcType=VARCHAR},
+                #{item.rateJ,jdbcType=VARCHAR},
+                #{item.rateF,jdbcType=VARCHAR},
+                #{item.rateG,jdbcType=VARCHAR},
+                #{item.rateP,jdbcType=VARCHAR},
+                #{item.electricChargeJ,jdbcType=VARCHAR},
+                #{item.electricChargeF,jdbcType=VARCHAR},
+                #{item.electricChargeG,jdbcType=VARCHAR},
+                #{item.electricChargeP,jdbcType=VARCHAR},
+                #{item.expenseJ,jdbcType=VARCHAR},
+                #{item.expenseF,jdbcType=VARCHAR},
+                #{item.expenseG,jdbcType=VARCHAR},
+                #{item.expenseP,jdbcType=VARCHAR},
+                #{item.balance,jdbcType=VARCHAR},
+                #{item.stopReason,jdbcType=VARCHAR},
+                #{item.chargeType,jdbcType=VARCHAR},
+                #{item.sendTag,jdbcType=VARCHAR},
+                #{item.port,jdbcType=VARCHAR},
+                #{item.status,jdbcType=VARCHAR},
+            </trim>
+        </foreach>
+    </insert>
+    <!-- 往表中插入一条数据 字段为空不插入 系统字段需要输入 -->
+    <insert id="insertSelective" parameterType="com.hzzh.charge.model.Order">
+        insert into
+            t_ev_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="guid != null">
+                GUID_,
+            </if>
+            <if test="carNo != null">
+                CAR_NO,
+            </if>
+            <if test="cardNo != null">
+                CARD_NO,
+            </if>
+            <if test="companyId != null">
+                COMPANY_ID,
+            </if>
+            <if test="stationCode != null">
+                STATION_CODE,
+            </if>
+            <if test="stationName != null">
+                STATION_NAME,
+            </if>
+            <if test="devCode != null">
+                DEV_CODE,
+            </if>
+            <if test="devName != null">
+                DEV_NAME,
+            </if>
+            <if test="chargeBegin != null">
+                CHARGE_BEGIN,
+            </if>
+            <if test="chargeEnd != null">
+                CHARGE_END,
+            </if>
+            <if test="electricCharge != null">
+                ELECTRIC_CHARGE,
+            </if>
+            <if test="expense != null">
+                EXPENSE,
+            </if>
+            <if test="rateJ != null">
+                RATE_J,
+            </if>
+            <if test="rateF != null">
+                RATE_F,
+            </if>
+            <if test="rateG != null">
+                RATE_G,
+            </if>
+            <if test="rateP != null">
+                RATE_P,
+            </if>
+            <if test="electricChargeJ != null">
+                ELECTRIC_CHARGE_J,
+            </if>
+            <if test="electricChargeF != null">
+                ELECTRIC_CHARGE_F,
+            </if>
+            <if test="electricChargeG != null">
+                ELECTRIC_CHARGE_G,
+            </if>
+            <if test="electricChargeP != null">
+                ELECTRIC_CHARGE_P,
+            </if>
+            <if test="expenseJ != null">
+                EXPENSE_J,
+            </if>
+            <if test="expenseF != null">
+                EXPENSE_F,
+            </if>
+            <if test="expenseG != null">
+                EXPENSE_G,
+            </if>
+            <if test="expenseP != null">
+                EXPENSE_P,
+            </if>
+            <if test="balance != null">
+                BALANCE_,
+            </if>
+            <if test="stopReason != null">
+                STOP_REASON,
+            </if>
+            <if test="chargeType != null">
+                CHARGE_TYPE,
+            </if>
+            <if test="sendTag != null">
+                SEND_TAG,
+            </if>
+            <if test="port != null">
+                PORT_,
+            </if>
+            <if test="status != null">
+                STATUS_,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="guid != null">
+                #{guid,jdbcType=VARCHAR},
+            </if>
+            <if test="carNo != null">
+                #{carNo,jdbcType=VARCHAR},
+            </if>
+            <if test="cardNo != null">
+                #{cardNo,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                #{companyId,jdbcType=VARCHAR},
+            </if>
+            <if test="stationCode != null">
+                #{stationCode,jdbcType=VARCHAR},
+            </if>
+            <if test="stationName != null">
+                #{stationName,jdbcType=VARCHAR},
+            </if>
+            <if test="devCode != null">
+                #{devCode,jdbcType=VARCHAR},
+            </if>
+            <if test="devName != null">
+                #{devName,jdbcType=VARCHAR},
+            </if>
+            <if test="chargeBegin != null">
+                #{chargeBegin,jdbcType=VARCHAR},
+            </if>
+            <if test="chargeEnd != null">
+                #{chargeEnd,jdbcType=VARCHAR},
+            </if>
+            <if test="electricCharge != null">
+                #{electricCharge,jdbcType=DECIMAL},
+            </if>
+            <if test="expense != null">
+                #{expense,jdbcType=VARCHAR},
+            </if>
+            <if test="rateJ != null">
+                #{rateJ,jdbcType=VARCHAR},
+            </if>
+            <if test="rateF != null">
+                #{rateF,jdbcType=VARCHAR},
+            </if>
+            <if test="rateG != null">
+                #{rateG,jdbcType=VARCHAR},
+            </if>
+            <if test="rateP != null">
+                #{rateP,jdbcType=VARCHAR},
+            </if>
+            <if test="electricChargeJ != null">
+                #{electricChargeJ,jdbcType=VARCHAR},
+            </if>
+            <if test="electricChargeF != null">
+                #{electricChargeF,jdbcType=VARCHAR},
+            </if>
+            <if test="electricChargeG != null">
+                #{electricChargeG,jdbcType=VARCHAR},
+            </if>
+            <if test="electricChargeP != null">
+                #{electricChargeP,jdbcType=VARCHAR},
+            </if>
+            <if test="expenseJ != null">
+                #{expenseJ,jdbcType=VARCHAR},
+            </if>
+            <if test="expenseF != null">
+                #{expenseF,jdbcType=VARCHAR},
+            </if>
+            <if test="expenseG != null">
+                #{expenseG,jdbcType=VARCHAR},
+            </if>
+            <if test="expenseP != null">
+                #{expenseP,jdbcType=VARCHAR},
+            </if>
+            <if test="balance != null">
+                #{balance,jdbcType=VARCHAR},
+            </if>
+            <if test="stopReason != null">
+                #{stopReason,jdbcType=VARCHAR},
+            </if>
+            <if test="chargeType != null">
+                #{chargeType,jdbcType=VARCHAR},
+            </if>
+            <if test="sendTag != null">
+                #{sendTag,jdbcType=VARCHAR},
+            </if>
+            <if test="port != null">
+                #{port,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <!-- 往表中批量插入数据 字段为空不插入 系统字段需要输入 -->
+    <insert id="insertListSelective" parameterType="java.util.List">
+        insert into
+            t_ev_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="guid != null">
+                GUID_,
+            </if>
+            <if test="carNo != null">
+                CAR_NO,
+            </if>
+            <if test="cardNo != null">
+                CARD_NO,
+            </if>
+            <if test="companyId != null">
+                COMPANY_ID,
+            </if>
+            <if test="stationCode != null">
+                STATION_CODE,
+            </if>
+            <if test="stationName != null">
+                STATION_NAME,
+            </if>
+            <if test="devCode != null">
+                DEV_CODE,
+            </if>
+            <if test="devName != null">
+                DEV_NAME,
+            </if>
+            <if test="chargeBegin != null">
+                CHARGE_BEGIN,
+            </if>
+            <if test="chargeEnd != null">
+                CHARGE_END,
+            </if>
+            <if test="electricCharge != null">
+                ELECTRIC_CHARGE,
+            </if>
+            <if test="expense != null">
+                EXPENSE,
+            </if>
+            <if test="rateJ != null">
+                RATE_J,
+            </if>
+            <if test="rateF != null">
+                RATE_F,
+            </if>
+            <if test="rateG != null">
+                RATE_G,
+            </if>
+            <if test="rateP != null">
+                RATE_P,
+            </if>
+            <if test="electricChargeJ != null">
+                ELECTRIC_CHARGE_J,
+            </if>
+            <if test="electricChargeF != null">
+                ELECTRIC_CHARGE_F,
+            </if>
+            <if test="electricChargeG != null">
+                ELECTRIC_CHARGE_G,
+            </if>
+            <if test="electricChargeP != null">
+                ELECTRIC_CHARGE_P,
+            </if>
+            <if test="expenseJ != null">
+                EXPENSE_J,
+            </if>
+            <if test="expenseF != null">
+                EXPENSE_F,
+            </if>
+            <if test="expenseG != null">
+                EXPENSE_G,
+            </if>
+            <if test="expenseP != null">
+                EXPENSE_P,
+            </if>
+            <if test="balance != null">
+                BALANCE_,
+            </if>
+            <if test="stopReason != null">
+                STOP_REASON,
+            </if>
+            <if test="chargeType != null">
+                CHARGE_TYPE,
+            </if>
+            <if test="sendTag != null">
+                SEND_TAG,
+            </if>
+            <if test="port != null">
+                PORT_,
+            </if>
+            <if test="status != null">
+                STATUS_,
+            </if>
+        </trim>
+        <foreach collection="list" item="item" open="values (" close=")" separator=" ), ( ">
+            <trim suffixOverrides=",">
+                <if test="item.guid != null">
+                    #{item.guid,jdbcType=VARCHAR},
+                </if>
+                <if test="item.carNo != null">
+                    #{item.carNo,jdbcType=VARCHAR},
+                </if>
+                <if test="item.cardNo != null">
+                    #{item.cardNo,jdbcType=VARCHAR},
+                </if>
+                <if test="item.companyId != null">
+                    #{item.companyId,jdbcType=VARCHAR},
+                </if>
+                <if test="item.stationCode != null">
+                    #{item.stationCode,jdbcType=VARCHAR},
+                </if>
+                <if test="item.stationName != null">
+                    #{item.stationName,jdbcType=VARCHAR},
+                </if>
+                <if test="item.devCode != null">
+                    #{item.devCode,jdbcType=VARCHAR},
+                </if>
+                <if test="item.devName != null">
+                    #{item.devName,jdbcType=VARCHAR},
+                </if>
+                <if test="item.chargeBegin != null">
+                    #{item.chargeBegin,jdbcType=VARCHAR},
+                </if>
+                <if test="item.chargeEnd != null">
+                    #{item.chargeEnd,jdbcType=VARCHAR},
+                </if>
+                <if test="item.electricCharge != null">
+                    #{item.electricCharge,jdbcType=DECIMAL},
+                </if>
+                <if test="item.expense != null">
+                    #{item.expense,jdbcType=VARCHAR},
+                </if>
+                <if test="item.rateJ != null">
+                    #{item.rateJ,jdbcType=VARCHAR},
+                </if>
+                <if test="item.rateF != null">
+                    #{item.rateF,jdbcType=VARCHAR},
+                </if>
+                <if test="item.rateG != null">
+                    #{item.rateG,jdbcType=VARCHAR},
+                </if>
+                <if test="item.rateP != null">
+                    #{item.rateP,jdbcType=VARCHAR},
+                </if>
+                <if test="item.electricChargeJ != null">
+                    #{item.electricChargeJ,jdbcType=VARCHAR},
+                </if>
+                <if test="item.electricChargeF != null">
+                    #{item.electricChargeF,jdbcType=VARCHAR},
+                </if>
+                <if test="item.electricChargeG != null">
+                    #{item.electricChargeG,jdbcType=VARCHAR},
+                </if>
+                <if test="item.electricChargeP != null">
+                    #{item.electricChargeP,jdbcType=VARCHAR},
+                </if>
+                <if test="item.expenseJ != null">
+                    #{item.expenseJ,jdbcType=VARCHAR},
+                </if>
+                <if test="item.expenseF != null">
+                    #{item.expenseF,jdbcType=VARCHAR},
+                </if>
+                <if test="item.expenseG != null">
+                    #{item.expenseG,jdbcType=VARCHAR},
+                </if>
+                <if test="item.expenseP != null">
+                    #{item.expenseP,jdbcType=VARCHAR},
+                </if>
+                <if test="item.balance != null">
+                    #{item.balance,jdbcType=VARCHAR},
+                </if>
+                <if test="item.stopReason != null">
+                    #{item.stopReason,jdbcType=VARCHAR},
+                </if>
+                <if test="item.chargeType != null">
+                    #{item.chargeType,jdbcType=VARCHAR},
+                </if>
+                <if test="item.sendTag != null">
+                    #{item.sendTag,jdbcType=VARCHAR},
+                </if>
+                <if test="item.port != null">
+                    #{item.port,jdbcType=VARCHAR},
+                </if>
+                <if test="item.status != null">
+                    #{item.status,jdbcType=VARCHAR},
+                </if>
+            </trim>
+        </foreach>
+    </insert>
+    <!-- 根据条件修改数据 所有数据 -->
+    <update id="updateByExample" parameterType="java.util.Map">
+        update
+            t_ev_order teo
+        <trim prefix="set" suffix="" suffixOverrides=",">
+            teo.GUID_ = #{record.guid,jdbcType=VARCHAR},
+            teo.CAR_NO = #{record.carNo,jdbcType=VARCHAR},
+            teo.CARD_NO = #{record.cardNo,jdbcType=VARCHAR},
+            teo.COMPANY_ID = #{record.companyId,jdbcType=VARCHAR},
+            teo.STATION_CODE = #{record.stationCode,jdbcType=VARCHAR},
+            teo.STATION_NAME = #{record.stationName,jdbcType=VARCHAR},
+            teo.DEV_CODE = #{record.devCode,jdbcType=VARCHAR},
+            teo.DEV_NAME = #{record.devName,jdbcType=VARCHAR},
+            teo.CHARGE_BEGIN = #{record.chargeBegin,jdbcType=VARCHAR},
+            teo.CHARGE_END = #{record.chargeEnd,jdbcType=VARCHAR},
+            teo.ELECTRIC_CHARGE = #{record.electricCharge,jdbcType=DECIMAL},
+            teo.EXPENSE = #{record.expense,jdbcType=VARCHAR},
+            teo.RATE_J = #{record.rateJ,jdbcType=VARCHAR},
+            teo.RATE_F = #{record.rateF,jdbcType=VARCHAR},
+            teo.RATE_G = #{record.rateG,jdbcType=VARCHAR},
+            teo.RATE_P = #{record.rateP,jdbcType=VARCHAR},
+            teo.ELECTRIC_CHARGE_J = #{record.electricChargeJ,jdbcType=VARCHAR},
+            teo.ELECTRIC_CHARGE_F = #{record.electricChargeF,jdbcType=VARCHAR},
+            teo.ELECTRIC_CHARGE_G = #{record.electricChargeG,jdbcType=VARCHAR},
+            teo.ELECTRIC_CHARGE_P = #{record.electricChargeP,jdbcType=VARCHAR},
+            teo.EXPENSE_J = #{record.expenseJ,jdbcType=VARCHAR},
+            teo.EXPENSE_F = #{record.expenseF,jdbcType=VARCHAR},
+            teo.EXPENSE_G = #{record.expenseG,jdbcType=VARCHAR},
+            teo.EXPENSE_P = #{record.expenseP,jdbcType=VARCHAR},
+            teo.BALANCE_ = #{record.balance,jdbcType=VARCHAR},
+            teo.STOP_REASON = #{record.stopReason,jdbcType=VARCHAR},
+            teo.CHARGE_TYPE = #{record.chargeType,jdbcType=VARCHAR},
+            teo.SEND_TAG = #{record.sendTag,jdbcType=VARCHAR},
+            teo.PORT_ = #{record.port,jdbcType=VARCHAR},
+            teo.STATUS_ = #{record.status,jdbcType=VARCHAR},
+        </trim>
+        where
+            1 = 1
+        <if test="_parameter != null">
+            <trim prefix="and (" suffix=")">
+                <include refid="Update_By_Example_Where_Clause" />
+            </trim>
+        </if>
+    </update>
+    <!-- 根据条件修改数据 字段为空不修改 所有数据 -->
+    <update id="updateByExampleSelective" parameterType="java.util.Map">
+        update
+            t_ev_order teo
+        <set>
+            <if test="record.guid != null">
+                teo.GUID_ = #{record.guid,jdbcType=VARCHAR},
+            </if>
+            <if test="record.carNo != null">
+                teo.CAR_NO = #{record.carNo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.cardNo != null">
+                teo.CARD_NO = #{record.cardNo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.companyId != null">
+                teo.COMPANY_ID = #{record.companyId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.stationCode != null">
+                teo.STATION_CODE = #{record.stationCode,jdbcType=VARCHAR},
+            </if>
+            <if test="record.stationName != null">
+                teo.STATION_NAME = #{record.stationName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.devCode != null">
+                teo.DEV_CODE = #{record.devCode,jdbcType=VARCHAR},
+            </if>
+            <if test="record.devName != null">
+                teo.DEV_NAME = #{record.devName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.chargeBegin != null">
+                teo.CHARGE_BEGIN = #{record.chargeBegin,jdbcType=VARCHAR},
+            </if>
+            <if test="record.chargeEnd != null">
+                teo.CHARGE_END = #{record.chargeEnd,jdbcType=VARCHAR},
+            </if>
+            <if test="record.electricCharge != null">
+                teo.ELECTRIC_CHARGE = #{record.electricCharge,jdbcType=DECIMAL},
+            </if>
+            <if test="record.expense != null">
+                teo.EXPENSE = #{record.expense,jdbcType=VARCHAR},
+            </if>
+            <if test="record.rateJ != null">
+                teo.RATE_J = #{record.rateJ,jdbcType=VARCHAR},
+            </if>
+            <if test="record.rateF != null">
+                teo.RATE_F = #{record.rateF,jdbcType=VARCHAR},
+            </if>
+            <if test="record.rateG != null">
+                teo.RATE_G = #{record.rateG,jdbcType=VARCHAR},
+            </if>
+            <if test="record.rateP != null">
+                teo.RATE_P = #{record.rateP,jdbcType=VARCHAR},
+            </if>
+            <if test="record.electricChargeJ != null">
+                teo.ELECTRIC_CHARGE_J = #{record.electricChargeJ,jdbcType=VARCHAR},
+            </if>
+            <if test="record.electricChargeF != null">
+                teo.ELECTRIC_CHARGE_F = #{record.electricChargeF,jdbcType=VARCHAR},
+            </if>
+            <if test="record.electricChargeG != null">
+                teo.ELECTRIC_CHARGE_G = #{record.electricChargeG,jdbcType=VARCHAR},
+            </if>
+            <if test="record.electricChargeP != null">
+                teo.ELECTRIC_CHARGE_P = #{record.electricChargeP,jdbcType=VARCHAR},
+            </if>
+            <if test="record.expenseJ != null">
+                teo.EXPENSE_J = #{record.expenseJ,jdbcType=VARCHAR},
+            </if>
+            <if test="record.expenseF != null">
+                teo.EXPENSE_F = #{record.expenseF,jdbcType=VARCHAR},
+            </if>
+            <if test="record.expenseG != null">
+                teo.EXPENSE_G = #{record.expenseG,jdbcType=VARCHAR},
+            </if>
+            <if test="record.expenseP != null">
+                teo.EXPENSE_P = #{record.expenseP,jdbcType=VARCHAR},
+            </if>
+            <if test="record.balance != null">
+                teo.BALANCE_ = #{record.balance,jdbcType=VARCHAR},
+            </if>
+            <if test="record.stopReason != null">
+                teo.STOP_REASON = #{record.stopReason,jdbcType=VARCHAR},
+            </if>
+            <if test="record.chargeType != null">
+                teo.CHARGE_TYPE = #{record.chargeType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sendTag != null">
+                teo.SEND_TAG = #{record.sendTag,jdbcType=VARCHAR},
+            </if>
+            <if test="record.port != null">
+                teo.PORT_ = #{record.port,jdbcType=VARCHAR},
+            </if>
+            <if test="record.status != null">
+                teo.STATUS_ = #{record.status,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where
+            1 = 1
+        <if test="_parameter != null">
+            <trim prefix="and (" suffix=")">
+                <include refid="Update_By_Example_Where_Clause" />
+            </trim>
+        </if>
+    </update>
+    <!-- 根据条件删除数据 物理删除 -->
+    <delete id="deleteByExample" parameterType="com.hzzh.charge.model.OrderExample">
+        delete from
+            t_ev_order teo
+        where
+            1 = 1
+        <if test="_parameter != null">
+            <trim prefix="and (" suffix=")">
+                <include refid="Example_Where_Clause" />
+            </trim>
+        </if>
+    </delete>
+    <!-- 根据主键查询数据 所有数据 -->
+    <select id="selectByPrimaryKey" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List" />
+        from
+            t_ev_order teo
+        where
+            1 = 1
+        and teo.GUID_ = #{guid}
+    </select>
+    <!-- 根据主键修改数据 所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.hzzh.charge.model.Order">
+        update
+            t_ev_order teo
+        <set>
+            teo.GUID_ = #{guid,jdbcType=VARCHAR},
+            teo.CAR_NO = #{carNo,jdbcType=VARCHAR},
+            teo.CARD_NO = #{cardNo,jdbcType=VARCHAR},
+            teo.COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+            teo.STATION_CODE = #{stationCode,jdbcType=VARCHAR},
+            teo.STATION_NAME = #{stationName,jdbcType=VARCHAR},
+            teo.DEV_CODE = #{devCode,jdbcType=VARCHAR},
+            teo.DEV_NAME = #{devName,jdbcType=VARCHAR},
+            teo.CHARGE_BEGIN = #{chargeBegin,jdbcType=VARCHAR},
+            teo.CHARGE_END = #{chargeEnd,jdbcType=VARCHAR},
+            teo.ELECTRIC_CHARGE = #{electricCharge,jdbcType=DECIMAL},
+            teo.EXPENSE = #{expense,jdbcType=VARCHAR},
+            teo.RATE_J = #{rateJ,jdbcType=VARCHAR},
+            teo.RATE_F = #{rateF,jdbcType=VARCHAR},
+            teo.RATE_G = #{rateG,jdbcType=VARCHAR},
+            teo.RATE_P = #{rateP,jdbcType=VARCHAR},
+            teo.ELECTRIC_CHARGE_J = #{electricChargeJ,jdbcType=VARCHAR},
+            teo.ELECTRIC_CHARGE_F = #{electricChargeF,jdbcType=VARCHAR},
+            teo.ELECTRIC_CHARGE_G = #{electricChargeG,jdbcType=VARCHAR},
+            teo.ELECTRIC_CHARGE_P = #{electricChargeP,jdbcType=VARCHAR},
+            teo.EXPENSE_J = #{expenseJ,jdbcType=VARCHAR},
+            teo.EXPENSE_F = #{expenseF,jdbcType=VARCHAR},
+            teo.EXPENSE_G = #{expenseG,jdbcType=VARCHAR},
+            teo.EXPENSE_P = #{expenseP,jdbcType=VARCHAR},
+            teo.BALANCE_ = #{balance,jdbcType=VARCHAR},
+            teo.STOP_REASON = #{stopReason,jdbcType=VARCHAR},
+            teo.CHARGE_TYPE = #{chargeType,jdbcType=VARCHAR},
+            teo.SEND_TAG = #{sendTag,jdbcType=VARCHAR},
+            teo.PORT_ = #{port,jdbcType=VARCHAR},
+            teo.STATUS_ = #{status,jdbcType=VARCHAR},
+        </set>
+        where
+            1 = 1
+        and teo.GUID_ = #{guid,jdbcType=VARCHAR}
+    </update>
+    <!-- 根据主键修改数据 字段为空不修改 所有数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.hzzh.charge.model.Order">
+        update
+            t_ev_order teo
+        <set>
+            <if test="guid != null">
+                teo.GUID_ = #{guid,jdbcType=VARCHAR},
+            </if>
+            <if test="carNo != null">
+                teo.CAR_NO = #{carNo,jdbcType=VARCHAR},
+            </if>
+            <if test="cardNo != null">
+                teo.CARD_NO = #{cardNo,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                teo.COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+            </if>
+            <if test="stationCode != null">
+                teo.STATION_CODE = #{stationCode,jdbcType=VARCHAR},
+            </if>
+            <if test="stationName != null">
+                teo.STATION_NAME = #{stationName,jdbcType=VARCHAR},
+            </if>
+            <if test="devCode != null">
+                teo.DEV_CODE = #{devCode,jdbcType=VARCHAR},
+            </if>
+            <if test="devName != null">
+                teo.DEV_NAME = #{devName,jdbcType=VARCHAR},
+            </if>
+            <if test="chargeBegin != null">
+                teo.CHARGE_BEGIN = #{chargeBegin,jdbcType=VARCHAR},
+            </if>
+            <if test="chargeEnd != null">
+                teo.CHARGE_END = #{chargeEnd,jdbcType=VARCHAR},
+            </if>
+            <if test="electricCharge != null">
+                teo.ELECTRIC_CHARGE = #{electricCharge,jdbcType=DECIMAL},
+            </if>
+            <if test="expense != null">
+                teo.EXPENSE = #{expense,jdbcType=VARCHAR},
+            </if>
+            <if test="rateJ != null">
+                teo.RATE_J = #{rateJ,jdbcType=VARCHAR},
+            </if>
+            <if test="rateF != null">
+                teo.RATE_F = #{rateF,jdbcType=VARCHAR},
+            </if>
+            <if test="rateG != null">
+                teo.RATE_G = #{rateG,jdbcType=VARCHAR},
+            </if>
+            <if test="rateP != null">
+                teo.RATE_P = #{rateP,jdbcType=VARCHAR},
+            </if>
+            <if test="electricChargeJ != null">
+                teo.ELECTRIC_CHARGE_J = #{electricChargeJ,jdbcType=VARCHAR},
+            </if>
+            <if test="electricChargeF != null">
+                teo.ELECTRIC_CHARGE_F = #{electricChargeF,jdbcType=VARCHAR},
+            </if>
+            <if test="electricChargeG != null">
+                teo.ELECTRIC_CHARGE_G = #{electricChargeG,jdbcType=VARCHAR},
+            </if>
+            <if test="electricChargeP != null">
+                teo.ELECTRIC_CHARGE_P = #{electricChargeP,jdbcType=VARCHAR},
+            </if>
+            <if test="expenseJ != null">
+                teo.EXPENSE_J = #{expenseJ,jdbcType=VARCHAR},
+            </if>
+            <if test="expenseF != null">
+                teo.EXPENSE_F = #{expenseF,jdbcType=VARCHAR},
+            </if>
+            <if test="expenseG != null">
+                teo.EXPENSE_G = #{expenseG,jdbcType=VARCHAR},
+            </if>
+            <if test="expenseP != null">
+                teo.EXPENSE_P = #{expenseP,jdbcType=VARCHAR},
+            </if>
+            <if test="balance != null">
+                teo.BALANCE_ = #{balance,jdbcType=VARCHAR},
+            </if>
+            <if test="stopReason != null">
+                teo.STOP_REASON = #{stopReason,jdbcType=VARCHAR},
+            </if>
+            <if test="chargeType != null">
+                teo.CHARGE_TYPE = #{chargeType,jdbcType=VARCHAR},
+            </if>
+            <if test="sendTag != null">
+                teo.SEND_TAG = #{sendTag,jdbcType=VARCHAR},
+            </if>
+            <if test="port != null">
+                teo.PORT_ = #{port,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                teo.STATUS_ = #{status,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where
+            1 = 1
+        and teo.GUID_ = #{guid,jdbcType=VARCHAR}
+    </update>
+    <!-- 根据主键删除数据 物理删除 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.util.Map">
+        delete from
+            t_ev_order
+        where
+            1 = 1
+        and GUID_ = #{guid}
+    </delete>
+</mapper>
