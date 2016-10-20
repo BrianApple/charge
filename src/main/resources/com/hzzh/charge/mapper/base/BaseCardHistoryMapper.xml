@@ -1,0 +1,712 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzzh.charge.dao.CardHistoryDao">
+    <resultMap id="BaseResultMap" type="com.hzzh.charge.model.CardHistory">
+        <id column="GUID_" jdbcType="VARCHAR" property="guid" />
+        <result column="CARD_NO" jdbcType="VARCHAR" property="cardNo" />
+        <result column="CAR_NO" jdbcType="VARCHAR" property="carNo" />
+        <result column="COMPANY_ID" jdbcType="VARCHAR" property="companyId" />
+        <result column="COMPANY_NAME" jdbcType="VARCHAR" property="companyName" />
+        <result column="OWNER_ID" jdbcType="VARCHAR" property="ownerId" />
+        <result column="OWNER_NAME" jdbcType="VARCHAR" property="ownerName" />
+        <result column="CARD_OLD_BALANCE" jdbcType="NUMERIC" property="cardOldBalance" />
+        <result column="CARD_MONEY" jdbcType="NUMERIC" property="cardMoney" />
+        <result column="CARD_BALANCE" jdbcType="NUMERIC" property="cardBalance" />
+        <result column="CARD_MONEY_YH" jdbcType="NUMERIC" property="cardMoneyYh" />
+        <result column="CARD_MONEY_TZ" jdbcType="NUMERIC" property="cardMoneyTz" />
+        <result column="CARD_MONEY_JF" jdbcType="NUMERIC" property="cardMoneyJf" />
+        <result column="CARD_TYPE" jdbcType="VARCHAR" property="cardType" />
+        <result column="CARD_STATUS" jdbcType="VARCHAR" property="cardStatus" />
+        <result column="OPERATOR_TYPE" jdbcType="VARCHAR" property="operatorType" />
+        <result column="OPERATOR_ID" jdbcType="VARCHAR" property="operatorId" />
+        <result column="OPERATOR_NAME" jdbcType="VARCHAR" property="operatorName" />
+        <result column="OPERATE_TIME" jdbcType="VARCHAR" property="operateTime" />
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <foreach collection="oredCriteria" item="criteria" separator="or">
+            <if test="criteria.valid">
+                <trim prefix="(" prefixOverrides="and" suffix=")">
+                    <foreach collection="criteria.criteria" item="criterion">
+                        <choose>
+                            <when test="criterion.noValue">
+                                and ${criterion.condition}
+                            </when>
+                            <when test="criterion.singleValue">
+                                and ${criterion.condition} #{criterion.value}
+                            </when>
+                            <when test="criterion.betweenValue">
+                                and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                            </when>
+                            <when test="criterion.listValue">
+                                and ${criterion.condition}
+                                <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                    #{listItem}
+                                </foreach>
+                            </when>
+                        </choose>
+                    </foreach>
+                </trim>
+            </if>
+        </foreach>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <foreach collection="example.oredCriteria" item="criteria" separator="or">
+            <if test="criteria.valid">
+                <trim prefix="(" prefixOverrides="and" suffix=")">
+                    <foreach collection="criteria.criteria" item="criterion">
+                        <choose>
+                            <when test="criterion.noValue">
+                                and ${criterion.condition}
+                            </when>
+                            <when test="criterion.singleValue">
+                                and ${criterion.condition} #{criterion.value}
+                            </when>
+                            <when test="criterion.betweenValue">
+                                and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                            </when>
+                            <when test="criterion.listValue">
+                                and ${criterion.condition}
+                                <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                    #{listItem}
+                                </foreach>
+                            </when>
+                        </choose>
+                    </foreach>
+                </trim>
+            </if>
+        </foreach>
+    </sql>
+    <sql id="Base_Column_List">
+        tech.GUID_,
+        tech.CARD_NO,
+        tech.CAR_NO,
+        tech.COMPANY_ID,
+        tech.COMPANY_NAME,
+        tech.OWNER_ID,
+        tech.OWNER_NAME,
+        tech.CARD_OLD_BALANCE,
+        tech.CARD_MONEY,
+        tech.CARD_BALANCE,
+        tech.CARD_MONEY_YH,
+        tech.CARD_MONEY_TZ,
+        tech.CARD_MONEY_JF,
+        tech.CARD_TYPE,
+        tech.CARD_STATUS,
+        tech.OPERATOR_TYPE,
+        tech.OPERATOR_ID,
+        tech.OPERATOR_NAME,
+        tech.OPERATE_TIME
+    </sql>
+    <!-- 根据条件统计表中数据数量 所有数据 -->
+    <select id="countByExample" parameterType="com.hzzh.charge.model.CardHistoryExample" resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            t_ev_card_history tech
+        where
+            1 = 1
+        <if test="_parameter != null">
+            <trim prefix="and (" suffix=")">
+                <include refid="Example_Where_Clause" />
+            </trim>
+        </if>
+    </select>
+    <!-- 根据条件查询表中数据 所有数据 -->
+    <select id="selectByExample" parameterType="com.hzzh.charge.model.CardHistoryExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct 
+        </if>
+        <include refid="Base_Column_List" />
+        from
+            t_ev_card_history tech
+        where
+            1 = 1
+        <if test="_parameter != null">
+            <trim prefix="and (" suffix=")">
+                <include refid="Example_Where_Clause" />
+            </trim>
+        </if>
+        <if test="orderByClause != null">
+            order by
+                ${orderByClause}
+        </if>
+        <if test="currentSize != null">
+            limit #{currentSize} , #{pageSize}
+        </if>
+    </select>
+    <!-- 往表中插入一条数据 系统字段需要输入 -->
+    <insert id="insert" parameterType="com.hzzh.charge.model.CardHistory">
+        insert into
+            t_ev_card_history
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            GUID_,
+            CARD_NO,
+            CAR_NO,
+            COMPANY_ID,
+            COMPANY_NAME,
+            OWNER_ID,
+            OWNER_NAME,
+            CARD_OLD_BALANCE,
+            CARD_MONEY,
+            CARD_BALANCE,
+            CARD_MONEY_YH,
+            CARD_MONEY_TZ,
+            CARD_MONEY_JF,
+            CARD_TYPE,
+            CARD_STATUS,
+            OPERATOR_TYPE,
+            OPERATOR_ID,
+            OPERATOR_NAME,
+            OPERATE_TIME,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{guid,jdbcType=VARCHAR},
+            #{cardNo,jdbcType=VARCHAR},
+            #{carNo,jdbcType=VARCHAR},
+            #{companyId,jdbcType=VARCHAR},
+            #{companyName,jdbcType=VARCHAR},
+            #{ownerId,jdbcType=VARCHAR},
+            #{ownerName,jdbcType=VARCHAR},
+            #{cardOldBalance,jdbcType=NUMERIC},
+            #{cardMoney,jdbcType=NUMERIC},
+            #{cardBalance,jdbcType=NUMERIC},
+            #{cardMoneyYh,jdbcType=NUMERIC},
+            #{cardMoneyTz,jdbcType=NUMERIC},
+            #{cardMoneyJf,jdbcType=NUMERIC},
+            #{cardType,jdbcType=VARCHAR},
+            #{cardStatus,jdbcType=VARCHAR},
+            #{operatorType,jdbcType=VARCHAR},
+            #{operatorId,jdbcType=VARCHAR},
+            #{operatorName,jdbcType=VARCHAR},
+            #{operateTime,jdbcType=VARCHAR},
+        </trim>
+    </insert>
+    <!-- 往表中批量插入数据 系统字段需要输入 -->
+    <insert id="insertList" parameterType="java.util.List">
+        insert into
+            t_ev_card_history
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            GUID_,
+            CARD_NO,
+            CAR_NO,
+            COMPANY_ID,
+            COMPANY_NAME,
+            OWNER_ID,
+            OWNER_NAME,
+            CARD_OLD_BALANCE,
+            CARD_MONEY,
+            CARD_BALANCE,
+            CARD_MONEY_YH,
+            CARD_MONEY_TZ,
+            CARD_MONEY_JF,
+            CARD_TYPE,
+            CARD_STATUS,
+            OPERATOR_TYPE,
+            OPERATOR_ID,
+            OPERATOR_NAME,
+            OPERATE_TIME,
+        </trim>
+        <foreach collection="list" item="item" open="values (" close=")" separator=" ), ( ">
+            <trim suffixOverrides=",">
+                #{item.guid,jdbcType=VARCHAR},
+                #{item.cardNo,jdbcType=VARCHAR},
+                #{item.carNo,jdbcType=VARCHAR},
+                #{item.companyId,jdbcType=VARCHAR},
+                #{item.companyName,jdbcType=VARCHAR},
+                #{item.ownerId,jdbcType=VARCHAR},
+                #{item.ownerName,jdbcType=VARCHAR},
+                #{item.cardOldBalance,jdbcType=NUMERIC},
+                #{item.cardMoney,jdbcType=NUMERIC},
+                #{item.cardBalance,jdbcType=NUMERIC},
+                #{item.cardMoneyYh,jdbcType=NUMERIC},
+                #{item.cardMoneyTz,jdbcType=NUMERIC},
+                #{item.cardMoneyJf,jdbcType=NUMERIC},
+                #{item.cardType,jdbcType=VARCHAR},
+                #{item.cardStatus,jdbcType=VARCHAR},
+                #{item.operatorType,jdbcType=VARCHAR},
+                #{item.operatorId,jdbcType=VARCHAR},
+                #{item.operatorName,jdbcType=VARCHAR},
+                #{item.operateTime,jdbcType=VARCHAR},
+            </trim>
+        </foreach>
+    </insert>
+    <!-- 往表中插入一条数据 字段为空不插入 系统字段需要输入 -->
+    <insert id="insertSelective" parameterType="com.hzzh.charge.model.CardHistory">
+        insert into
+            t_ev_card_history
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="guid != null">
+                GUID_,
+            </if>
+            <if test="cardNo != null">
+                CARD_NO,
+            </if>
+            <if test="carNo != null">
+                CAR_NO,
+            </if>
+            <if test="companyId != null">
+                COMPANY_ID,
+            </if>
+            <if test="companyName != null">
+                COMPANY_NAME,
+            </if>
+            <if test="ownerId != null">
+                OWNER_ID,
+            </if>
+            <if test="ownerName != null">
+                OWNER_NAME,
+            </if>
+            <if test="cardOldBalance != null">
+                CARD_OLD_BALANCE,
+            </if>
+            <if test="cardMoney != null">
+                CARD_MONEY,
+            </if>
+            <if test="cardBalance != null">
+                CARD_BALANCE,
+            </if>
+            <if test="cardMoneyYh != null">
+                CARD_MONEY_YH,
+            </if>
+            <if test="cardMoneyTz != null">
+                CARD_MONEY_TZ,
+            </if>
+            <if test="cardMoneyJf != null">
+                CARD_MONEY_JF,
+            </if>
+            <if test="cardType != null">
+                CARD_TYPE,
+            </if>
+            <if test="cardStatus != null">
+                CARD_STATUS,
+            </if>
+            <if test="operatorType != null">
+                OPERATOR_TYPE,
+            </if>
+            <if test="operatorId != null">
+                OPERATOR_ID,
+            </if>
+            <if test="operatorName != null">
+                OPERATOR_NAME,
+            </if>
+            <if test="operateTime != null">
+                OPERATE_TIME,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="guid != null">
+                #{guid,jdbcType=VARCHAR},
+            </if>
+            <if test="cardNo != null">
+                #{cardNo,jdbcType=VARCHAR},
+            </if>
+            <if test="carNo != null">
+                #{carNo,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                #{companyId,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null">
+                #{companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerId != null">
+                #{ownerId,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerName != null">
+                #{ownerName,jdbcType=VARCHAR},
+            </if>
+            <if test="cardOldBalance != null">
+                #{cardOldBalance,jdbcType=NUMERIC},
+            </if>
+            <if test="cardMoney != null">
+                #{cardMoney,jdbcType=NUMERIC},
+            </if>
+            <if test="cardBalance != null">
+                #{cardBalance,jdbcType=NUMERIC},
+            </if>
+            <if test="cardMoneyYh != null">
+                #{cardMoneyYh,jdbcType=NUMERIC},
+            </if>
+            <if test="cardMoneyTz != null">
+                #{cardMoneyTz,jdbcType=NUMERIC},
+            </if>
+            <if test="cardMoneyJf != null">
+                #{cardMoneyJf,jdbcType=NUMERIC},
+            </if>
+            <if test="cardType != null">
+                #{cardType,jdbcType=VARCHAR},
+            </if>
+            <if test="cardStatus != null">
+                #{cardStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="operatorType != null">
+                #{operatorType,jdbcType=VARCHAR},
+            </if>
+            <if test="operatorId != null">
+                #{operatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="operatorName != null">
+                #{operatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="operateTime != null">
+                #{operateTime,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <!-- 往表中批量插入数据 字段为空不插入 系统字段需要输入 -->
+    <insert id="insertListSelective" parameterType="java.util.List">
+        insert into
+            t_ev_card_history
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="guid != null">
+                GUID_,
+            </if>
+            <if test="cardNo != null">
+                CARD_NO,
+            </if>
+            <if test="carNo != null">
+                CAR_NO,
+            </if>
+            <if test="companyId != null">
+                COMPANY_ID,
+            </if>
+            <if test="companyName != null">
+                COMPANY_NAME,
+            </if>
+            <if test="ownerId != null">
+                OWNER_ID,
+            </if>
+            <if test="ownerName != null">
+                OWNER_NAME,
+            </if>
+            <if test="cardOldBalance != null">
+                CARD_OLD_BALANCE,
+            </if>
+            <if test="cardMoney != null">
+                CARD_MONEY,
+            </if>
+            <if test="cardBalance != null">
+                CARD_BALANCE,
+            </if>
+            <if test="cardMoneyYh != null">
+                CARD_MONEY_YH,
+            </if>
+            <if test="cardMoneyTz != null">
+                CARD_MONEY_TZ,
+            </if>
+            <if test="cardMoneyJf != null">
+                CARD_MONEY_JF,
+            </if>
+            <if test="cardType != null">
+                CARD_TYPE,
+            </if>
+            <if test="cardStatus != null">
+                CARD_STATUS,
+            </if>
+            <if test="operatorType != null">
+                OPERATOR_TYPE,
+            </if>
+            <if test="operatorId != null">
+                OPERATOR_ID,
+            </if>
+            <if test="operatorName != null">
+                OPERATOR_NAME,
+            </if>
+            <if test="operateTime != null">
+                OPERATE_TIME,
+            </if>
+        </trim>
+        <foreach collection="list" item="item" open="values (" close=")" separator=" ), ( ">
+            <trim suffixOverrides=",">
+                <if test="item.guid != null">
+                    #{item.guid,jdbcType=VARCHAR},
+                </if>
+                <if test="item.cardNo != null">
+                    #{item.cardNo,jdbcType=VARCHAR},
+                </if>
+                <if test="item.carNo != null">
+                    #{item.carNo,jdbcType=VARCHAR},
+                </if>
+                <if test="item.companyId != null">
+                    #{item.companyId,jdbcType=VARCHAR},
+                </if>
+                <if test="item.companyName != null">
+                    #{item.companyName,jdbcType=VARCHAR},
+                </if>
+                <if test="item.ownerId != null">
+                    #{item.ownerId,jdbcType=VARCHAR},
+                </if>
+                <if test="item.ownerName != null">
+                    #{item.ownerName,jdbcType=VARCHAR},
+                </if>
+                <if test="item.cardOldBalance != null">
+                    #{item.cardOldBalance,jdbcType=NUMERIC},
+                </if>
+                <if test="item.cardMoney != null">
+                    #{item.cardMoney,jdbcType=NUMERIC},
+                </if>
+                <if test="item.cardBalance != null">
+                    #{item.cardBalance,jdbcType=NUMERIC},
+                </if>
+                <if test="item.cardMoneyYh != null">
+                    #{item.cardMoneyYh,jdbcType=NUMERIC},
+                </if>
+                <if test="item.cardMoneyTz != null">
+                    #{item.cardMoneyTz,jdbcType=NUMERIC},
+                </if>
+                <if test="item.cardMoneyJf != null">
+                    #{item.cardMoneyJf,jdbcType=NUMERIC},
+                </if>
+                <if test="item.cardType != null">
+                    #{item.cardType,jdbcType=VARCHAR},
+                </if>
+                <if test="item.cardStatus != null">
+                    #{item.cardStatus,jdbcType=VARCHAR},
+                </if>
+                <if test="item.operatorType != null">
+                    #{item.operatorType,jdbcType=VARCHAR},
+                </if>
+                <if test="item.operatorId != null">
+                    #{item.operatorId,jdbcType=VARCHAR},
+                </if>
+                <if test="item.operatorName != null">
+                    #{item.operatorName,jdbcType=VARCHAR},
+                </if>
+                <if test="item.operateTime != null">
+                    #{item.operateTime,jdbcType=VARCHAR},
+                </if>
+            </trim>
+        </foreach>
+    </insert>
+    <!-- 根据条件修改数据 所有数据 -->
+    <update id="updateByExample" parameterType="java.util.Map">
+        update
+            t_ev_card_history tech
+        <trim prefix="set" suffix="" suffixOverrides=",">
+            tech.GUID_ = #{record.guid,jdbcType=VARCHAR},
+            tech.CARD_NO = #{record.cardNo,jdbcType=VARCHAR},
+            tech.CAR_NO = #{record.carNo,jdbcType=VARCHAR},
+            tech.COMPANY_ID = #{record.companyId,jdbcType=VARCHAR},
+            tech.COMPANY_NAME = #{record.companyName,jdbcType=VARCHAR},
+            tech.OWNER_ID = #{record.ownerId,jdbcType=VARCHAR},
+            tech.OWNER_NAME = #{record.ownerName,jdbcType=VARCHAR},
+            tech.CARD_OLD_BALANCE = #{record.cardOldBalance,jdbcType=NUMERIC},
+            tech.CARD_MONEY = #{record.cardMoney,jdbcType=NUMERIC},
+            tech.CARD_BALANCE = #{record.cardBalance,jdbcType=NUMERIC},
+            tech.CARD_MONEY_YH = #{record.cardMoneyYh,jdbcType=NUMERIC},
+            tech.CARD_MONEY_TZ = #{record.cardMoneyTz,jdbcType=NUMERIC},
+            tech.CARD_MONEY_JF = #{record.cardMoneyJf,jdbcType=NUMERIC},
+            tech.CARD_TYPE = #{record.cardType,jdbcType=VARCHAR},
+            tech.CARD_STATUS = #{record.cardStatus,jdbcType=VARCHAR},
+            tech.OPERATOR_TYPE = #{record.operatorType,jdbcType=VARCHAR},
+            tech.OPERATOR_ID = #{record.operatorId,jdbcType=VARCHAR},
+            tech.OPERATOR_NAME = #{record.operatorName,jdbcType=VARCHAR},
+            tech.OPERATE_TIME = #{record.operateTime,jdbcType=VARCHAR},
+        </trim>
+        where
+            1 = 1
+        <if test="_parameter != null">
+            <trim prefix="and (" suffix=")">
+                <include refid="Update_By_Example_Where_Clause" />
+            </trim>
+        </if>
+    </update>
+    <!-- 根据条件修改数据 字段为空不修改 所有数据 -->
+    <update id="updateByExampleSelective" parameterType="java.util.Map">
+        update
+            t_ev_card_history tech
+        <set>
+            <if test="record.guid != null">
+                tech.GUID_ = #{record.guid,jdbcType=VARCHAR},
+            </if>
+            <if test="record.cardNo != null">
+                tech.CARD_NO = #{record.cardNo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.carNo != null">
+                tech.CAR_NO = #{record.carNo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.companyId != null">
+                tech.COMPANY_ID = #{record.companyId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.companyName != null">
+                tech.COMPANY_NAME = #{record.companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.ownerId != null">
+                tech.OWNER_ID = #{record.ownerId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.ownerName != null">
+                tech.OWNER_NAME = #{record.ownerName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.cardOldBalance != null">
+                tech.CARD_OLD_BALANCE = #{record.cardOldBalance,jdbcType=NUMERIC},
+            </if>
+            <if test="record.cardMoney != null">
+                tech.CARD_MONEY = #{record.cardMoney,jdbcType=NUMERIC},
+            </if>
+            <if test="record.cardBalance != null">
+                tech.CARD_BALANCE = #{record.cardBalance,jdbcType=NUMERIC},
+            </if>
+            <if test="record.cardMoneyYh != null">
+                tech.CARD_MONEY_YH = #{record.cardMoneyYh,jdbcType=NUMERIC},
+            </if>
+            <if test="record.cardMoneyTz != null">
+                tech.CARD_MONEY_TZ = #{record.cardMoneyTz,jdbcType=NUMERIC},
+            </if>
+            <if test="record.cardMoneyJf != null">
+                tech.CARD_MONEY_JF = #{record.cardMoneyJf,jdbcType=NUMERIC},
+            </if>
+            <if test="record.cardType != null">
+                tech.CARD_TYPE = #{record.cardType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.cardStatus != null">
+                tech.CARD_STATUS = #{record.cardStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="record.operatorType != null">
+                tech.OPERATOR_TYPE = #{record.operatorType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.operatorId != null">
+                tech.OPERATOR_ID = #{record.operatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.operatorName != null">
+                tech.OPERATOR_NAME = #{record.operatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.operateTime != null">
+                tech.OPERATE_TIME = #{record.operateTime,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where
+            1 = 1
+        <if test="_parameter != null">
+            <trim prefix="and (" suffix=")">
+                <include refid="Update_By_Example_Where_Clause" />
+            </trim>
+        </if>
+    </update>
+    <!-- 根据条件删除数据 物理删除 -->
+    <delete id="deleteByExample" parameterType="com.hzzh.charge.model.CardHistoryExample">
+        delete from
+            t_ev_card_history tech
+        where
+            1 = 1
+        <if test="_parameter != null">
+            <trim prefix="and (" suffix=")">
+                <include refid="Example_Where_Clause" />
+            </trim>
+        </if>
+    </delete>
+    <!-- 根据主键查询数据 所有数据 -->
+    <select id="selectByPrimaryKey" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List" />
+        from
+            t_ev_card_history tech
+        where
+            1 = 1
+        and tech.GUID_ = #{guid}
+    </select>
+    <!-- 根据主键修改数据 所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.hzzh.charge.model.CardHistory">
+        update
+            t_ev_card_history tech
+        <set>
+            tech.GUID_ = #{guid,jdbcType=VARCHAR},
+            tech.CARD_NO = #{cardNo,jdbcType=VARCHAR},
+            tech.CAR_NO = #{carNo,jdbcType=VARCHAR},
+            tech.COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+            tech.COMPANY_NAME = #{companyName,jdbcType=VARCHAR},
+            tech.OWNER_ID = #{ownerId,jdbcType=VARCHAR},
+            tech.OWNER_NAME = #{ownerName,jdbcType=VARCHAR},
+            tech.CARD_OLD_BALANCE = #{cardOldBalance,jdbcType=NUMERIC},
+            tech.CARD_MONEY = #{cardMoney,jdbcType=NUMERIC},
+            tech.CARD_BALANCE = #{cardBalance,jdbcType=NUMERIC},
+            tech.CARD_MONEY_YH = #{cardMoneyYh,jdbcType=NUMERIC},
+            tech.CARD_MONEY_TZ = #{cardMoneyTz,jdbcType=NUMERIC},
+            tech.CARD_MONEY_JF = #{cardMoneyJf,jdbcType=NUMERIC},
+            tech.CARD_TYPE = #{cardType,jdbcType=VARCHAR},
+            tech.CARD_STATUS = #{cardStatus,jdbcType=VARCHAR},
+            tech.OPERATOR_TYPE = #{operatorType,jdbcType=VARCHAR},
+            tech.OPERATOR_ID = #{operatorId,jdbcType=VARCHAR},
+            tech.OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR},
+            tech.OPERATE_TIME = #{operateTime,jdbcType=VARCHAR},
+        </set>
+        where
+            1 = 1
+        and tech.GUID_ = #{guid,jdbcType=VARCHAR}
+    </update>
+    <!-- 根据主键修改数据 字段为空不修改 所有数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.hzzh.charge.model.CardHistory">
+        update
+            t_ev_card_history tech
+        <set>
+            <if test="guid != null">
+                tech.GUID_ = #{guid,jdbcType=VARCHAR},
+            </if>
+            <if test="cardNo != null">
+                tech.CARD_NO = #{cardNo,jdbcType=VARCHAR},
+            </if>
+            <if test="carNo != null">
+                tech.CAR_NO = #{carNo,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                tech.COMPANY_ID = #{companyId,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null">
+                tech.COMPANY_NAME = #{companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerId != null">
+                tech.OWNER_ID = #{ownerId,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerName != null">
+                tech.OWNER_NAME = #{ownerName,jdbcType=VARCHAR},
+            </if>
+            <if test="cardOldBalance != null">
+                tech.CARD_OLD_BALANCE = #{cardOldBalance,jdbcType=NUMERIC},
+            </if>
+            <if test="cardMoney != null">
+                tech.CARD_MONEY = #{cardMoney,jdbcType=NUMERIC},
+            </if>
+            <if test="cardBalance != null">
+                tech.CARD_BALANCE = #{cardBalance,jdbcType=NUMERIC},
+            </if>
+            <if test="cardMoneyYh != null">
+                tech.CARD_MONEY_YH = #{cardMoneyYh,jdbcType=NUMERIC},
+            </if>
+            <if test="cardMoneyTz != null">
+                tech.CARD_MONEY_TZ = #{cardMoneyTz,jdbcType=NUMERIC},
+            </if>
+            <if test="cardMoneyJf != null">
+                tech.CARD_MONEY_JF = #{cardMoneyJf,jdbcType=NUMERIC},
+            </if>
+            <if test="cardType != null">
+                tech.CARD_TYPE = #{cardType,jdbcType=VARCHAR},
+            </if>
+            <if test="cardStatus != null">
+                tech.CARD_STATUS = #{cardStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="operatorType != null">
+                tech.OPERATOR_TYPE = #{operatorType,jdbcType=VARCHAR},
+            </if>
+            <if test="operatorId != null">
+                tech.OPERATOR_ID = #{operatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="operatorName != null">
+                tech.OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="operateTime != null">
+                tech.OPERATE_TIME = #{operateTime,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where
+            1 = 1
+        and tech.GUID_ = #{guid,jdbcType=VARCHAR}
+    </update>
+    <!-- 根据主键删除数据 物理删除 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.util.Map">
+        delete from
+            t_ev_card_history
+        where
+            1 = 1
+        and GUID_ = #{guid}
+    </delete>
+</mapper>

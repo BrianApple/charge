@@ -42,10 +42,11 @@
         FROM
         t_ev_card c
         <where>
-            c.COMPANY_ID=#{companyId}
+            and c.COMPANY_ID=#{companyId}
             <if test="cardNo!='' and cardNo!=null">
-                c.CARD_NO LIKE '%${cardNo}%'
+                and c.CARD_NO LIKE '%${cardNo}%'
             </if>
+
         </where>
     </select>
 </mapper>
