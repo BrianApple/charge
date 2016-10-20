@@ -1,4 +1,4 @@
-package com.hzzh.charge.model.po;
+package com.hzzh.charge.model.report_po;
 
 import java.util.List;
 
@@ -12,6 +12,7 @@ public class StationPo {
     //一对多查询
     private List<StationReportPo> chargeInfo;
     private String companyId;
+    private Double total;
 
     public String getCompanyId() {
         return companyId;
@@ -37,5 +38,11 @@ public class StationPo {
         this.chargeInfo = chargeInfo;
     }
 
+    public Double getTotal() {
+        return total;
+    }
 
+    public void setTotal(Double total) {
+        this.total = total;
+    }
 }

@@ -13,4 +13,9 @@ public class OpUtil {
     public static final String SELECT_FAIL = "查询失败";
     public static final String IS_EMPTY = "数据为空";
 
+    //充值卡状体
+    public static final String NOT_ACTIVE = "未激活";
+    public static final String NORMAL = "正常";
+    public static final String LOCKED = "锁定";
+    public static final String CANCEL = "注销";
 }

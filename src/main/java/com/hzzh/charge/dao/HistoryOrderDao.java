@@ -1,9 +1,8 @@
 package com.hzzh.charge.dao;
 
-import com.hzzh.charge.model.po.HistoryOrder;
-import com.hzzh.charge.model.po.CarReport;
-import com.hzzh.charge.model.po.StationPo;
-import com.hzzh.charge.model.po.StationReportPo;
+import com.hzzh.charge.model.report_po.HistoryOrder;
+import com.hzzh.charge.model.report_po.CarReport;
+import com.hzzh.charge.model.report_po.StationPo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

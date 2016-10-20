@@ -1,4 +1,4 @@
-package com.hzzh.charge.model.po;
+package com.hzzh.charge.model.report_po;
 
 /**
  * Created by TaoRan on 2016/10/14.

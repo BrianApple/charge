@@ -1,4 +1,4 @@
-package com.hzzh.charge.model.po;
+package com.hzzh.charge.model.report_po;
 import java.io.Serializable;
 import java.util.List;
 

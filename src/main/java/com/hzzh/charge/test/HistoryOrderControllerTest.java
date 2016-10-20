@@ -1,16 +1,13 @@
 package com.hzzh.charge.test;
 
 import com.hzzh.charge.MyBatisApplication;
-import com.hzzh.charge.model.po.HistoryOrder;
 import com.hzzh.charge.utils.HttpClientUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.validation.ObjectError;
 
 import java.util.Date;
 import java.util.Map;
@@ -44,7 +41,7 @@ public class HistoryOrderControllerTest {
     public void testMonthlyReport(){
         Map<String,Object> map=new HashedMap();
         map.put("dateTime","2016-09");
-        map.put("companyId","001");
+        map.put("companyId","");
         String message=HttpClientUtils.testUrl("/charge/monthlyReport",map);
         System.out.println(message);
 
@@ -67,7 +64,7 @@ public class HistoryOrderControllerTest {
 
         Map<String,Object> map=new HashedMap();
         map.put("dateTime","2016-10");
-        map.put("companyId","001");
+        map.put("companyId","a67bef10-5db2-11e5-bd9d-19cc9cdf5fc1");
         String message=HttpClientUtils.testUrl("/charge/stationReport",map);
         System.out.println(message);
 

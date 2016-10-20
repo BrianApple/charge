@@ -2,14 +2,10 @@ package com.hzzh.charge.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.hzzh.charge.model.po.HistoryOrder;
-import com.hzzh.charge.model.po.StationPo;
-import com.hzzh.charge.model.po.StationReportPo;
-import com.hzzh.charge.model.po.TotalReport;
+import com.hzzh.charge.model.report_po.HistoryOrder;
+import com.hzzh.charge.model.report_po.TotalReport;
 import com.hzzh.charge.service.HistoryOrderService;
-import org.codehaus.groovy.runtime.powerassert.SourceText;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -121,7 +117,7 @@ public class HistoryOrderController {
      * @throws Exception
      */
     @RequestMapping(value = "/stationReport")
-    public List<Object> stationReport(@RequestBody Map<String, Object> map) throws Exception {
+    public Map<String,Object> stationReport(@RequestBody Map<String, Object> map) throws Exception {
 
         if (map.get("dateTime") == null || map.get("companyId") == null) {
             return null;
@@ -129,7 +125,7 @@ public class HistoryOrderController {
 
         String dateTime = map.get("dateTime").toString();
         String companyId = map.get("companyId").toString();
-        List<Object> list = historyOrderService.stationReport(dateTime, companyId);
+        Map<String,Object> list = historyOrderService.stationReport(dateTime, companyId);
         return list;
     }
 

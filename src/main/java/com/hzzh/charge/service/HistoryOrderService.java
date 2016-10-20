@@ -1,10 +1,11 @@
 package com.hzzh.charge.service;
 
-import com.hzzh.charge.model.po.*;
+import com.hzzh.charge.model.report_po.HistoryOrder;
+import com.hzzh.charge.model.report_po.TotalReport;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -52,5 +53,5 @@ public interface HistoryOrderService {
      * @return
      * @throws Exception
      */
-    List<Object> stationReport(@Param("dateTime") String dateTime, @Param("companyId") String companyId)throws Exception;
+    Map<String,Object> stationReport(@Param("dateTime") String dateTime, @Param("companyId") String companyId)throws Exception;
 }

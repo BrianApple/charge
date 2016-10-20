@@ -9,7 +9,7 @@ public class HttpClientUtils {
     //测试地址
     private static final String TEST_URL = "http://localhost:";
     //测试单口号
-    private static String  port="8080";
+    private static String  port="8888";
 
     public static String testUrl(String url, Object object) {
         RestTemplate restTemplate = new RestTemplate();

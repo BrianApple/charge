@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hzzh.charge.dao.HistoryOrderDao">
     <!--==========分页查询============-->
-    <resultMap id="order_map" type="com.hzzh.charge.model.po.HistoryOrder">
+    <resultMap id="order_map" type="com.hzzh.charge.model.report_po.HistoryOrder">
         <result column="CARD_NO" property="cardNo"/>
         <result column="CHARGE_BEGIN" property="chargeBegin"/>
         <result column="CHARGE_END" property="chargeEnd"/>
@@ -51,7 +51,7 @@
     </select>
 
     <!--===========车辆月报表============-->
-    <resultMap id="report_Map" type="com.hzzh.charge.model.po.CarReport">
+    <resultMap id="report_Map" type="com.hzzh.charge.model.report_po.CarReport">
         <result column="CAR_NO" property="carNo"/>
         <result column="card_no" property="cardNo"/>
         <result column="COMPANY_ID" property="companyId"/>
@@ -71,10 +71,10 @@
         ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE_G,0.00)),2) charge_G,
         ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE,0.00)),2) total_charge,
         --
-        ROUND(SUM(IFNULL(O.EXPENSE_J,0.00)),2) expense_J,
-        ROUND(SUM(IFNULL(O.EXPENSE_F,0.00)),2) expense_F,
-        ROUND(SUM(IFNULL(O.EXPENSE_P,0.00)),2) expense_P,
-        ROUND(SUM(IFNULL(O.EXPENSE_G,0.00)),2) expense_G,
+        ROUND(SUM(IFNULL(o.EXPENSE_J,0.00)),2) expense_J,
+        ROUND(SUM(IFNULL(o.EXPENSE_F,0.00)),2) expense_F,
+        ROUND(SUM(IFNULL(o.EXPENSE_P,0.00)),2) expense_P,
+        ROUND(SUM(IFNULL(o.EXPENSE_G,0.00)),2) expense_G,
         ROUND(SUM(IFNULL(o.EXPENSE,0.00)),2) total_expense
         FROM
         t_ev_order o
@@ -114,10 +114,10 @@
         ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE_G,0.00)),2) charge_G,
         ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE,0.00)),2) total_charge,
         --
-        ROUND(SUM(IFNULL(O.EXPENSE_J,0.00)),2) expense_J,
-        ROUND(SUM(IFNULL(O.EXPENSE_F,0.00)),2) expense_F,
-        ROUND(SUM(IFNULL(O.EXPENSE_P,0.00)),2) expense_P,
-        ROUND(SUM(IFNULL(O.EXPENSE_G,0.00)),2) expense_G,
+        ROUND(SUM(IFNULL(o.EXPENSE_J,0.00)),2) expense_J,
+        ROUND(SUM(IFNULL(o.EXPENSE_F,0.00)),2) expense_F,
+        ROUND(SUM(IFNULL(o.EXPENSE_P,0.00)),2) expense_P,
+        ROUND(SUM(IFNULL(o.EXPENSE_G,0.00)),2) expense_G,
         ROUND(SUM(IFNULL(o.EXPENSE,0.00)),2) total_expense
         FROM
         t_ev_order o
@@ -139,10 +139,10 @@
         group by o.car_no
     </select>
     <!--=====================场站月统计报表========================-->
-    <resultMap id="stationReport_Map" type="com.hzzh.charge.model.po.StationPo">
+    <resultMap id="stationReport_Map" type="com.hzzh.charge.model.report_po.StationPo">
         <result column="station_name" property="stationName"/>
         <result column="COMPANY_ID" property="companyId"/>
-        <collection property="chargeInfo" ofType="com.hzzh.charge.model.po.StationReportPo">
+        <collection property="chargeInfo" ofType="com.hzzh.charge.model.report_po.StationReportPo">
             <result column="station_name" property="stationName"/>
             <result column="days" property="days"/>
             <result column="total_charge" property="totalCharge"/>
@@ -154,6 +154,7 @@
         o.charge_begin,
         o.COMPANY_ID,
         DATE_FORMAT(o.charge_begin,'%Y-%m-%d') days,
+        DATE_FORMAT(o.charge_begin,'%Y-%m') months,
         ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE,0.00)),2) total_charge
         FROM
         t_ev_order o
