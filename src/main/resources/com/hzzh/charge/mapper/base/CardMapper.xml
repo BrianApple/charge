@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzzh.charge.dao.CardDao">
+    <!--根据companyId查询用户-->
+    <resultMap id="queryPersonMap" type="com.hzzh.charge.model.card_po.QueryPerson">
+        <result column="GUID_" property="guid"/>
+        <result column="NAME_" property="name"/>
+        <result column="COMPANY_ID" property="companyId"/>
+        <result column="COMPANY_NAME" property="companyName"/>
+    </resultMap>
+    <select id="queryPerson" resultMap="queryPersonMap">
+        SELECT
+        p.GUID_,
+        p.NAME_,
+        p.COMPANY_ID,
+        p.COMPANY_NAME
+        FROM
+        tb_sys_person p
+        WHERE
+        p.COMPANY_ID=#{companyId}
+    </select>
+
+    <!--================================================================================-->
+
+    <!--分页查询-->
+    <resultMap id="queryPageMap" type="com.hzzh.charge.model.card_po.QueryPage">
+        <result column="CARD_NO" property="cardNo"/>
+        <result column="OWNER_ID" property="ownerId"/>
+        <result column="OWNER_NAME" property="ownerName"/>
+        <result column="CAR_NO" property="carNo"/>
+        <result column="CARD_BALANCE" property="cardBalance"/>
+        <result column="CARD_STATUS" property="cardStatus"/>
+    </resultMap>
+    <select id="queryPage" resultMap="queryPageMap">
+        SELECT
+        c.CARD_NO,
+        c.OWNER_ID,
+        c.OWNER_NAME,
+        c.CAR_NO,
+        c.CARD_BALANCE,
+        c.CARD_STATUS
+        FROM
+        t_ev_card c
+        <where>
+            c.COMPANY_ID=#{companyId}
+            <if test="cardNo!='' and cardNo!=null">
+                c.CARD_NO LIKE '%${cardNo}%'
+            </if>
+        </where>
+    </select>
+</mapper>
