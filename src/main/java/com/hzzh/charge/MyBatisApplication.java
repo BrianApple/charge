@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @MapperScan:扫描dao接口
  * @EnableCaching:开启缓存注解
  */
-@EnableTransactionManagement
 @SpringBootApplication
 @MapperScan("com.hzzh.charge.dao")
 @ComponentScan("com.hzzh.charge.*")

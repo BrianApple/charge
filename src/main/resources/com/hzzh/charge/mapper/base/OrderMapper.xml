@@ -1,4 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hzzh.charge.dao.OrderDao">
+
+    <resultMap id="query_Map" type="com.hzzh.charge.model.order_po.CustomOrder">
+        <result column="CAR_NO" property="carNo"/>
+        <result column="COMPANY_ID" property="companyId"/>
+        <result column="NAME_" property="stationName"/>
+        <result column="devName" property="devName"/>
+    </resultMap>
+    <!--查询车牌号-->
+    <select id="queryCarNo" resultMap="query_Map">
+        SELECT
+        c.CAR_NO,
+        c.COMPANY_ID
+        FROM
+        t_ev_card c
+        WHERE
+        c.CARD_NO=#{cardNo}
+    </select>
+    <!--查询站名称-->
+    <select id="queryStationName" resultMap="query_Map">
+        SELECT
+        s.NAME_
+        FROM
+        tb_base_station s
+        WHERE
+        s.CODE_=#{stationCode}
+    </select>
+    <!--查询设备名称-->
+    <select id="queryDevName" resultMap="query_Map">
+        SELECT
+        d.NAME_ devName
+        FROM
+        tb_base_dev d
+        WHERE
+        d.CODE_=#{devCode}
+    </select>
 </mapper>

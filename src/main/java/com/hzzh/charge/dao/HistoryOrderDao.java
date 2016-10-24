@@ -2,6 +2,7 @@ package com.hzzh.charge.dao;
 
 import com.hzzh.charge.model.report_po.HistoryOrder;
 import com.hzzh.charge.model.report_po.CarReport;
+import com.hzzh.charge.model.report_po.MonthlyPoles;
 import com.hzzh.charge.model.report_po.StationPo;
 import org.apache.ibatis.annotations.Param;
 
@@ -55,5 +56,14 @@ public interface HistoryOrderDao {
      * @throws Exception
      */
     List<StationPo> stationReport(@Param("dateTime") String dateTime, @Param("companyId") String companyId) throws Exception;
+
+    /**
+     * 查询当月总共接入了多少充电桩
+     * @param companyId
+     * @return
+     * @throws Exception
+     */
+    MonthlyPoles queryChargePoles(@Param("companyId") String companyId) throws Exception;
+
 
 }

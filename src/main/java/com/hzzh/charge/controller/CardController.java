@@ -29,11 +29,11 @@ public class CardController {
     private CardService cardService;
 
     @RequestMapping(value = "/add")
-    public Integer add(@RequestBody Card card) throws Exception {
-        if (card == null) {
+    public Integer add(@RequestBody CardAction cardAction) throws Exception {
+        if (cardAction == null) {
             return null;
         }
-        Integer add = cardService.add(card);
+        Integer add = cardService.add(cardAction);
         return add;
     }
 
@@ -105,4 +105,5 @@ public class CardController {
         Integer addCount = cardService.recharge(cardAction);
         return addCount;
     }
+
 }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzzh.charge.dao.CardHistoryDao">
+    <!--充值明细-->
+    <resultMap id="rechargeDtailMap" type="com.hzzh.charge.model.cardhistory_po.RechargeDetail">
+        <result column="CARD_NO" property="cardNo"/>
+        <result column="CAR_NO" property="carNo"/>
+        <result column="OPERATE_TIME" property="operateTime"/>
+        <result column="oldBalance" property="oldBalance"/>
+        <result column="MONEY" property="money"/>
+        <result column="balance" property="balance"/>
+        <result column="OPERATOR_NAME" property="operatorName"/>
+    </resultMap>
+    <select id="rechargeDetail" resultMap="rechargeDtailMap">
+        SELECT
+        y.CARD_NO,
+        y.CAR_NO,
+        y.OPERATE_TIME,
+        ROUND(y.CARD_OLD_BALANCE,2) oldBalance,
+        ROUND(y.CARD_MONEY,2) MONEY,
+        ROUND(y.CARD_BALANCE,2) balance,
+        y.OPERATOR_NAME,
+        y.OPERATOR_TYPE
+        FROM
+        t_ev_card_history y
+        <where>
+            AND
+            y.COMPANY_ID=#{companyId}
+            AND
+            y.OPERATOR_TYPE='1'
+            <if test="operateTime!=null">
+                <choose>
+                    <when test='operateTime!="" and operateTime!=null'>
+                        AND
+                        DATE_FORMAT(#{operateTime},'%Y%m')=DATE_FORMAT(y.OPERATE_TIME,'%Y%m')
+                        AND
+                        DATE_FORMAT(#{operateTime},'%Y%m%d%H%i%s') &lt;= DATE_FORMAT(y.OPERATE_TIME,'%Y%m%d%H%i%s')
+                    </when>
+                    <otherwise>
+                        AND
+                        DATE_FORMAT(y.OPERATE_TIME,'%Y%m')=DATE_FORMAT(NOW(),'%Y%m')
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+
+
+    </select>
+</mapper>

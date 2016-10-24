@@ -40,8 +40,8 @@ public class HistoryOrderControllerTest {
     @Test
     public void testMonthlyReport(){
         Map<String,Object> map=new HashedMap();
-        map.put("dateTime","2016-09");
-        map.put("companyId","");
+        map.put("dateTime","");
+        map.put("companyId","a67bef10-5db2-11e5-bd9d-19cc9cdf5fc1");
         String message=HttpClientUtils.testUrl("/charge/monthlyReport",map);
         System.out.println(message);
 
@@ -68,6 +68,15 @@ public class HistoryOrderControllerTest {
         String message=HttpClientUtils.testUrl("/charge/stationReport",map);
         System.out.println(message);
 
+    }
+
+    //测试当月接入充电桩次数
+    @Test
+    public void testPoles(){
+        Map<String,Object> map=new HashedMap();
+        map.put("companyId","ecbaeb3e-238d-11e5-bb46-00155d165f08");
+        String message=HttpClientUtils.testUrl("/charge/poleCount",map);
+        System.out.println(message);
     }
 
 

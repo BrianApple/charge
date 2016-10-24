@@ -34,4 +34,6 @@ public interface CardDao extends BaseCardDao {
      */
     List<QueryPage> queryPage(@Param("cardNo") String cardNo,@Param("companyId") String companyId) throws Exception;
 
+
+
 }

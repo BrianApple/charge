@@ -3,6 +3,7 @@ package com.hzzh.charge.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hzzh.charge.model.report_po.HistoryOrder;
+import com.hzzh.charge.model.report_po.MonthlyPoles;
 import com.hzzh.charge.model.report_po.TotalReport;
 import com.hzzh.charge.service.HistoryOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,7 +118,7 @@ public class HistoryOrderController {
      * @throws Exception
      */
     @RequestMapping(value = "/stationReport")
-    public Map<String,Object> stationReport(@RequestBody Map<String, Object> map) throws Exception {
+    public Map<String, Object> stationReport(@RequestBody Map<String, Object> map) throws Exception {
 
         if (map.get("dateTime") == null || map.get("companyId") == null) {
             return null;
@@ -125,8 +126,24 @@ public class HistoryOrderController {
 
         String dateTime = map.get("dateTime").toString();
         String companyId = map.get("companyId").toString();
-        Map<String,Object> list = historyOrderService.stationReport(dateTime, companyId);
+        Map<String, Object> list = historyOrderService.stationReport(dateTime, companyId);
         return list;
+    }
+
+    /**
+     * 查询当月接入充电桩次数
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/poleCount")
+    public MonthlyPoles queryPole(@RequestBody Map<String, Object> map) throws Exception {
+        if (map.get("companyId") == null) {
+            return null;
+        }
+        String companyId = map.get("companyId").toString();
+        MonthlyPoles queryPole = historyOrderService.queryChargePoles(companyId);
+        return queryPole;
     }
 
 

@@ -262,7 +262,6 @@ public class HistoryOrderServiceImpl implements HistoryOrderService {
         }
 
 
-
         List<Object> allTotal = new ArrayList<>();
         for (StationTotal s : totals) {
             if (s.getDays() == null) {
@@ -283,6 +282,19 @@ public class HistoryOrderServiceImpl implements HistoryOrderService {
         result.put("AllTotals", allTotal);
         return result;
 
+    }
+
+    /**
+     * 查询当月总共接入了多少充电桩
+     *
+     * @param companyId
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public MonthlyPoles queryChargePoles(@Param("companyId") String companyId) throws Exception {
+        MonthlyPoles queryChargePoles = historyOrderDao.queryChargePoles(companyId);
+        return queryChargePoles;
     }
 
     /**

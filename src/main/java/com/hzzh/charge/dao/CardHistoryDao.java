@@ -1,6 +1,10 @@
 package com.hzzh.charge.dao;
 
 import com.hzzh.charge.dao.base.BaseCardHistoryDao;
+import com.hzzh.charge.model.cardhistory_po.RechargeDetail;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 类名称：t_ev_card_history表的DAO接口类CardHistoryDao
@@ -10,4 +14,12 @@ import com.hzzh.charge.dao.base.BaseCardHistoryDao;
  */
 public interface CardHistoryDao extends BaseCardHistoryDao {
 
+    /**
+     * 充值卡明细
+     * @param companyId
+     * @param operateTime
+     * @return
+     * @throws Exception
+     */
+    List<RechargeDetail> rechargeDetail(@Param("companyId") String companyId,@Param("operateTime") String operateTime)throws Exception;
 }

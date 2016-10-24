@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,19 +40,34 @@ public class CardServiceImpl implements CardService {
     /**
      * 添加卡信息
      *
-     * @param card
+     * @param cardAction
      * @return
      * @throws Exception
      */
     @Override
-    public Integer add(Card card) throws Exception {
-        card.setCardBalance(0l);//充值卡默认金额为0
-        card.setCardStatus("1"); //卡状态为1，已激活
-        card.setCardType("0"); //卡类型为0，扣款卡
+    @Transactional
+    public Integer add(CardAction cardAction) throws Exception {
+        /**
+         * 当添加card失败，不再执行this.addCardHistory(cardAction);
+         */
+        Card card = cardAction.getCard();
+        //充值卡默认金额为0
+        card.setCardBalance(0l);
+        //状态为正常（卡状态:0-未激活,1-正常(已激活),2-锁定,3-注销）
+        card.setCardStatus("1");
+        //卡类型为0，扣款卡
+        card.setCardType("0");
+        Date date = new Date();
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateTime = sf.format(date);
+        card.setCreateTime(dateTime);
         Integer add = cardDao.insert(card);
+        cardAction.setCard(card);
         if (add == 0 || add == null) {
             return 0;
         }
+        //添加历史记录
+        this.addCardHistory(cardAction);
         return add;
     }
 
@@ -80,17 +97,20 @@ public class CardServiceImpl implements CardService {
      */
     @Override
     public List<QueryPage> queryPage(@Param("cardNo") String cardNo, @Param("companyId") String companyId) throws Exception {
+        /**
+         * 判断卡状态
+         */
         List<QueryPage> list = cardDao.queryPage(cardNo, companyId);
         try {
-            for (QueryPage page : list) {
-                if (page.getCardStatus().equals("0")) {
-                    page.setCardStatus(OpUtil.NOT_ACTIVE);
-                } else if (page.getCardStatus().equals("1")) {
-                    page.setCardStatus(OpUtil.NORMAL);
-                } else if (page.getCardStatus().equals("2")) {
-                    page.setCardStatus(OpUtil.LOCKED);
+            for (QueryPage card : list) {
+                if (card.getCardStatus().equals("0")) {
+                    card.setCardStatus(OpUtil.NOT_ACTIVE);
+                } else if (card.getCardStatus().equals("1")) {
+                    card.setCardStatus(OpUtil.NORMAL);
+                } else if (card.getCardStatus().equals("2")) {
+                    card.setCardStatus(OpUtil.LOCKED);
                 } else {
-                    page.setCardStatus(OpUtil.CANCEL);
+                    card.setCardStatus(OpUtil.CANCEL);
                 }
             }
         } catch (Exception e) {
@@ -104,7 +124,8 @@ public class CardServiceImpl implements CardService {
 
     /**
      * 充值卡,锁定,注销
-     *CardExample:条件(卡编号)
+     * CardExample:条件(卡编号)
+     *
      * @param cardAction
      * @return
      * @throws Exception
@@ -126,7 +147,8 @@ public class CardServiceImpl implements CardService {
 
     /**
      * 充值卡充值
-     *CardExample:条件(卡编号)
+     * CardExample:条件(卡编号)
+     *
      * @param cardAction
      * @return
      * @throws Exception
@@ -146,6 +168,7 @@ public class CardServiceImpl implements CardService {
         return recharge;
     }
 
+
     /**
      * 添加充值卡历史记录
      *
@@ -154,8 +177,13 @@ public class CardServiceImpl implements CardService {
      */
     private final Integer addCardHistory(CardAction cardAction) {
         CardHistory cardHistory = cardAction.getCardHistory();
-        cardHistory.setCardType("0"); //卡类型为0，扣款卡
+        //卡类型为0，扣款卡
+        cardHistory.setCardType("0");
         cardAction.setCardHistory(cardHistory);
+        Date date = new Date();
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateTime = sf.format(date);
+        cardHistory.setOperateTime(dateTime);
         Integer addCount = cardHistoryDao.insert(cardHistory);
         if (addCount == null || addCount == 0) {
             return 0;

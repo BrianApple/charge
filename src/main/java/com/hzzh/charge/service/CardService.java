@@ -21,12 +21,12 @@ public interface CardService {
 
     /**
      * 添加卡信息
-     *
-     * @param card
+     *CardAction为card,cardHistory的包装类
+     * @param cardAction
      * @return
      * @throws Exception
      */
-    Integer add(Card card) throws Exception;
+    Integer add(CardAction cardAction) throws Exception;
 
     /**
      * 根据companyId查询用户信息
@@ -63,6 +63,8 @@ public interface CardService {
      * @throws Exception
      */
     Integer recharge(CardAction cardAction)throws Exception;
+
+
 
 
 }

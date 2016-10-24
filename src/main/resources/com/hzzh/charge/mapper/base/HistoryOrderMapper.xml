@@ -181,8 +181,20 @@
         </where>
 
         group by
-        days,O.STATION_NAME
+        days,o.STATION_NAME
         WITH ROLLUP
     </select>
 
+    <!--本月接入充电桩个数-->
+    <resultMap id="poleMap" type="com.hzzh.charge.model.report_po.MonthlyPoles">
+        <result column="poles" property="chargePoles"/>
+    </resultMap>
+    <select id="queryChargePoles" resultMap="poleMap">
+        SELECT
+        COUNT(s.CODE_) poles
+        FROM
+        tb_base_station s
+        WHERE
+        s.COMPANY_=#{companyId}
+    </select>
 </mapper>
