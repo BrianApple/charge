@@ -36,4 +36,47 @@
         WHERE
         d.CODE_=#{devCode}
     </select>
+    <!--查询当前订单-->
+    <resultMap id="order_map" type="com.hzzh.charge.model.order_po.CurrentOrder">
+        <result column="CARD_NO" property="cardNo"/>
+        <result column="CHARGE_BEGIN" property="chargeBegin"/>
+        <result column="CHARGE_END" property="chargeEnd"/>
+        <result column="ELECTRIC_CHARGE" property="electricCharge"/>
+        <result column="EXPENSE" property="expense"/>
+        <result column="BALANCE_" property="balance"/>
+        <result column="DEV_NAME" property="devName"/>
+        <result column="STATION_NAME" property="stationName"/>
+        <result column="CAR_NO" property="carNo"/>
+        <result column="COMPANY_ID" property="companyId"/>
+        <result column="STATUS_" property="status"/>
+        <result column="STATION_CODE" property="stationCode"/>
+        <result column="DEV_CODE" property="devCode"/>
+    </resultMap>
+    <select id="currentOrder" resultMap="order_map" parameterType="string">
+        SELECT
+        o.CAR_NO,
+        o.EXPENSE,
+        o.ELECTRIC_CHARGE,
+        o.CARD_NO,
+        o.STATION_NAME,
+        o.DEV_NAME,
+        o.CHARGE_BEGIN,
+        o.CHARGE_END,
+        o.BALANCE_,
+        o.COMPANY_ID,
+        o.STATUS_,
+        o.STATION_CODE,
+        o.DEV_CODE
+        FROM
+        t_ev_order o
+        <where>
+            and o.STATUS_='2'
+            <if test="cardNo!='' and cardNo!=null">
+                and (o.CARD_NO LIKE '%${cardNo}%' or o.CAR_NO LIKE '%${cardNo}%')
+            </if>
+            and o.COMPANY_ID=#{companyId}
+        </where>
+        order by o.CHARGE_BEGIN
+    </select>
+
 </mapper>

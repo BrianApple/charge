@@ -27,6 +27,7 @@
         <result column="EXPENSE_G" jdbcType="VARCHAR" property="expenseG" />
         <result column="EXPENSE_P" jdbcType="VARCHAR" property="expenseP" />
         <result column="BALANCE_" jdbcType="VARCHAR" property="balance" />
+        <result column="MONETARY" jdbcType="DECIMAL" property="monetary" />
         <result column="STOP_REASON" jdbcType="VARCHAR" property="stopReason" />
         <result column="CHARGE_TYPE" jdbcType="VARCHAR" property="chargeType" />
         <result column="SEND_TAG" jdbcType="VARCHAR" property="sendTag" />
@@ -113,6 +114,7 @@
         teo.EXPENSE_G,
         teo.EXPENSE_P,
         teo.BALANCE_,
+        teo.MONETARY,
         teo.STOP_REASON,
         teo.CHARGE_TYPE,
         teo.SEND_TAG,
@@ -187,6 +189,7 @@
             EXPENSE_G,
             EXPENSE_P,
             BALANCE_,
+            MONETARY,
             STOP_REASON,
             CHARGE_TYPE,
             SEND_TAG,
@@ -219,6 +222,7 @@
             #{expenseG,jdbcType=VARCHAR},
             #{expenseP,jdbcType=VARCHAR},
             #{balance,jdbcType=VARCHAR},
+            #{monetary,jdbcType=DECIMAL},
             #{stopReason,jdbcType=VARCHAR},
             #{chargeType,jdbcType=VARCHAR},
             #{sendTag,jdbcType=VARCHAR},
@@ -256,6 +260,7 @@
             EXPENSE_G,
             EXPENSE_P,
             BALANCE_,
+            MONETARY,
             STOP_REASON,
             CHARGE_TYPE,
             SEND_TAG,
@@ -289,6 +294,7 @@
                 #{item.expenseG,jdbcType=VARCHAR},
                 #{item.expenseP,jdbcType=VARCHAR},
                 #{item.balance,jdbcType=VARCHAR},
+                #{item.monetary,jdbcType=DECIMAL},
                 #{item.stopReason,jdbcType=VARCHAR},
                 #{item.chargeType,jdbcType=VARCHAR},
                 #{item.sendTag,jdbcType=VARCHAR},
@@ -376,6 +382,9 @@
             </if>
             <if test="balance != null">
                 BALANCE_,
+            </if>
+            <if test="monetary != null">
+                MONETARY,
             </if>
             <if test="stopReason != null">
                 STOP_REASON,
@@ -468,6 +477,9 @@
             </if>
             <if test="balance != null">
                 #{balance,jdbcType=VARCHAR},
+            </if>
+            <if test="monetary != null">
+                #{monetary,jdbcType=DECIMAL},
             </if>
             <if test="stopReason != null">
                 #{stopReason,jdbcType=VARCHAR},
@@ -566,6 +578,9 @@
             <if test="balance != null">
                 BALANCE_,
             </if>
+            <if test="monetary != null">
+                MONETARY,
+            </if>
             <if test="stopReason != null">
                 STOP_REASON,
             </if>
@@ -659,6 +674,9 @@
                 <if test="item.balance != null">
                     #{item.balance,jdbcType=VARCHAR},
                 </if>
+                <if test="item.monetary != null">
+                    #{item.monetary,jdbcType=DECIMAL},
+                </if>
                 <if test="item.stopReason != null">
                     #{item.stopReason,jdbcType=VARCHAR},
                 </if>
@@ -707,6 +725,7 @@
             teo.EXPENSE_G = #{record.expenseG,jdbcType=VARCHAR},
             teo.EXPENSE_P = #{record.expenseP,jdbcType=VARCHAR},
             teo.BALANCE_ = #{record.balance,jdbcType=VARCHAR},
+            teo.MONETARY = #{record.monetary,jdbcType=DECIMAL},
             teo.STOP_REASON = #{record.stopReason,jdbcType=VARCHAR},
             teo.CHARGE_TYPE = #{record.chargeType,jdbcType=VARCHAR},
             teo.SEND_TAG = #{record.sendTag,jdbcType=VARCHAR},
@@ -801,6 +820,9 @@
             <if test="record.balance != null">
                 teo.BALANCE_ = #{record.balance,jdbcType=VARCHAR},
             </if>
+            <if test="record.monetary != null">
+                teo.MONETARY = #{record.monetary,jdbcType=DECIMAL},
+            </if>
             <if test="record.stopReason != null">
                 teo.STOP_REASON = #{record.stopReason,jdbcType=VARCHAR},
             </if>
@@ -877,6 +899,7 @@
             teo.EXPENSE_G = #{expenseG,jdbcType=VARCHAR},
             teo.EXPENSE_P = #{expenseP,jdbcType=VARCHAR},
             teo.BALANCE_ = #{balance,jdbcType=VARCHAR},
+            teo.MONETARY = #{monetary,jdbcType=DECIMAL},
             teo.STOP_REASON = #{stopReason,jdbcType=VARCHAR},
             teo.CHARGE_TYPE = #{chargeType,jdbcType=VARCHAR},
             teo.SEND_TAG = #{sendTag,jdbcType=VARCHAR},
@@ -966,6 +989,9 @@
             </if>
             <if test="balance != null">
                 teo.BALANCE_ = #{balance,jdbcType=VARCHAR},
+            </if>
+            <if test="monetary != null">
+                teo.MONETARY = #{monetary,jdbcType=DECIMAL},
             </if>
             <if test="stopReason != null">
                 teo.STOP_REASON = #{stopReason,jdbcType=VARCHAR},

@@ -12,7 +12,7 @@ import com.hzzh.charge.model.OrderExample;
  * 类名称：t_ev_order表的BaseService接口类BaseOrderService
  * 内容摘要：针对于单表的基础操作：增删改查以及统计方法，包含物理逻辑操作
  * @author 工具生成
- * @version 1.0 2016年10月13日
+ * @version 1.0 2016年10月25日
  */
 public abstract interface BaseOrderService {
 

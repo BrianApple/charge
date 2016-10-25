@@ -43,7 +43,7 @@
                 and o.STATION_NAME=#{stationName}
             </if>
             <if test="cardNo!='' and cardNo!=null">
-                and (o.CARD_NO LIKE '%${cardNo}%' or o.DEV_NAME LIKE '%${cardNo}%')
+                and (o.CARD_NO LIKE '%${cardNo}%' or o.CAR_NO LIKE '%${cardNo}%')
             </if>
             and o.COMPANY_ID=#{companyId}
         </where>

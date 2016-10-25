@@ -15,7 +15,7 @@ import java.util.Map;
  * 类名称：t_ev_order表的Order接口实现类BaseOrderServiceImpl
  * 内容摘要：针对于单表的基础操作：增删改查以及统计方法，包含物理逻辑操作
  * @author 工具生成
- * @version 1.0 2016年10月13日
+ * @version 1.0 2016年10月25日
  */
 public class BaseOrderServiceImpl implements BaseOrderService {
 

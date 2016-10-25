@@ -1,10 +1,11 @@
 package com.hzzh.charge.service;
 
-import com.hzzh.charge.model.Card;
 import com.hzzh.charge.model.Order;
+import com.hzzh.charge.model.order_po.CurrentOrder;
 import com.hzzh.charge.model.order_po.CustomOrder;
-import com.hzzh.charge.service.base.BaseOrderService;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 类名称：t_ev_order表的Service接口类OrderService
@@ -27,6 +28,7 @@ public interface OrderService {
 
     /**
      * 根据卡号查询车牌号
+     *
      * @param cardNo
      * @return
      * @throws Exception
@@ -35,6 +37,7 @@ public interface OrderService {
 
     /**
      * 根据站编号查询站名称
+     *
      * @param stationCode
      * @return
      * @throws Exception
@@ -43,13 +46,31 @@ public interface OrderService {
 
     /**
      * 根据设备编号查询设备名称
+     *
      * @param devCode
      * @return
      * @throws Exception
      */
     CustomOrder queryDevName(@Param("devCode") String devCode) throws Exception;
 
+    /**
+     * 更新订单
+     *
+     * @param order
+     * @return
+     * @throws Exception
+     */
+    Integer update(Order order) throws Exception;
 
+
+    /**
+     * 查询当前订单
+     * @param companyId
+     * @param cardNo
+     * @return
+     * @throws Exception
+     */
+    List<CurrentOrder> currentOrder(@Param("companyId") String companyId, @Param("cardNo") String cardNo)throws Exception;
 
 
 }

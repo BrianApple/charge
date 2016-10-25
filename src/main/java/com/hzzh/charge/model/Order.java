@@ -6,7 +6,7 @@ import java.io.Serializable;
  * 类名称：t_ev_order表的实体类Order
  * 内容摘要：t_ev_order表的各个元素的取得、设定方法
  * @author TaoRan
- * @version 1.0 2016年10月13日
+ * @version 1.0 2016年10月25日
  */@SuppressWarnings("serial")
 public class Order implements Serializable {
 
@@ -60,6 +60,8 @@ public class Order implements Serializable {
     private String expenseP;
     /** 充电后卡余额 */
     private String balance;
+    /** 消费金额 */
+    private java.math.BigDecimal monetary;
     /** 停止充电原因 */
     private String stopReason;
     /** 充电方式 */
@@ -469,6 +471,22 @@ public class Order implements Serializable {
      */
     public void setBalance(String balance) {
         this.balance = balance;
+    }
+
+    /**
+     * 取得 消费金额
+     * @return 消费金额
+     */
+    public java.math.BigDecimal getMonetary() {
+        return monetary;
+    }
+
+    /**
+     * 设定 消费金额
+     * @param monetary 消费金额
+     */
+    public void setMonetary(java.math.BigDecimal monetary) {
+        this.monetary = monetary;
     }
 
     /**

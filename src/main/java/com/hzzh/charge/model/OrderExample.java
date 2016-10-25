@@ -8,7 +8,7 @@ import java.math.BigDecimal;
  * 类名称：t_ev_order表的查询条件类OrderExample
  * 内容摘要：t_ev_order表的各个元素的查询条件
  * @author 工具生成
- * @version 1.0 2016年10月13日
+ * @version 1.0 2016年10月25日
  */
 public class OrderExample {
 
@@ -1924,6 +1924,76 @@ protected abstract static class GeneratedCriteria {
 
         public Criteria andbalanceNotBetween(Integer value1, Integer value2) {
             addCriterion("teo.BALANCE_ not between", value1, value2, "balance");
+            return (Criteria) this;
+        }
+
+        public Criteria andmonetaryIsNull() {
+            addCriterion("teo.MONETARY is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andmonetaryIsNotNull() {
+            addCriterion("teo.MONETARY is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andmonetaryEqualTo(BigDecimal value) {
+            addCriterion("teo.MONETARY =", value, "monetary");
+            return (Criteria) this;
+        }
+
+        public Criteria andmonetaryNotEqualTo(BigDecimal value) {
+            addCriterion("teo.MONETARY <>", value, "monetary");
+            return (Criteria) this;
+        }
+
+        public Criteria andmonetaryGreaterThan(BigDecimal value) {
+            addCriterion("teo.MONETARY >", value, "monetary");
+            return (Criteria) this;
+        }
+
+        public Criteria andmonetaryGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("teo.MONETARY >=", value, "monetary");
+            return (Criteria) this;
+        }
+
+        public Criteria andmonetaryLessThan(BigDecimal value) {
+            addCriterion("teo.MONETARY <", value, "monetary");
+            return (Criteria) this;
+        }
+
+        public Criteria andmonetaryLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("teo.MONETARY <=", value, "monetary");
+            return (Criteria) this;
+        }
+
+        public Criteria andmonetaryIn(List<BigDecimal> values) {
+            addCriterion("teo.MONETARY in", values, "monetary");
+            return (Criteria) this;
+        }
+
+        public Criteria andmonetaryNotIn(List<BigDecimal> values) {
+            addCriterion("teo.MONETARY not in", values, "monetary");
+            return (Criteria) this;
+        }
+
+        public Criteria andmonetaryLike(BigDecimal value) {
+            addCriterion("teo.MONETARY like", "%" + value + "%", "monetary");
+            return (Criteria) this;
+        }
+
+        public Criteria andmonetaryNotLike(BigDecimal value) {
+            addCriterion("teo.MONETARY not like", "%" + value + "%", "monetary");
+            return (Criteria) this;
+        }
+
+        public Criteria andmonetaryBetween(Integer value1, Integer value2) {
+            addCriterion("teo.MONETARY between", value1, value2, "monetary");
+            return (Criteria) this;
+        }
+
+        public Criteria andmonetaryNotBetween(Integer value1, Integer value2) {
+            addCriterion("teo.MONETARY not between", value1, value2, "monetary");
             return (Criteria) this;
         }
 
