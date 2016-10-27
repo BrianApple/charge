@@ -27,11 +27,11 @@ public class HistoryOrderControllerTest {
         Map<String,Object> map=new HashedMap();
         map.put("pageNum",1);
         map.put("pageSize",5);
-        map.put("cardNo","鄂L039AZ");
+        map.put("cardNo","");
         map.put("companyId","a67bef10-5db2-11e5-bd9d-19cc9cdf5fc1");
         map.put("stationName","");
-        map.put("startTime","2016-10-05");
-        map.put("endTime","2016-10-12");
+        map.put("startTime","");
+        map.put("endTime","");
         String message = HttpClientUtils.testUrl("/charge/queryPage", map);
         System.out.println(message);
     }

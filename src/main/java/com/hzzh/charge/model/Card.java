@@ -1,15 +1,12 @@
 package com.hzzh.charge.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.io.Serializable;
 
 /**
  * 类名称：t_ev_card表的实体类Card
  * 内容摘要：t_ev_card表的各个元素的取得、设定方法
  * @author TaoRan
- * @version 1.0 2016年10月19日
+ * @version 1.0 2016年10月26日
  */@SuppressWarnings("serial")
 public class Card implements Serializable {
 
@@ -27,7 +24,7 @@ public class Card implements Serializable {
     private String ownerId;
     private String ownerName;
     /** 卡余额 */
-    private Long cardBalance;
+    private java.math.BigDecimal cardBalance;
     /** 卡状态:0-未激活,1-正常(已激活),2-锁定,3-注销 */
     private String cardStatus;
     /** 卡类型:0-扣款卡 */
@@ -37,8 +34,6 @@ public class Card implements Serializable {
     /** 操作员名称 */
     private String creatorName;
     /** 卡注册时间 */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private String createTime;
 
     /**
@@ -149,7 +144,7 @@ public class Card implements Serializable {
      * 取得 卡余额
      * @return 卡余额
      */
-    public Long getCardBalance() {
+    public java.math.BigDecimal getCardBalance() {
         return cardBalance;
     }
 
@@ -157,7 +152,7 @@ public class Card implements Serializable {
      * 设定 卡余额
      * @param cardBalance 卡余额
      */
-    public void setCardBalance(Long cardBalance) {
+    public void setCardBalance(java.math.BigDecimal cardBalance) {
         this.cardBalance = cardBalance;
     }
 

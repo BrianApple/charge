@@ -2,12 +2,13 @@ package com.hzzh.charge.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.math.BigDecimal;
 
 /**
  * 类名称：t_ev_card_history表的查询条件类CardHistoryExample
  * 内容摘要：t_ev_card_history表的各个元素的查询条件
  * @author 工具生成
- * @version 1.0 2016年10月20日
+ * @version 1.0 2016年10月26日
  */
 public class CardHistoryExample {
 
@@ -676,52 +677,52 @@ protected abstract static class GeneratedCriteria {
             return (Criteria) this;
         }
 
-        public Criteria andcardOldBalanceEqualTo(Long value) {
+        public Criteria andcardOldBalanceEqualTo(BigDecimal value) {
             addCriterion("tech.CARD_OLD_BALANCE =", value, "cardOldBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardOldBalanceNotEqualTo(Long value) {
+        public Criteria andcardOldBalanceNotEqualTo(BigDecimal value) {
             addCriterion("tech.CARD_OLD_BALANCE <>", value, "cardOldBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardOldBalanceGreaterThan(Long value) {
+        public Criteria andcardOldBalanceGreaterThan(BigDecimal value) {
             addCriterion("tech.CARD_OLD_BALANCE >", value, "cardOldBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardOldBalanceGreaterThanOrEqualTo(Long value) {
+        public Criteria andcardOldBalanceGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("tech.CARD_OLD_BALANCE >=", value, "cardOldBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardOldBalanceLessThan(Long value) {
+        public Criteria andcardOldBalanceLessThan(BigDecimal value) {
             addCriterion("tech.CARD_OLD_BALANCE <", value, "cardOldBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardOldBalanceLessThanOrEqualTo(Long value) {
+        public Criteria andcardOldBalanceLessThanOrEqualTo(BigDecimal value) {
             addCriterion("tech.CARD_OLD_BALANCE <=", value, "cardOldBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardOldBalanceIn(List<Long> values) {
+        public Criteria andcardOldBalanceIn(List<BigDecimal> values) {
             addCriterion("tech.CARD_OLD_BALANCE in", values, "cardOldBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardOldBalanceNotIn(List<Long> values) {
+        public Criteria andcardOldBalanceNotIn(List<BigDecimal> values) {
             addCriterion("tech.CARD_OLD_BALANCE not in", values, "cardOldBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardOldBalanceLike(Long value) {
+        public Criteria andcardOldBalanceLike(BigDecimal value) {
             addCriterion("tech.CARD_OLD_BALANCE like", "%" + value + "%", "cardOldBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardOldBalanceNotLike(Long value) {
+        public Criteria andcardOldBalanceNotLike(BigDecimal value) {
             addCriterion("tech.CARD_OLD_BALANCE not like", "%" + value + "%", "cardOldBalance");
             return (Criteria) this;
         }
@@ -746,52 +747,52 @@ protected abstract static class GeneratedCriteria {
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyEqualTo(Long value) {
+        public Criteria andcardMoneyEqualTo(BigDecimal value) {
             addCriterion("tech.CARD_MONEY =", value, "cardMoney");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyNotEqualTo(Long value) {
+        public Criteria andcardMoneyNotEqualTo(BigDecimal value) {
             addCriterion("tech.CARD_MONEY <>", value, "cardMoney");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyGreaterThan(Long value) {
+        public Criteria andcardMoneyGreaterThan(BigDecimal value) {
             addCriterion("tech.CARD_MONEY >", value, "cardMoney");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyGreaterThanOrEqualTo(Long value) {
+        public Criteria andcardMoneyGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("tech.CARD_MONEY >=", value, "cardMoney");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyLessThan(Long value) {
+        public Criteria andcardMoneyLessThan(BigDecimal value) {
             addCriterion("tech.CARD_MONEY <", value, "cardMoney");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyLessThanOrEqualTo(Long value) {
+        public Criteria andcardMoneyLessThanOrEqualTo(BigDecimal value) {
             addCriterion("tech.CARD_MONEY <=", value, "cardMoney");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyIn(List<Long> values) {
+        public Criteria andcardMoneyIn(List<BigDecimal> values) {
             addCriterion("tech.CARD_MONEY in", values, "cardMoney");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyNotIn(List<Long> values) {
+        public Criteria andcardMoneyNotIn(List<BigDecimal> values) {
             addCriterion("tech.CARD_MONEY not in", values, "cardMoney");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyLike(Long value) {
+        public Criteria andcardMoneyLike(BigDecimal value) {
             addCriterion("tech.CARD_MONEY like", "%" + value + "%", "cardMoney");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyNotLike(Long value) {
+        public Criteria andcardMoneyNotLike(BigDecimal value) {
             addCriterion("tech.CARD_MONEY not like", "%" + value + "%", "cardMoney");
             return (Criteria) this;
         }
@@ -816,52 +817,52 @@ protected abstract static class GeneratedCriteria {
             return (Criteria) this;
         }
 
-        public Criteria andcardBalanceEqualTo(Long value) {
+        public Criteria andcardBalanceEqualTo(BigDecimal value) {
             addCriterion("tech.CARD_BALANCE =", value, "cardBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardBalanceNotEqualTo(Long value) {
+        public Criteria andcardBalanceNotEqualTo(BigDecimal value) {
             addCriterion("tech.CARD_BALANCE <>", value, "cardBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardBalanceGreaterThan(Long value) {
+        public Criteria andcardBalanceGreaterThan(BigDecimal value) {
             addCriterion("tech.CARD_BALANCE >", value, "cardBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardBalanceGreaterThanOrEqualTo(Long value) {
+        public Criteria andcardBalanceGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("tech.CARD_BALANCE >=", value, "cardBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardBalanceLessThan(Long value) {
+        public Criteria andcardBalanceLessThan(BigDecimal value) {
             addCriterion("tech.CARD_BALANCE <", value, "cardBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardBalanceLessThanOrEqualTo(Long value) {
+        public Criteria andcardBalanceLessThanOrEqualTo(BigDecimal value) {
             addCriterion("tech.CARD_BALANCE <=", value, "cardBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardBalanceIn(List<Long> values) {
+        public Criteria andcardBalanceIn(List<BigDecimal> values) {
             addCriterion("tech.CARD_BALANCE in", values, "cardBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardBalanceNotIn(List<Long> values) {
+        public Criteria andcardBalanceNotIn(List<BigDecimal> values) {
             addCriterion("tech.CARD_BALANCE not in", values, "cardBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardBalanceLike(Long value) {
+        public Criteria andcardBalanceLike(BigDecimal value) {
             addCriterion("tech.CARD_BALANCE like", "%" + value + "%", "cardBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardBalanceNotLike(Long value) {
+        public Criteria andcardBalanceNotLike(BigDecimal value) {
             addCriterion("tech.CARD_BALANCE not like", "%" + value + "%", "cardBalance");
             return (Criteria) this;
         }
@@ -886,52 +887,52 @@ protected abstract static class GeneratedCriteria {
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyYhEqualTo(Long value) {
+        public Criteria andcardMoneyYhEqualTo(BigDecimal value) {
             addCriterion("tech.CARD_MONEY_YH =", value, "cardMoneyYh");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyYhNotEqualTo(Long value) {
+        public Criteria andcardMoneyYhNotEqualTo(BigDecimal value) {
             addCriterion("tech.CARD_MONEY_YH <>", value, "cardMoneyYh");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyYhGreaterThan(Long value) {
+        public Criteria andcardMoneyYhGreaterThan(BigDecimal value) {
             addCriterion("tech.CARD_MONEY_YH >", value, "cardMoneyYh");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyYhGreaterThanOrEqualTo(Long value) {
+        public Criteria andcardMoneyYhGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("tech.CARD_MONEY_YH >=", value, "cardMoneyYh");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyYhLessThan(Long value) {
+        public Criteria andcardMoneyYhLessThan(BigDecimal value) {
             addCriterion("tech.CARD_MONEY_YH <", value, "cardMoneyYh");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyYhLessThanOrEqualTo(Long value) {
+        public Criteria andcardMoneyYhLessThanOrEqualTo(BigDecimal value) {
             addCriterion("tech.CARD_MONEY_YH <=", value, "cardMoneyYh");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyYhIn(List<Long> values) {
+        public Criteria andcardMoneyYhIn(List<BigDecimal> values) {
             addCriterion("tech.CARD_MONEY_YH in", values, "cardMoneyYh");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyYhNotIn(List<Long> values) {
+        public Criteria andcardMoneyYhNotIn(List<BigDecimal> values) {
             addCriterion("tech.CARD_MONEY_YH not in", values, "cardMoneyYh");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyYhLike(Long value) {
+        public Criteria andcardMoneyYhLike(BigDecimal value) {
             addCriterion("tech.CARD_MONEY_YH like", "%" + value + "%", "cardMoneyYh");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyYhNotLike(Long value) {
+        public Criteria andcardMoneyYhNotLike(BigDecimal value) {
             addCriterion("tech.CARD_MONEY_YH not like", "%" + value + "%", "cardMoneyYh");
             return (Criteria) this;
         }
@@ -956,52 +957,52 @@ protected abstract static class GeneratedCriteria {
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyTzEqualTo(Long value) {
+        public Criteria andcardMoneyTzEqualTo(BigDecimal value) {
             addCriterion("tech.CARD_MONEY_TZ =", value, "cardMoneyTz");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyTzNotEqualTo(Long value) {
+        public Criteria andcardMoneyTzNotEqualTo(BigDecimal value) {
             addCriterion("tech.CARD_MONEY_TZ <>", value, "cardMoneyTz");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyTzGreaterThan(Long value) {
+        public Criteria andcardMoneyTzGreaterThan(BigDecimal value) {
             addCriterion("tech.CARD_MONEY_TZ >", value, "cardMoneyTz");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyTzGreaterThanOrEqualTo(Long value) {
+        public Criteria andcardMoneyTzGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("tech.CARD_MONEY_TZ >=", value, "cardMoneyTz");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyTzLessThan(Long value) {
+        public Criteria andcardMoneyTzLessThan(BigDecimal value) {
             addCriterion("tech.CARD_MONEY_TZ <", value, "cardMoneyTz");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyTzLessThanOrEqualTo(Long value) {
+        public Criteria andcardMoneyTzLessThanOrEqualTo(BigDecimal value) {
             addCriterion("tech.CARD_MONEY_TZ <=", value, "cardMoneyTz");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyTzIn(List<Long> values) {
+        public Criteria andcardMoneyTzIn(List<BigDecimal> values) {
             addCriterion("tech.CARD_MONEY_TZ in", values, "cardMoneyTz");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyTzNotIn(List<Long> values) {
+        public Criteria andcardMoneyTzNotIn(List<BigDecimal> values) {
             addCriterion("tech.CARD_MONEY_TZ not in", values, "cardMoneyTz");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyTzLike(Long value) {
+        public Criteria andcardMoneyTzLike(BigDecimal value) {
             addCriterion("tech.CARD_MONEY_TZ like", "%" + value + "%", "cardMoneyTz");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyTzNotLike(Long value) {
+        public Criteria andcardMoneyTzNotLike(BigDecimal value) {
             addCriterion("tech.CARD_MONEY_TZ not like", "%" + value + "%", "cardMoneyTz");
             return (Criteria) this;
         }
@@ -1026,52 +1027,52 @@ protected abstract static class GeneratedCriteria {
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyJfEqualTo(Long value) {
+        public Criteria andcardMoneyJfEqualTo(BigDecimal value) {
             addCriterion("tech.CARD_MONEY_JF =", value, "cardMoneyJf");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyJfNotEqualTo(Long value) {
+        public Criteria andcardMoneyJfNotEqualTo(BigDecimal value) {
             addCriterion("tech.CARD_MONEY_JF <>", value, "cardMoneyJf");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyJfGreaterThan(Long value) {
+        public Criteria andcardMoneyJfGreaterThan(BigDecimal value) {
             addCriterion("tech.CARD_MONEY_JF >", value, "cardMoneyJf");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyJfGreaterThanOrEqualTo(Long value) {
+        public Criteria andcardMoneyJfGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("tech.CARD_MONEY_JF >=", value, "cardMoneyJf");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyJfLessThan(Long value) {
+        public Criteria andcardMoneyJfLessThan(BigDecimal value) {
             addCriterion("tech.CARD_MONEY_JF <", value, "cardMoneyJf");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyJfLessThanOrEqualTo(Long value) {
+        public Criteria andcardMoneyJfLessThanOrEqualTo(BigDecimal value) {
             addCriterion("tech.CARD_MONEY_JF <=", value, "cardMoneyJf");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyJfIn(List<Long> values) {
+        public Criteria andcardMoneyJfIn(List<BigDecimal> values) {
             addCriterion("tech.CARD_MONEY_JF in", values, "cardMoneyJf");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyJfNotIn(List<Long> values) {
+        public Criteria andcardMoneyJfNotIn(List<BigDecimal> values) {
             addCriterion("tech.CARD_MONEY_JF not in", values, "cardMoneyJf");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyJfLike(Long value) {
+        public Criteria andcardMoneyJfLike(BigDecimal value) {
             addCriterion("tech.CARD_MONEY_JF like", "%" + value + "%", "cardMoneyJf");
             return (Criteria) this;
         }
 
-        public Criteria andcardMoneyJfNotLike(Long value) {
+        public Criteria andcardMoneyJfNotLike(BigDecimal value) {
             addCriterion("tech.CARD_MONEY_JF not like", "%" + value + "%", "cardMoneyJf");
             return (Criteria) this;
         }

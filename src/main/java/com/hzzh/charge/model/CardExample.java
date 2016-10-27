@@ -2,12 +2,13 @@ package com.hzzh.charge.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.math.BigDecimal;
 
 /**
  * 类名称：t_ev_card表的查询条件类CardExample
  * 内容摘要：t_ev_card表的各个元素的查询条件
  * @author 工具生成
- * @version 1.0 2016年10月19日
+ * @version 1.0 2016年10月26日
  */
 public class CardExample {
 
@@ -676,52 +677,52 @@ protected abstract static class GeneratedCriteria {
             return (Criteria) this;
         }
 
-        public Criteria andcardBalanceEqualTo(Long value) {
+        public Criteria andcardBalanceEqualTo(BigDecimal value) {
             addCriterion("tec.CARD_BALANCE =", value, "cardBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardBalanceNotEqualTo(Long value) {
+        public Criteria andcardBalanceNotEqualTo(BigDecimal value) {
             addCriterion("tec.CARD_BALANCE <>", value, "cardBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardBalanceGreaterThan(Long value) {
+        public Criteria andcardBalanceGreaterThan(BigDecimal value) {
             addCriterion("tec.CARD_BALANCE >", value, "cardBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardBalanceGreaterThanOrEqualTo(Long value) {
+        public Criteria andcardBalanceGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("tec.CARD_BALANCE >=", value, "cardBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardBalanceLessThan(Long value) {
+        public Criteria andcardBalanceLessThan(BigDecimal value) {
             addCriterion("tec.CARD_BALANCE <", value, "cardBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardBalanceLessThanOrEqualTo(Long value) {
+        public Criteria andcardBalanceLessThanOrEqualTo(BigDecimal value) {
             addCriterion("tec.CARD_BALANCE <=", value, "cardBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardBalanceIn(List<Long> values) {
+        public Criteria andcardBalanceIn(List<BigDecimal> values) {
             addCriterion("tec.CARD_BALANCE in", values, "cardBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardBalanceNotIn(List<Long> values) {
+        public Criteria andcardBalanceNotIn(List<BigDecimal> values) {
             addCriterion("tec.CARD_BALANCE not in", values, "cardBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardBalanceLike(Long value) {
+        public Criteria andcardBalanceLike(BigDecimal value) {
             addCriterion("tec.CARD_BALANCE like", "%" + value + "%", "cardBalance");
             return (Criteria) this;
         }
 
-        public Criteria andcardBalanceNotLike(Long value) {
+        public Criteria andcardBalanceNotLike(BigDecimal value) {
             addCriterion("tec.CARD_BALANCE not like", "%" + value + "%", "cardBalance");
             return (Criteria) this;
         }

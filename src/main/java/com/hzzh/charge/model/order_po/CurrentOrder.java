@@ -9,6 +9,7 @@ import com.hzzh.charge.model.report_po.HistoryOrder;
 public class CurrentOrder extends HistoryOrder {
     private String stationCode;
     private String devCode;
+    private String port;
 
     public String getStationCode() {
         return stationCode;
@@ -24,5 +25,13 @@ public class CurrentOrder extends HistoryOrder {
 
     public void setDevCode(String devCode) {
         this.devCode = devCode;
+    }
+
+    public String getPort() {
+        return port;
+    }
+
+    public void setPort(String port) {
+        this.port = port;
     }
 }

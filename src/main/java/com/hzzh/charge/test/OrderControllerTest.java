@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
@@ -27,15 +28,16 @@ public class OrderControllerTest {
     //新增订单
     @Test
     public void testAdd() {
+        System.out.println("=======开始执行添加操作========");
         Order order = new Order();
         //guid
-        order.setGuid("001");
+        order.setGuid(HttpClientUtils.getUUID());
         //卡号
-        order.setCardNo("55928272");
+        order.setCardNo("36353631333030380000000000000000");
         //站编号
         order.setStationCode("421200000001");
         //设备编号
-        order.setDevCode("0005");
+        order.setDevCode("0002");
         //开始时间
         Date date = new Date();
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -44,22 +46,24 @@ public class OrderControllerTest {
         //充电类型
         order.setChargeType("1");
         //枪
-        order.setPort("555");
+        order.setPort("1000");
         order.setBalance("109526.88");
         String message = HttpClientUtils.testUrl("/order/add", order);
         System.out.println(message);
+        System.out.println("=======结束添加操作========");
     }
+
 
     //更新订单
     @Test
     public void testUpdate() {
         Order order = new Order();
         //卡号
-        order.setCardNo("55928272");
+        order.setCardNo("36353631333030380000000000000000");
         //站编号
         order.setStationCode("421200000001");
         //设备编号
-        order.setDevCode("0005");
+        order.setDevCode("0002");
         //结束时间
         Date date = new Date();
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -103,8 +107,8 @@ public class OrderControllerTest {
     @Test
     public void testCurrentOrder() {
         Map<String, Object> map = new HashedMap();
-        map.put("companyId","a67bef10-5db2-11e5-bd9d-19cc9cdf5fc1");
-        map.put("cardNo","");//卡号或车牌号
+        map.put("companyId", "a67bef10-5db2-11e5-bd9d-19cc9cdf5fc1");
+        map.put("cardNo", "");//卡号或车牌号
         String message = HttpClientUtils.testUrl("/order/currentOrder", map);
         System.out.println(message);
     }

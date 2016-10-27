@@ -27,6 +27,14 @@ public interface OrderService {
 
 
     /**
+     *根据站编号查询公司id
+     * @param stationCode
+     * @return
+     * @throws Exception
+     */
+    CustomOrder queryCompany(@Param("stationCode") String stationCode)throws Exception;
+
+    /**
      * 根据卡号查询车牌号
      *
      * @param cardNo
@@ -51,7 +59,7 @@ public interface OrderService {
      * @return
      * @throws Exception
      */
-    CustomOrder queryDevName(@Param("devCode") String devCode) throws Exception;
+    CustomOrder queryDevName(@Param("devCode") String devCode,@Param("stationCode") String stationCode) throws Exception;
 
     /**
      * 更新订单

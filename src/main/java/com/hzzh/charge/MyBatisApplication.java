@@ -1,11 +1,19 @@
 package com.hzzh.charge;
 
+import com.hzzh.charge.model.Order;
+import com.hzzh.charge.utils.HttpClientUtils;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.scheduling.annotation.Schedules;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 /**
@@ -19,11 +27,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @MapperScan("com.hzzh.charge.dao")
 @ComponentScan("com.hzzh.charge.*")
 //@EnableCaching
+@EnableScheduling
 public class MyBatisApplication {
     public static void main(String[] args) {
         SpringApplication.run(MyBatisApplication.class, args);
     }
+
 }
+
 
 
 /**

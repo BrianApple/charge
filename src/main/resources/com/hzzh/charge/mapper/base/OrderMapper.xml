@@ -18,6 +18,15 @@
         WHERE
         c.CARD_NO=#{cardNo}
     </select>
+    <!--查询公司id-->
+    <select id="queryCompany" resultMap="query_Map">
+        SELECT
+        s.COMPANY_ID
+        FROM
+        tb_base_station s
+        WHERE
+        s.CODE_=#{stationCode}
+    </select>
     <!--查询站名称-->
     <select id="queryStationName" resultMap="query_Map">
         SELECT
@@ -35,6 +44,8 @@
         tb_base_dev d
         WHERE
         d.CODE_=#{devCode}
+        and
+        d.STATION_CODE=#{stationCode}
     </select>
     <!--查询当前订单-->
     <resultMap id="order_map" type="com.hzzh.charge.model.order_po.CurrentOrder">
@@ -51,6 +62,7 @@
         <result column="STATUS_" property="status"/>
         <result column="STATION_CODE" property="stationCode"/>
         <result column="DEV_CODE" property="devCode"/>
+        <result column="PORT_" property="port"/>
     </resultMap>
     <select id="currentOrder" resultMap="order_map" parameterType="string">
         SELECT
@@ -66,7 +78,8 @@
         o.COMPANY_ID,
         o.STATUS_,
         o.STATION_CODE,
-        o.DEV_CODE
+        o.DEV_CODE,
+        o.PORT_
         FROM
         t_ev_order o
         <where>

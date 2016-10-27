@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -52,7 +53,8 @@ public class CardServiceImpl implements CardService {
          */
         Card card = cardAction.getCard();
         //充值卡默认金额为0
-        card.setCardBalance(0l);
+        BigDecimal big = new BigDecimal("0");
+        card.setCardBalance(big);
         //状态为正常（卡状态:0-未激活,1-正常(已激活),2-锁定,3-注销）
         card.setCardStatus("1");
         //卡类型为0，扣款卡
@@ -160,12 +162,45 @@ public class CardServiceImpl implements CardService {
         CardExample cardExample = new CardExample();
         CardExample.Criteria criteria = cardExample.createCriteria();
         criteria.andcardNoEqualTo(card.getCardNo());
+        criteria.andcarNoEqualTo(card.getCarNo());
+        criteria.andcompanyIdEqualTo(card.getCompanyId());
+
+        // 2016/10/26 充值前，先查询余额
+        String oldBalance = String.valueOf(this.selectBalance(card));
+        String currentBalance = String.valueOf(card.getCardBalance());
+
+        double balance = Double.parseDouble(oldBalance) + Double.parseDouble(currentBalance);
+        BigDecimal bigDecimal = new BigDecimal(balance);
+        card.setCardBalance(bigDecimal);
+
         Integer recharge = cardDao.updateByExampleSelective(card, cardExample);
         if (recharge == null || recharge == 0) {
             return 0;
         }
         this.addCardHistory(cardAction);
         return recharge;
+    }
+
+    /**
+     * 查询card余额
+     *
+     * @param card
+     * @return
+     */
+    private BigDecimal selectBalance(Card card) {
+        CardExample cardExample = new CardExample();
+        CardExample.Criteria criteria = cardExample.createCriteria();
+
+        criteria.andcardNoEqualTo(card.getCardNo());
+        criteria.andcarNoEqualTo(card.getCarNo());
+        criteria.andcompanyIdEqualTo(card.getCompanyId());
+
+        List<Card> find = cardDao.selectByExample(cardExample);
+        BigDecimal bigDecimal = new BigDecimal("0");
+        for (Card c : find) {
+            bigDecimal = c.getCardBalance();
+        }
+        return bigDecimal;
     }
 
 
@@ -177,18 +212,46 @@ public class CardServiceImpl implements CardService {
      */
     private final Integer addCardHistory(CardAction cardAction) {
         CardHistory cardHistory = cardAction.getCardHistory();
+        Card card = cardAction.getCard();
         //卡类型为0，扣款卡
         cardHistory.setCardType("0");
-        cardAction.setCardHistory(cardHistory);
         Date date = new Date();
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateTime = sf.format(date);
         cardHistory.setOperateTime(dateTime);
+
+        if (card.getCardBalance() != null) {
+            cardHistory.setCardBalance(card.getCardBalance());
+        }
+
+
         Integer addCount = cardHistoryDao.insert(cardHistory);
         if (addCount == null || addCount == 0) {
             return 0;
         }
         return addCount;
+    }
+
+    /**
+     * 查询cardHistory表中的余额
+     *
+     * @param cardHistory
+     * @return
+     */
+    private BigDecimal selectHistoryBalance(CardHistory cardHistory) {
+        CardHistoryExample cardHistoryExample = new CardHistoryExample();
+        CardHistoryExample.Criteria criteria = cardHistoryExample.createCriteria();
+
+        criteria.andcardNoEqualTo(cardHistory.getCardNo());
+        criteria.andcarNoEqualTo(cardHistory.getCarNo());
+        criteria.andcompanyIdEqualTo(cardHistory.getCompanyId());
+
+        List<CardHistory> list = cardHistoryDao.selectByExample(cardHistoryExample);
+        BigDecimal balance = null;
+        for (CardHistory c : list) {
+            balance = c.getCardBalance();
+        }
+        return balance;
     }
 
 

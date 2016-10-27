@@ -12,7 +12,7 @@ import com.hzzh.charge.model.CardHistoryExample;
  * 类名称：t_ev_card_history表的BaseDAO接口类BaseCardHistoryDao
  * 内容摘要：针对于单表的基础操作：增删改查以及统计方法，包含物理逻辑操作
  * @author 工具生成
- * @version 1.0 2016年10月20日
+ * @version 1.0 2016年10月26日
  */
 public abstract interface BaseCardHistoryDao {
 

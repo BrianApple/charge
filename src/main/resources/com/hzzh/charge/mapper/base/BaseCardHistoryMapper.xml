@@ -9,12 +9,12 @@
         <result column="COMPANY_NAME" jdbcType="VARCHAR" property="companyName" />
         <result column="OWNER_ID" jdbcType="VARCHAR" property="ownerId" />
         <result column="OWNER_NAME" jdbcType="VARCHAR" property="ownerName" />
-        <result column="CARD_OLD_BALANCE" jdbcType="NUMERIC" property="cardOldBalance" />
-        <result column="CARD_MONEY" jdbcType="NUMERIC" property="cardMoney" />
-        <result column="CARD_BALANCE" jdbcType="NUMERIC" property="cardBalance" />
-        <result column="CARD_MONEY_YH" jdbcType="NUMERIC" property="cardMoneyYh" />
-        <result column="CARD_MONEY_TZ" jdbcType="NUMERIC" property="cardMoneyTz" />
-        <result column="CARD_MONEY_JF" jdbcType="NUMERIC" property="cardMoneyJf" />
+        <result column="CARD_OLD_BALANCE" jdbcType="DECIMAL" property="cardOldBalance" />
+        <result column="CARD_MONEY" jdbcType="DECIMAL" property="cardMoney" />
+        <result column="CARD_BALANCE" jdbcType="DECIMAL" property="cardBalance" />
+        <result column="CARD_MONEY_YH" jdbcType="DECIMAL" property="cardMoneyYh" />
+        <result column="CARD_MONEY_TZ" jdbcType="DECIMAL" property="cardMoneyTz" />
+        <result column="CARD_MONEY_JF" jdbcType="DECIMAL" property="cardMoneyJf" />
         <result column="CARD_TYPE" jdbcType="VARCHAR" property="cardType" />
         <result column="CARD_STATUS" jdbcType="VARCHAR" property="cardStatus" />
         <result column="OPERATOR_TYPE" jdbcType="VARCHAR" property="operatorType" />
@@ -168,12 +168,12 @@
             #{companyName,jdbcType=VARCHAR},
             #{ownerId,jdbcType=VARCHAR},
             #{ownerName,jdbcType=VARCHAR},
-            #{cardOldBalance,jdbcType=NUMERIC},
-            #{cardMoney,jdbcType=NUMERIC},
-            #{cardBalance,jdbcType=NUMERIC},
-            #{cardMoneyYh,jdbcType=NUMERIC},
-            #{cardMoneyTz,jdbcType=NUMERIC},
-            #{cardMoneyJf,jdbcType=NUMERIC},
+            #{cardOldBalance,jdbcType=DECIMAL},
+            #{cardMoney,jdbcType=DECIMAL},
+            #{cardBalance,jdbcType=DECIMAL},
+            #{cardMoneyYh,jdbcType=DECIMAL},
+            #{cardMoneyTz,jdbcType=DECIMAL},
+            #{cardMoneyJf,jdbcType=DECIMAL},
             #{cardType,jdbcType=VARCHAR},
             #{cardStatus,jdbcType=VARCHAR},
             #{operatorType,jdbcType=VARCHAR},
@@ -216,12 +216,12 @@
                 #{item.companyName,jdbcType=VARCHAR},
                 #{item.ownerId,jdbcType=VARCHAR},
                 #{item.ownerName,jdbcType=VARCHAR},
-                #{item.cardOldBalance,jdbcType=NUMERIC},
-                #{item.cardMoney,jdbcType=NUMERIC},
-                #{item.cardBalance,jdbcType=NUMERIC},
-                #{item.cardMoneyYh,jdbcType=NUMERIC},
-                #{item.cardMoneyTz,jdbcType=NUMERIC},
-                #{item.cardMoneyJf,jdbcType=NUMERIC},
+                #{item.cardOldBalance,jdbcType=DECIMAL},
+                #{item.cardMoney,jdbcType=DECIMAL},
+                #{item.cardBalance,jdbcType=DECIMAL},
+                #{item.cardMoneyYh,jdbcType=DECIMAL},
+                #{item.cardMoneyTz,jdbcType=DECIMAL},
+                #{item.cardMoneyJf,jdbcType=DECIMAL},
                 #{item.cardType,jdbcType=VARCHAR},
                 #{item.cardStatus,jdbcType=VARCHAR},
                 #{item.operatorType,jdbcType=VARCHAR},
@@ -317,22 +317,22 @@
                 #{ownerName,jdbcType=VARCHAR},
             </if>
             <if test="cardOldBalance != null">
-                #{cardOldBalance,jdbcType=NUMERIC},
+                #{cardOldBalance,jdbcType=DECIMAL},
             </if>
             <if test="cardMoney != null">
-                #{cardMoney,jdbcType=NUMERIC},
+                #{cardMoney,jdbcType=DECIMAL},
             </if>
             <if test="cardBalance != null">
-                #{cardBalance,jdbcType=NUMERIC},
+                #{cardBalance,jdbcType=DECIMAL},
             </if>
             <if test="cardMoneyYh != null">
-                #{cardMoneyYh,jdbcType=NUMERIC},
+                #{cardMoneyYh,jdbcType=DECIMAL},
             </if>
             <if test="cardMoneyTz != null">
-                #{cardMoneyTz,jdbcType=NUMERIC},
+                #{cardMoneyTz,jdbcType=DECIMAL},
             </if>
             <if test="cardMoneyJf != null">
-                #{cardMoneyJf,jdbcType=NUMERIC},
+                #{cardMoneyJf,jdbcType=DECIMAL},
             </if>
             <if test="cardType != null">
                 #{cardType,jdbcType=VARCHAR},
@@ -441,22 +441,22 @@
                     #{item.ownerName,jdbcType=VARCHAR},
                 </if>
                 <if test="item.cardOldBalance != null">
-                    #{item.cardOldBalance,jdbcType=NUMERIC},
+                    #{item.cardOldBalance,jdbcType=DECIMAL},
                 </if>
                 <if test="item.cardMoney != null">
-                    #{item.cardMoney,jdbcType=NUMERIC},
+                    #{item.cardMoney,jdbcType=DECIMAL},
                 </if>
                 <if test="item.cardBalance != null">
-                    #{item.cardBalance,jdbcType=NUMERIC},
+                    #{item.cardBalance,jdbcType=DECIMAL},
                 </if>
                 <if test="item.cardMoneyYh != null">
-                    #{item.cardMoneyYh,jdbcType=NUMERIC},
+                    #{item.cardMoneyYh,jdbcType=DECIMAL},
                 </if>
                 <if test="item.cardMoneyTz != null">
-                    #{item.cardMoneyTz,jdbcType=NUMERIC},
+                    #{item.cardMoneyTz,jdbcType=DECIMAL},
                 </if>
                 <if test="item.cardMoneyJf != null">
-                    #{item.cardMoneyJf,jdbcType=NUMERIC},
+                    #{item.cardMoneyJf,jdbcType=DECIMAL},
                 </if>
                 <if test="item.cardType != null">
                     #{item.cardType,jdbcType=VARCHAR},
@@ -491,12 +491,12 @@
             tech.COMPANY_NAME = #{record.companyName,jdbcType=VARCHAR},
             tech.OWNER_ID = #{record.ownerId,jdbcType=VARCHAR},
             tech.OWNER_NAME = #{record.ownerName,jdbcType=VARCHAR},
-            tech.CARD_OLD_BALANCE = #{record.cardOldBalance,jdbcType=NUMERIC},
-            tech.CARD_MONEY = #{record.cardMoney,jdbcType=NUMERIC},
-            tech.CARD_BALANCE = #{record.cardBalance,jdbcType=NUMERIC},
-            tech.CARD_MONEY_YH = #{record.cardMoneyYh,jdbcType=NUMERIC},
-            tech.CARD_MONEY_TZ = #{record.cardMoneyTz,jdbcType=NUMERIC},
-            tech.CARD_MONEY_JF = #{record.cardMoneyJf,jdbcType=NUMERIC},
+            tech.CARD_OLD_BALANCE = #{record.cardOldBalance,jdbcType=DECIMAL},
+            tech.CARD_MONEY = #{record.cardMoney,jdbcType=DECIMAL},
+            tech.CARD_BALANCE = #{record.cardBalance,jdbcType=DECIMAL},
+            tech.CARD_MONEY_YH = #{record.cardMoneyYh,jdbcType=DECIMAL},
+            tech.CARD_MONEY_TZ = #{record.cardMoneyTz,jdbcType=DECIMAL},
+            tech.CARD_MONEY_JF = #{record.cardMoneyJf,jdbcType=DECIMAL},
             tech.CARD_TYPE = #{record.cardType,jdbcType=VARCHAR},
             tech.CARD_STATUS = #{record.cardStatus,jdbcType=VARCHAR},
             tech.OPERATOR_TYPE = #{record.operatorType,jdbcType=VARCHAR},
@@ -539,22 +539,22 @@
                 tech.OWNER_NAME = #{record.ownerName,jdbcType=VARCHAR},
             </if>
             <if test="record.cardOldBalance != null">
-                tech.CARD_OLD_BALANCE = #{record.cardOldBalance,jdbcType=NUMERIC},
+                tech.CARD_OLD_BALANCE = #{record.cardOldBalance,jdbcType=DECIMAL},
             </if>
             <if test="record.cardMoney != null">
-                tech.CARD_MONEY = #{record.cardMoney,jdbcType=NUMERIC},
+                tech.CARD_MONEY = #{record.cardMoney,jdbcType=DECIMAL},
             </if>
             <if test="record.cardBalance != null">
-                tech.CARD_BALANCE = #{record.cardBalance,jdbcType=NUMERIC},
+                tech.CARD_BALANCE = #{record.cardBalance,jdbcType=DECIMAL},
             </if>
             <if test="record.cardMoneyYh != null">
-                tech.CARD_MONEY_YH = #{record.cardMoneyYh,jdbcType=NUMERIC},
+                tech.CARD_MONEY_YH = #{record.cardMoneyYh,jdbcType=DECIMAL},
             </if>
             <if test="record.cardMoneyTz != null">
-                tech.CARD_MONEY_TZ = #{record.cardMoneyTz,jdbcType=NUMERIC},
+                tech.CARD_MONEY_TZ = #{record.cardMoneyTz,jdbcType=DECIMAL},
             </if>
             <if test="record.cardMoneyJf != null">
-                tech.CARD_MONEY_JF = #{record.cardMoneyJf,jdbcType=NUMERIC},
+                tech.CARD_MONEY_JF = #{record.cardMoneyJf,jdbcType=DECIMAL},
             </if>
             <if test="record.cardType != null">
                 tech.CARD_TYPE = #{record.cardType,jdbcType=VARCHAR},
@@ -617,12 +617,12 @@
             tech.COMPANY_NAME = #{companyName,jdbcType=VARCHAR},
             tech.OWNER_ID = #{ownerId,jdbcType=VARCHAR},
             tech.OWNER_NAME = #{ownerName,jdbcType=VARCHAR},
-            tech.CARD_OLD_BALANCE = #{cardOldBalance,jdbcType=NUMERIC},
-            tech.CARD_MONEY = #{cardMoney,jdbcType=NUMERIC},
-            tech.CARD_BALANCE = #{cardBalance,jdbcType=NUMERIC},
-            tech.CARD_MONEY_YH = #{cardMoneyYh,jdbcType=NUMERIC},
-            tech.CARD_MONEY_TZ = #{cardMoneyTz,jdbcType=NUMERIC},
-            tech.CARD_MONEY_JF = #{cardMoneyJf,jdbcType=NUMERIC},
+            tech.CARD_OLD_BALANCE = #{cardOldBalance,jdbcType=DECIMAL},
+            tech.CARD_MONEY = #{cardMoney,jdbcType=DECIMAL},
+            tech.CARD_BALANCE = #{cardBalance,jdbcType=DECIMAL},
+            tech.CARD_MONEY_YH = #{cardMoneyYh,jdbcType=DECIMAL},
+            tech.CARD_MONEY_TZ = #{cardMoneyTz,jdbcType=DECIMAL},
+            tech.CARD_MONEY_JF = #{cardMoneyJf,jdbcType=DECIMAL},
             tech.CARD_TYPE = #{cardType,jdbcType=VARCHAR},
             tech.CARD_STATUS = #{cardStatus,jdbcType=VARCHAR},
             tech.OPERATOR_TYPE = #{operatorType,jdbcType=VARCHAR},
@@ -661,22 +661,22 @@
                 tech.OWNER_NAME = #{ownerName,jdbcType=VARCHAR},
             </if>
             <if test="cardOldBalance != null">
-                tech.CARD_OLD_BALANCE = #{cardOldBalance,jdbcType=NUMERIC},
+                tech.CARD_OLD_BALANCE = #{cardOldBalance,jdbcType=DECIMAL},
             </if>
             <if test="cardMoney != null">
-                tech.CARD_MONEY = #{cardMoney,jdbcType=NUMERIC},
+                tech.CARD_MONEY = #{cardMoney,jdbcType=DECIMAL},
             </if>
             <if test="cardBalance != null">
-                tech.CARD_BALANCE = #{cardBalance,jdbcType=NUMERIC},
+                tech.CARD_BALANCE = #{cardBalance,jdbcType=DECIMAL},
             </if>
             <if test="cardMoneyYh != null">
-                tech.CARD_MONEY_YH = #{cardMoneyYh,jdbcType=NUMERIC},
+                tech.CARD_MONEY_YH = #{cardMoneyYh,jdbcType=DECIMAL},
             </if>
             <if test="cardMoneyTz != null">
-                tech.CARD_MONEY_TZ = #{cardMoneyTz,jdbcType=NUMERIC},
+                tech.CARD_MONEY_TZ = #{cardMoneyTz,jdbcType=DECIMAL},
             </if>
             <if test="cardMoneyJf != null">
-                tech.CARD_MONEY_JF = #{cardMoneyJf,jdbcType=NUMERIC},
+                tech.CARD_MONEY_JF = #{cardMoneyJf,jdbcType=DECIMAL},
             </if>
             <if test="cardType != null">
                 tech.CARD_TYPE = #{cardType,jdbcType=VARCHAR},

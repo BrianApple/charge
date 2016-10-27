@@ -39,33 +39,40 @@ public class OrderServiceImpl implements OrderService {
         String cardNo = order.getCardNo();
         String stationCode = order.getStationCode();
         String devCode = order.getDevCode();
+        String port = order.getPort();
         if (cardNo == null
                 || cardNo.equals("")
                 || stationCode == null
                 || stationCode.equals("")
                 || devCode == null
-                || devCode.equals("")) {
+                || devCode.equals("")
+                || port == null
+                || port.equals("")) {
             return 0;
         }
 
         Integer addCount = 0;
         try {
-            //查询车牌号和公司id
+            //查询车牌号
             CustomOrder customOrder = this.queryCarNo(cardNo);
             CustomOrder customOrder1 = new CustomOrder();
             if (customOrder == null) {
                 customOrder1.setCarNo("");
-                customOrder1.setCompanyId("");
+            }
+            //查询公司id
+            CustomOrder company = this.queryCompany(stationCode);
+            if (company == null) {
+                return 0;
             }
             //查询站名称
             CustomOrder stationName = this.queryStationName(stationCode);
-            if (stationName.getStationName() == null) {
-                stationName.setStationName("");
+            if (stationName == null) {
+                return 0;
             }
             //查询设备名称
-            CustomOrder devName = this.queryDevName(devCode);
-            if (devName.getDevName() == null) {
-                devName.setDevName("");
+            CustomOrder devName = this.queryDevName(devCode, stationCode);
+            if (devName == null) {
+                return 0;
             }
 
             //添加订单前，先查询卡号，station_code,dev_code是否存在，如果不存在则添加，否则不添加
@@ -73,16 +80,16 @@ public class OrderServiceImpl implements OrderService {
             if (result) {
                 if (customOrder == null) {
                     order.setCarNo(customOrder1.getCarNo());
-                    order.setCompanyId(customOrder1.getCompanyId());
                 } else {
                     order.setCarNo(customOrder.getCarNo());
-                    order.setCompanyId(customOrder.getCompanyId());
                 }
+                order.setCompanyId(company.getCompanyId());
                 order.setStationName(stationName.getStationName());
                 order.setDevName(devName.getDevName());
                 order.setChargeEnd("");//结束时间默认没有
                 order.setStatus("2");//状态当前
                 addCount = orderDao.insert(order);
+                System.out.println("----");
                 if (addCount == null || addCount == 0) {
                     return 0;
                 }
@@ -90,9 +97,9 @@ public class OrderServiceImpl implements OrderService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return addCount;
     }
+
 
     /**
      * 添加订单前先查询，卡号，station_code,dev_code
@@ -104,22 +111,52 @@ public class OrderServiceImpl implements OrderService {
         OrderExample orderExample = new OrderExample();
         OrderExample.Criteria criteria = orderExample.createCriteria();
         criteria.andcardNoEqualTo(order.getCardNo());
+        //根据站编号查询
         criteria.andstationCodeEqualTo(order.getStationCode());
+        //根据设备号查询
         criteria.anddevCodeEqualTo(order.getDevCode());
+        //根据结束时间查询
         criteria.andchargeEndEqualTo("");
+        //根据枪查询
+        criteria.andportEqualTo(order.getPort());
+
         List<Order> result = orderDao.selectByExample(orderExample);
         //如果能查询数据，说明数据已存在，则返回false,如果不存在数据，则返回true.
         for (Order o : result) {
             if (o.getCardNo() != null
+
                     && !o.getCardNo().equals("")
+
                     && o.getStationCode() != null
+
                     && !o.getStationCode().equals("")
+
                     && o.getDevCode() != null
-                    && !o.getDevCode().equals("")) {
+
+                    && !o.getDevCode().equals("")
+
+                    && o.getPort() != null
+
+                    && !o.getPort().equals("")) {
+
                 return false;
             }
         }
         return true;
+    }
+
+
+    /**
+     * 根据站编号查询公司id
+     *
+     * @param stationCode
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public CustomOrder queryCompany(@Param("stationCode") String stationCode) throws Exception {
+        CustomOrder companyId = orderDao.queryCompany(stationCode);
+        return companyId;
     }
 
     /**
@@ -156,8 +193,8 @@ public class OrderServiceImpl implements OrderService {
      * @throws Exception
      */
     @Override
-    public CustomOrder queryDevName(@Param("devCode") String devCode) throws Exception {
-        CustomOrder find = orderDao.queryDevName(devCode);
+    public CustomOrder queryDevName(@Param("devCode") String devCode, @Param("stationCode") String stationCode) throws Exception {
+        CustomOrder find = orderDao.queryDevName(devCode, stationCode);
         return find;
     }
 
@@ -181,6 +218,9 @@ public class OrderServiceImpl implements OrderService {
         criteria.anddevCodeEqualTo(order.getDevCode());
         //根据结束时间更新
         criteria.andchargeEndEqualTo("");
+        //根据枪更新
+        criteria.andportEqualTo(order.getPort());
+
         order.setStatus("3");
         Integer update = orderDao.updateByExampleSelective(order, orderExample);
         if (update == null || update == 0) {

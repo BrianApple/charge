@@ -10,6 +10,8 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.hzzh.charge.utils.HttpClientUtils;
+
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -31,7 +33,7 @@ public class CardControllerTest {
         CardHistory cardHistory=new CardHistory();
 
         //主键
-        card.setGuid("002");
+        card.setGuid("001");
         //卡号
         card.setCardNo("888999");
         //车牌号
@@ -53,7 +55,7 @@ public class CardControllerTest {
 
         //添加历史记录
         //guid
-        cardHistory.setGuid("003");
+        cardHistory.setGuid("001");
         //充值卡编号
         cardHistory.setCardNo("888999");
         //车牌号
@@ -114,20 +116,20 @@ public class CardControllerTest {
         CardAction cardAction = new CardAction();
         Card card = new Card();
         CardHistory cardHistory = new CardHistory();
-        card.setCardNo("12345678");
+        card.setCardNo("75986321");
         //状态为正常（卡状态:0-未激活,1-正常(已激活),2-锁定,3-注销）
         card.setCardStatus("2");
 
 
         //添加充值卡历史记录
         cardHistory.setGuid("001");
-        cardHistory.setCardNo("12345678");
+        cardHistory.setCardNo("75986321");
         cardHistory.setCardStatus("2");
         //操作状态为充值（操作类型:0-创建,1-充值，2-改变状态）
         cardHistory.setOperatorType("1");
 
-        cardHistory.setCarNo("浙A123AZ");
-        cardHistory.setCompanyId("AAAAAAAA-B2AE-40CE-9FA7-1A409F636EDA");
+        cardHistory.setCarNo("浙A5026");
+        cardHistory.setCompanyId("a67bef10-5db2-11e5-bd9d-19cc9cdf5fc1");
         cardHistory.setCompanyName("杭州中恒");
         cardHistory.setOwnerId("888");
         cardHistory.setOwnerName("陶然");
@@ -149,25 +151,29 @@ public class CardControllerTest {
         CardAction cardAction = new CardAction();
         Card card = new Card();
         CardHistory cardHistory = new CardHistory();
-        card.setCardNo("12345678");
+
+        card.setCardNo("888999");
         //余额
-        card.setCardBalance(100l);
+        BigDecimal bigDecimal=new BigDecimal("200.00");
+        card.setCardBalance(bigDecimal);
+        card.setCarNo("鄂888AZ");
+        card.setCompanyId("AAAAAAAA-B2AE-40CE-9FA7-1A409F636EDA");
 
         //添加历史记录
         //guid
-        cardHistory.setGuid("002");
+        cardHistory.setGuid("003");
         //充值卡编号
-        cardHistory.setCardNo("12345678");
+        cardHistory.setCardNo("888999");
         //充值金额
-        cardHistory.setCardMoney(100l);
-        //余额
-        cardHistory.setCardBalance(100l);
+        BigDecimal bigDecimal1=new BigDecimal("200.00");
+        cardHistory.setCardMoney(bigDecimal1);
+
         //状态为正常（卡状态:0-未激活,1-正常(已激活),2-锁定,3-注销）
         cardHistory.setCardStatus("1");
         //操作状态为充值（操作类型:0-创建,1-充值，2-改变状态）
         cardHistory.setOperatorType("1");
         //车牌号
-        cardHistory.setCarNo("浙A123AZ");
+        cardHistory.setCarNo("鄂888AZ");
         //公司id
         cardHistory.setCompanyId("AAAAAAAA-B2AE-40CE-9FA7-1A409F636EDA");
         //公司名称

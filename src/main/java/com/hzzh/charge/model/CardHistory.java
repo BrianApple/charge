@@ -6,7 +6,7 @@ import java.io.Serializable;
  * 类名称：t_ev_card_history表的实体类CardHistory
  * 内容摘要：t_ev_card_history表的各个元素的取得、设定方法
  * @author TaoRan
- * @version 1.0 2016年10月20日
+ * @version 1.0 2016年10月26日
  */@SuppressWarnings("serial")
 public class CardHistory implements Serializable {
 
@@ -24,22 +24,22 @@ public class CardHistory implements Serializable {
     private String ownerId;
     private String ownerName;
     /** 充前金额 */
-    private Long cardOldBalance;
+    private java.math.BigDecimal cardOldBalance;
     /** 充值金额 */
-    private Long cardMoney;
+    private java.math.BigDecimal cardMoney;
     /** 卡余额 */
-    private Long cardBalance;
+    private java.math.BigDecimal cardBalance;
     /** 优惠金额 */
-    private Long cardMoneyYh;
+    private java.math.BigDecimal cardMoneyYh;
     /** 调整金额 */
-    private Long cardMoneyTz;
+    private java.math.BigDecimal cardMoneyTz;
     /** 积分兑换金额 */
-    private Long cardMoneyJf;
+    private java.math.BigDecimal cardMoneyJf;
     /** 卡类型:0-扣款卡 */
     private String cardType;
     /** 卡状态:0-未激活,1-正常(已激活),2-锁定,3-注销 */
     private String cardStatus;
-    /** 操作类型:0-充值,1-改变状态 */
+    /** 操作类型:0-创建,1-充值，2-改变状态 */
     private String operatorType;
     /** 操作员ID */
     private String operatorId;
@@ -156,7 +156,7 @@ public class CardHistory implements Serializable {
      * 取得 充前金额
      * @return 充前金额
      */
-    public Long getCardOldBalance() {
+    public java.math.BigDecimal getCardOldBalance() {
         return cardOldBalance;
     }
 
@@ -164,7 +164,7 @@ public class CardHistory implements Serializable {
      * 设定 充前金额
      * @param cardOldBalance 充前金额
      */
-    public void setCardOldBalance(Long cardOldBalance) {
+    public void setCardOldBalance(java.math.BigDecimal cardOldBalance) {
         this.cardOldBalance = cardOldBalance;
     }
 
@@ -172,7 +172,7 @@ public class CardHistory implements Serializable {
      * 取得 充值金额
      * @return 充值金额
      */
-    public Long getCardMoney() {
+    public java.math.BigDecimal getCardMoney() {
         return cardMoney;
     }
 
@@ -180,7 +180,7 @@ public class CardHistory implements Serializable {
      * 设定 充值金额
      * @param cardMoney 充值金额
      */
-    public void setCardMoney(Long cardMoney) {
+    public void setCardMoney(java.math.BigDecimal cardMoney) {
         this.cardMoney = cardMoney;
     }
 
@@ -188,7 +188,7 @@ public class CardHistory implements Serializable {
      * 取得 卡余额
      * @return 卡余额
      */
-    public Long getCardBalance() {
+    public java.math.BigDecimal getCardBalance() {
         return cardBalance;
     }
 
@@ -196,7 +196,7 @@ public class CardHistory implements Serializable {
      * 设定 卡余额
      * @param cardBalance 卡余额
      */
-    public void setCardBalance(Long cardBalance) {
+    public void setCardBalance(java.math.BigDecimal cardBalance) {
         this.cardBalance = cardBalance;
     }
 
@@ -204,7 +204,7 @@ public class CardHistory implements Serializable {
      * 取得 优惠金额
      * @return 优惠金额
      */
-    public Long getCardMoneyYh() {
+    public java.math.BigDecimal getCardMoneyYh() {
         return cardMoneyYh;
     }
 
@@ -212,7 +212,7 @@ public class CardHistory implements Serializable {
      * 设定 优惠金额
      * @param cardMoneyYh 优惠金额
      */
-    public void setCardMoneyYh(Long cardMoneyYh) {
+    public void setCardMoneyYh(java.math.BigDecimal cardMoneyYh) {
         this.cardMoneyYh = cardMoneyYh;
     }
 
@@ -220,7 +220,7 @@ public class CardHistory implements Serializable {
      * 取得 调整金额
      * @return 调整金额
      */
-    public Long getCardMoneyTz() {
+    public java.math.BigDecimal getCardMoneyTz() {
         return cardMoneyTz;
     }
 
@@ -228,7 +228,7 @@ public class CardHistory implements Serializable {
      * 设定 调整金额
      * @param cardMoneyTz 调整金额
      */
-    public void setCardMoneyTz(Long cardMoneyTz) {
+    public void setCardMoneyTz(java.math.BigDecimal cardMoneyTz) {
         this.cardMoneyTz = cardMoneyTz;
     }
 
@@ -236,7 +236,7 @@ public class CardHistory implements Serializable {
      * 取得 积分兑换金额
      * @return 积分兑换金额
      */
-    public Long getCardMoneyJf() {
+    public java.math.BigDecimal getCardMoneyJf() {
         return cardMoneyJf;
     }
 
@@ -244,7 +244,7 @@ public class CardHistory implements Serializable {
      * 设定 积分兑换金额
      * @param cardMoneyJf 积分兑换金额
      */
-    public void setCardMoneyJf(Long cardMoneyJf) {
+    public void setCardMoneyJf(java.math.BigDecimal cardMoneyJf) {
         this.cardMoneyJf = cardMoneyJf;
     }
 
@@ -281,16 +281,16 @@ public class CardHistory implements Serializable {
     }
 
     /**
-     * 取得 操作类型:0-充值,1-改变状态
-     * @return 操作类型:0-充值,1-改变状态
+     * 取得 操作类型:0-创建,1-充值，2-改变状态
+     * @return 操作类型:0-创建,1-充值，2-改变状态
      */
     public String getOperatorType() {
         return operatorType;
     }
 
     /**
-     * 设定 操作类型:0-充值,1-改变状态
-     * @param operatorType 操作类型:0-充值,1-改变状态
+     * 设定 操作类型:0-创建,1-充值，2-改变状态
+     * @param operatorType 操作类型:0-创建,1-充值，2-改变状态
      */
     public void setOperatorType(String operatorType) {
         this.operatorType = operatorType;

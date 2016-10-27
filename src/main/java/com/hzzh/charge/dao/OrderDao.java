@@ -38,7 +38,15 @@ public interface OrderDao extends BaseOrderDao {
      * @return
      * @throws Exception
      */
-    CustomOrder queryDevName(@Param("devCode") String devCode) throws Exception;
+    CustomOrder queryDevName(@Param("devCode") String devCode,@Param("stationCode") String stationCode) throws Exception;
+
+    /**
+     *根据站编号查询公司id
+     * @param stationCode
+     * @return
+     * @throws Exception
+     */
+    CustomOrder queryCompany(@Param("stationCode") String stationCode)throws Exception;
 
     /**
      * 查询当前订单
