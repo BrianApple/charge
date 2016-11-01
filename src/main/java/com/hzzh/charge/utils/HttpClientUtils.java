@@ -30,7 +30,6 @@ public class HttpClientUtils {
      */
     public static String getUUID() {
         String uuid = UUID.randomUUID().toString();
-        System.out.println(uuid);
         return uuid;
     }
 

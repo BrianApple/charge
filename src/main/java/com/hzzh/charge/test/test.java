@@ -13,13 +13,13 @@
 // */
 //@Component
 //public class test {
-//    @Scheduled(fixedRate = 5000)
+//    @Scheduled(fixedRate = 4000)
 //    public void testAdd() {
 //
 //        System.out.println("=======开始执行添加操作1========");
 //        Order order = new Order();
 //        //guid
-//        order.setGuid("4212000000030010100020161027103056");
+//        order.setGuid("4212000000030010100020161027103056X");
 //        //卡号
 //        order.setCardNo("56668864");
 //        //站编号
@@ -39,12 +39,44 @@
 //        String message = HttpClientUtils.testUrl("/order/add", order);
 //        System.out.println(message);
 //        System.out.println("=======结束添加操作1========");
+//
+//        System.out.println("===============================================");
+//
+////        System.out.println("=======开始执行添加操作2========");
+////        Order order1 = new Order();
+////        //guid
+////        order1.setGuid("4212000000030010100020161027103056X");
+////        //卡号
+////        order1.setCardNo("56668864");
+////        //站编号
+////        order1.setStationCode("421200000003");
+////        //设备编号
+////        order1.setDevCode("0010");
+////        //开始时间
+////        Date date1 = new Date();
+////        SimpleDateFormat sf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+////        String dateTime1 = sf1.format(date1);
+////        order1.setChargeBegin(dateTime1);
+////        //充电类型
+////        order1.setChargeType("1");
+////        //枪
+////        order1.setPort("1000");
+////        order1.setBalance("109526.88");
+////        String message1 = HttpClientUtils.testUrl("/order/add", order1);
+////        System.out.println(message1);
+////        System.out.println("=======结束添加操作2========");
+//
+//
+//
+//    }
+//
+//    @Scheduled(fixedRate = 5000)
+//    public void testAdd1() {
+//
 //        System.out.println("=======开始执行添加操作2========");
-//
-//
 //        Order order1 = new Order();
 //        //guid
-//        order1.setGuid("4212000000030010100020161027103056");
+//        order1.setGuid("4212000000030010100020161027103056X");
 //        //卡号
 //        order1.setCardNo("56668864");
 //        //站编号
@@ -65,11 +97,14 @@
 //        System.out.println(message1);
 //        System.out.println("=======结束添加操作2========");
 //
+//    }
+//    @Scheduled(fixedRate = 6000)
+//    public void testAdd3() {
 //
 //        System.out.println("=======开始执行添加操作3========");
 //        Order order3 = new Order();
 //        //guid
-//        order3.setGuid("4212000000010002100020161027103109");
+//        order3.setGuid("4212000000010002100020161027103109S");
 //        //卡号
 //        order3.setCardNo("31382818");
 //        //站编号
@@ -89,39 +124,5 @@
 //        String message3 = HttpClientUtils.testUrl("/order/add", order3);
 //        System.out.println(message3);
 //        System.out.println("=======结束添加操作3========");
-//
 //    }
-//
-////    @Scheduled(fixedRate = 1000)
-//    public void testAdd1() {
-//        /*
-//        System.out.println("=======开始执行添加操作2========");
-//        Order order1 = new Order();
-//        //guid
-//        order1.setGuid("4212000000030010100020161027103056");
-//        //卡号
-//        order1.setCardNo("56668864");
-//        //站编号
-//        order1.setStationCode("421200000003");
-//        //设备编号
-//        order1.setDevCode("0010");
-//        //开始时间
-//        Date date1 = new Date();
-//        SimpleDateFormat sf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        String dateTime1 = sf1.format(date1);
-//        order1.setChargeBegin(dateTime1);
-//        //充电类型
-//        order1.setChargeType("1");
-//        //枪
-//        order1.setPort("1000");
-//        order1.setBalance("109526.88");
-//        String message1 = HttpClientUtils.testUrl("/order/add", order1);
-//        System.out.println(message1);
-//        System.out.println("=======结束添加操作2========");
-//        */
-//    }
-////    @Scheduled(fixedRate = 10000)
-////    public void testAdd3() {
-////
-////    }
 //}

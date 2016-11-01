@@ -18,6 +18,7 @@ public interface OrderDao extends BaseOrderDao {
 
     /**
      * 根据卡号查询车牌号
+     *
      * @param cardNo
      * @return
      * @throws Exception
@@ -26,6 +27,7 @@ public interface OrderDao extends BaseOrderDao {
 
     /**
      * 根据站编号查询站名称
+     *
      * @param stationCode
      * @return
      * @throws Exception
@@ -34,27 +36,46 @@ public interface OrderDao extends BaseOrderDao {
 
     /**
      * 根据设备编号查询设备名称
+     *
      * @param devCode
      * @return
      * @throws Exception
      */
-    CustomOrder queryDevName(@Param("devCode") String devCode,@Param("stationCode") String stationCode) throws Exception;
+    CustomOrder queryDevName(@Param("devCode") String devCode, @Param("stationCode") String stationCode) throws Exception;
 
     /**
-     *根据站编号查询公司id
+     * 根据站编号查询公司id
+     *
      * @param stationCode
      * @return
      * @throws Exception
      */
-    CustomOrder queryCompany(@Param("stationCode") String stationCode)throws Exception;
+    CustomOrder queryCompany(@Param("stationCode") String stationCode) throws Exception;
 
     /**
      * 查询当前订单
+     *
      * @param companyId
      * @param cardNo
      * @return
      * @throws Exception
      */
-    List<CurrentOrder> currentOrder(@Param("companyId") String companyId,@Param("cardNo") String cardNo)throws Exception;
+    List<CurrentOrder> currentOrder(@Param("companyId") String companyId, @Param("cardNo") String cardNo) throws Exception;
+
+
+    /**
+     * 更新长时间不结算的订单
+     * @param cardNo
+     * @param stationCode
+     * @param devCode
+     * @param port
+     * @return
+     * @throws Exception
+     */
+    Integer specialUpdate(
+            @Param("cardNo") String cardNo,
+            @Param("stationCode") String stationCode,
+            @Param("devCode") String devCode,
+            @Param("port") String port) throws Exception;
 
 }

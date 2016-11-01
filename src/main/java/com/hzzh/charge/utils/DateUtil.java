@@ -13,6 +13,13 @@ public class DateUtil {
 
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+    /**
+     * 计算充电的耗时
+     * @param beginTime
+     * @param endTime
+     * @return
+     * @throws ParseException
+     */
     public static String getTime(String beginTime, String endTime) throws ParseException {
         String useTime = null;
         if (beginTime != null || endTime != null) {
@@ -46,7 +53,7 @@ public class DateUtil {
 //    }
 
     /**
-     * 根据天查询的日期格式化
+     * 日查询的日期格式化
      * @param dateTime
      * @return
      */
@@ -59,6 +66,11 @@ public class DateUtil {
         return result;
     }
 
+    /**
+     * 月查询的日期格式化
+     * @param dateTime
+     * @return
+     */
     public static String monthFormat(String dateTime){
         String result=dateTime.replace(dateTime,dateTime+"-00");
         return result;

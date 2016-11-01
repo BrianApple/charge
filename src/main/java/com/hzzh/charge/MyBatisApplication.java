@@ -24,10 +24,9 @@ import java.util.Date;
  * @EnableCaching:开启缓存注解
  */
 @SpringBootApplication
-@MapperScan("com.hzzh.charge.dao")
-@ComponentScan("com.hzzh.charge.*")
+@MapperScan("com.hzzh.*.dao")
+@ComponentScan("com.hzzh.*")
 //@EnableCaching
-@EnableScheduling
 public class MyBatisApplication {
     public static void main(String[] args) {
         SpringApplication.run(MyBatisApplication.class, args);

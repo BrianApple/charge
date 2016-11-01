@@ -12,6 +12,7 @@ import java.util.Map;
 
 /**
  * 行政区域控制器
+ * 场站管理
  * Created by TaoRan on 2016/10/24.
  */
 @RestController
@@ -22,10 +23,10 @@ public class AreaController {
 
 
     /**
-     * 根据code查询省份
+     * 根据code查询省，市，县
      *
      * @param map
-     * @return
+     * @return list
      * @throws Exception
      */
     @RequestMapping(value = "/queryArea")

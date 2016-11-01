@@ -3,7 +3,6 @@ package com.hzzh.charge.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hzzh.charge.model.report_po.HistoryOrder;
-import com.hzzh.charge.model.report_po.MonthlyPoles;
 import com.hzzh.charge.model.report_po.TotalReport;
 import com.hzzh.charge.service.HistoryOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +14,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 历史订单控制器
+ * 历史订单管理控制器
+ * 订单管理模块
  * Created by TaoRan on 2016/10/8.
  */
+
+
 @RestController
 @RequestMapping(value = "/charge")
 public class HistoryOrderController {
@@ -65,7 +67,13 @@ public class HistoryOrderController {
         return new PageInfo(list);
     }
 
+
+
+
+    //=========================================统计报表==================================================================
+
     /**
+     *
      * 车辆月报表统计
      *
      * @param map
@@ -136,15 +144,15 @@ public class HistoryOrderController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/poleCount")
-    public MonthlyPoles queryPole(@RequestBody Map<String, Object> map) throws Exception {
-        if (map.get("companyId") == null) {
-            return null;
-        }
-        String companyId = map.get("companyId").toString();
-        MonthlyPoles queryPole = historyOrderService.queryChargePoles(companyId);
-        return queryPole;
-    }
+//    @RequestMapping(value = "/poleCount")
+//    public MonthlyPoles queryPole(@RequestBody Map<String, Object> map) throws Exception {
+//        if (map.get("companyId") == null) {
+//            return null;
+//        }
+//        String companyId = map.get("companyId").toString();
+//        MonthlyPoles queryPole = historyOrderService.queryChargePoles(companyId);
+//        return queryPole;
+//    }
 
 
 }

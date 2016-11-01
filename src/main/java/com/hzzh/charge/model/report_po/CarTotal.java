@@ -1,6 +1,7 @@
 package com.hzzh.charge.model.report_po;
 
 /**
+ * 统计扩展类
  * Created by TaoRan on 2016/10/13.
  */
 public class CarTotal {

@@ -1,19 +1,20 @@
 package com.hzzh.charge.controller;
 
-import com.hzzh.charge.model.cardhistory_po.RechargeDetail;
 import com.hzzh.charge.service.CardHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Map;
 
 /**
- * 充值卡历史记录控制器
+ * 电卡管理，电卡维护控制器
+ * 电卡管理模块
  * Created by TaoRan on 2016/10/21.
  */
+
+
 @RestController
 @RequestMapping(value = "/card")
 public class CardHistoryController {
@@ -21,7 +22,7 @@ public class CardHistoryController {
     private CardHistoryService cardHistoryService;
 
     /**
-     * 充值卡明细
+     * 充值详单
      * @param map
      * @return
      * @throws Exception

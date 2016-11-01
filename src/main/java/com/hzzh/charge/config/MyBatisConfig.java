@@ -21,6 +21,10 @@ import java.util.Properties;
 
 /**
  * 配置文件类
+ * 事物管理配置
+ * 创建sqlSessionFactory
+ * 配置分页插件
+ * sqlSessionTemplate
  * Created by TR on 2016/9/21.
  */
 @Configuration

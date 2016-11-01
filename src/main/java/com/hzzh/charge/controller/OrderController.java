@@ -12,14 +12,17 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 订单控制器
+ * 订单管理控制器
+ * 订单管理模块
  * Created by TaoRan on 2016/10/24.
  */
+
 @RestController
 @RequestMapping(value = "/order")
 public class OrderController {
     @Autowired
     private OrderService orderService;
+
 
     /**
      * 添加订单
@@ -30,8 +33,9 @@ public class OrderController {
      */
     @RequestMapping(value = "/add")
     public Integer save(@RequestBody Order order) throws Exception {
+        System.out.println("----后台接收到请求!----");
         if (order == null) {
-            return null;
+            return 0;
         }
         Integer addCount = orderService.add(order);
         return addCount;
@@ -53,6 +57,12 @@ public class OrderController {
         return update;
     }
 
+    /**
+     * 查询当前订单
+     * @param map
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/currentOrder")
     public List<CurrentOrder> queryOrder(@RequestBody Map<String, Object> map) throws Exception {
         if (map.get("companyId") == null || map.get("cardNo") == null) {

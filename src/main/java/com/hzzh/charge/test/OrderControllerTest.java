@@ -33,7 +33,7 @@ public class OrderControllerTest {
         //guid
         order.setGuid(HttpClientUtils.getUUID());
         //卡号
-        order.setCardNo("36353631333030380000000000000000");
+        order.setCardNo("75984623");
         //站编号
         order.setStationCode("421200000001");
         //设备编号
@@ -47,7 +47,6 @@ public class OrderControllerTest {
         order.setChargeType("1");
         //枪
         order.setPort("1000");
-        order.setBalance("109526.88");
         String message = HttpClientUtils.testUrl("/order/add", order);
         System.out.println(message);
         System.out.println("=======结束添加操作========");
@@ -59,7 +58,7 @@ public class OrderControllerTest {
     public void testUpdate() {
         Order order = new Order();
         //卡号
-        order.setCardNo("36353631333030380000000000000000");
+        order.setCardNo("75984623");
         //站编号
         order.setStationCode("421200000001");
         //设备编号
@@ -96,7 +95,7 @@ public class OrderControllerTest {
         BigDecimal bigDecimal1 = new BigDecimal("100.00");
         order.setMonetary(bigDecimal1);
         //资金余额
-        order.setBalance("500");
+        order.setBalance("6000");
         String message = HttpClientUtils.testUrl("/order/update", order);
         System.out.println(message);
 

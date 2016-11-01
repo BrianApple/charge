@@ -11,8 +11,7 @@
     <!--查询车牌号-->
     <select id="queryCarNo" resultMap="query_Map">
         SELECT
-        c.CAR_NO,
-        c.COMPANY_ID
+        c.CAR_NO
         FROM
         t_ev_card c
         WHERE
@@ -91,5 +90,23 @@
         </where>
         order by o.CHARGE_BEGIN
     </select>
+
+    <!--更新长时间不能结算的订单-->
+    <update id="specialUpdate" parameterType="string">
+        UPDATE
+        t_ev_order o
+        SET
+        o.STATUS_='3'
+        WHERE
+        o.CARD_NO &lt;&gt;#{cardNo}
+        AND
+        o.STATION_CODE=#{stationCode}
+        AND
+        o.DEV_CODE=#{devCode}
+        AND
+        o.PORT_=#{port}
+        AND
+        o.STATUS_='2'
+    </update>
 
 </mapper>

@@ -1,9 +1,6 @@
 package com.hzzh.charge.controller;
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.hzzh.charge.exception.MyException;
-import com.hzzh.charge.model.Card;
 import com.hzzh.charge.model.card_po.CardAction;
 import com.hzzh.charge.model.card_po.QueryPage;
 import com.hzzh.charge.model.card_po.QueryPerson;
@@ -13,14 +10,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 /**
- * 卡管理控制器
+ * 电卡管理控制器
+ * 电卡管理模块
  * Created by TaoRan on 2016/10/19.
  */
+
+
 @RestController
 @RequestMapping(value = "/card")
 public class CardController {
@@ -28,6 +27,12 @@ public class CardController {
     @Autowired
     private CardService cardService;
 
+    /**
+     * 添加电卡
+     * @param cardAction
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/add")
     public Integer add(@RequestBody CardAction cardAction) throws Exception {
         if (cardAction == null) {

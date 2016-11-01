@@ -27,6 +27,7 @@ public class AreaServiceImpl implements AreaService {
 
     /**
      * 根据编码查询省份
+     * 场站管理模块
      *
      * @param code:省份编号
      * @return
@@ -34,9 +35,12 @@ public class AreaServiceImpl implements AreaService {
      */
     @Override
     public List<Area> queryProvinces(@Param("code") String code) throws Exception {
+        //创建查询条件实例
         AreaExample areaExample = new AreaExample();
         AreaExample.Criteria criteria = areaExample.createCriteria();
+        //通过code作为查询条件
         criteria.andparentCodeEqualTo(code);
+        //返回一个集合
         List<Area> findAll = areaDao.selectByExample(areaExample);
         return findAll;
     }

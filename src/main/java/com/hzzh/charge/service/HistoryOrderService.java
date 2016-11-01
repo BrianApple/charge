@@ -1,7 +1,7 @@
 package com.hzzh.charge.service;
 
+
 import com.hzzh.charge.model.report_po.HistoryOrder;
-import com.hzzh.charge.model.report_po.MonthlyPoles;
 import com.hzzh.charge.model.report_po.TotalReport;
 import org.apache.ibatis.annotations.Param;
 
@@ -62,5 +62,5 @@ public interface HistoryOrderService {
      * @return
      * @throws Exception
      */
-    MonthlyPoles queryChargePoles(@Param("companyId") String companyId) throws Exception;
+//    MonthlyPoles queryChargePoles(@Param("companyId") String companyId) throws Exception;
 }

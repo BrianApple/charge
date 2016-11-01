@@ -14,7 +14,6 @@ import com.hzzh.charge.utils.OpUtil;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -101,6 +100,13 @@ public class CardServiceImpl implements CardService {
     public List<QueryPage> queryPage(@Param("cardNo") String cardNo, @Param("companyId") String companyId) throws Exception {
         /**
          * 判断卡状态
+         * 0：未激活
+         * 1:正常
+         * 2：锁定
+         * 3：注销
+         * 如果不这样做判断，那么响应给前端的是0到3的数字，前端需要通过数字来判断出状态为，
+         * 未激活，正常，锁定，注销。
+         *
          */
         List<QueryPage> list = cardDao.queryPage(cardNo, companyId);
         try {
@@ -135,6 +141,10 @@ public class CardServiceImpl implements CardService {
     @Override
     @Transactional
     public Integer action(CardAction cardAction) throws Exception {
+        /**
+         * 根据条件更新
+         * cardExample为条件实例
+         */
         Card card = cardAction.getCard();
         CardExample cardExample = new CardExample();
         CardExample.Criteria criteria = cardExample.createCriteria();
@@ -158,6 +168,7 @@ public class CardServiceImpl implements CardService {
     @Override
     @Transactional
     public Integer recharge(CardAction cardAction) throws Exception {
+
         Card card = cardAction.getCard();
         CardExample cardExample = new CardExample();
         CardExample.Criteria criteria = cardExample.createCriteria();
@@ -165,7 +176,9 @@ public class CardServiceImpl implements CardService {
         criteria.andcarNoEqualTo(card.getCarNo());
         criteria.andcompanyIdEqualTo(card.getCompanyId());
 
-        // 2016/10/26 充值前，先查询余额
+        /**
+         * 先查询卡的余额，在加上充值的金额，最终将余额和充值金额加在一起添加到数据库。
+         */
         String oldBalance = String.valueOf(this.selectBalance(card));
         String currentBalance = String.valueOf(card.getCardBalance());
 

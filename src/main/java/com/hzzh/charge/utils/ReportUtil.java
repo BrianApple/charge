@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 车辆报表统计工具类
+ * 报表统计工具类
  * Created by TaoRan on 2016/10/14.
  */
 public class ReportUtil {

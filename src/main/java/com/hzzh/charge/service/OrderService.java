@@ -81,4 +81,18 @@ public interface OrderService {
     List<CurrentOrder> currentOrder(@Param("companyId") String companyId, @Param("cardNo") String cardNo)throws Exception;
 
 
+    /**
+     * 更新长时间不结算的订单
+     * @param cardNo
+     * @param stationCode
+     * @param devCode
+     * @param port
+     * @return
+     * @throws Exception
+     */
+    Integer specialUpdate(
+            @Param("cardNo") String cardNo,
+            @Param("stationCode") String stationCode,
+            @Param("devCode") String devCode,
+            @Param("port") String port) throws Exception;
 }

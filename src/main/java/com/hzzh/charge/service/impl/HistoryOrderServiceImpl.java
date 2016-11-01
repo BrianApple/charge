@@ -34,60 +34,62 @@ public class HistoryOrderServiceImpl implements HistoryOrderService {
      */
     @Override
     public List<HistoryOrder> queryPage(String cardNo, String companyId, String stationName, String startTime, String endTime) throws Exception {
+
         /**
          * 1. 将开始时间格式化:"yyyyMMddHHmmss"
-         * 2.获取数据添加到list集合中。
-         * 3.遍历HistoryOrder对象，获取开始日期和结束日期，并进行日期处理。
-         * 4.获取处理后的日期，并添加到HistoryOrder对象中。
-         * 5.获取HistoryOrder对象中的总电量，和总金额
-         * 6.计算总电量，和总金额，并得到总和。
-         * 7.创建OrderTotal对象，OrderTotal对象中包含了(电量总和，金额总和，充电次数)
-         * 8.将得到的电量总和，金额总和，充电次数，添加到OrderTotal对象中。
-         * 9.遍历HistoryOrder对象并将OrderTotal对象添加到HistoryOrder对象中。
-         * 10.返回。
          */
-
-        //1
         String startDate = DateUtil.dayFormat(startTime);
-        //2
+        /**
+         * 2.获取数据添加到list集合中。
+         */
         List<HistoryOrder> list = historyOrderDao.queryPage(cardNo, companyId, stationName, startDate, endTime);
         String beginTime = null;
         String overTime = null;
         List<Double> charge = new ArrayList<>();
         List<Double> expense = new ArrayList<>();
 
-        //3
+        /**
+         * 3.遍历HistoryOrder对象，获取开始日期和结束日期，并进行日期处理。
+         */
         for (HistoryOrder h : list) {
             beginTime = h.getChargeBegin();
             overTime = h.getChargeEnd();
             String useTime = DateUtil.getTime(beginTime, overTime);
-            //4
+            /**
+             * 4.获取处理后的日期，并添加到HistoryOrder对象中。
+             */
             h.setUseTime(useTime);
-            //5
+            /**
+             * 5.获取HistoryOrder对象中的总电量，和总金额
+             */
             charge.add(Double.parseDouble(h.getElectricCharge().toString()));
             expense.add(Double.parseDouble(h.getExpense().toString()));
         }
-        //6
+        /**
+         * 6.
+         * 通过getChargeSum方法，获得总电量
+         * 通过getExpenseSum方法，获得总金额。
+         */
         double totalCharge = this.getChargeSum(charge);
         double totalExpense = this.getExpenseSum(expense);
 
-        //7
+        /**
+         *  7.创建OrderTotal对象，OrderTotal对象中包含了(电量总和，金额总和，充电次数)
+         */
         OrderTotal orderTotal = new OrderTotal();
-        //8
+        /**
+         * 8.将得到的电量总和，金额总和，充电次数，添加到OrderTotal对象中。
+         */
         orderTotal.setTotalCharge(totalCharge);
         orderTotal.setTotalExpense(totalExpense);
         orderTotal.setCount(list.size());
 
-        //9
+        /**
+         *9.遍历HistoryOrder对象并将OrderTotal对象添加到HistoryOrder对象中。
+         */
         for (HistoryOrder h : list) {
             h.setOrderTotal(orderTotal);
         }
-
-
-        if (list == null) {
-            return null;
-        }
-        //10
         return list;
     }
 
@@ -207,6 +209,7 @@ public class HistoryOrderServiceImpl implements HistoryOrderService {
         if (list == null || list.size() <= 0) {
             return null;
         }
+
         /**
          * 1.第一层循环遍历StationPo对象，此对象中包含了StationReportPo对象。
          * 2.第二层循环遍历StationReportPo对象中的属性。
@@ -244,10 +247,18 @@ public class HistoryOrderServiceImpl implements HistoryOrderService {
                 }
             }
         }
+        //llf 去除空数据
+        List<StationPo> stations = new ArrayList<>();
+        for (StationPo item : list) {
+            if (item.getStationName() != null) {
+                stations.add(item);
+            }
+        }
+        //endllf
         //每个场站的月总计
         List<SingleTotal> stationMonthlyTotal = this.getsingleSum(singleStation);
         try {
-            for (StationPo s : list) {
+            for (StationPo s : stations) {
                 for (SingleTotal l : stationMonthlyTotal) {
                     if (s.getStationName().equals(l.getStationName())) {
                         //四舍五入
@@ -259,6 +270,7 @@ public class HistoryOrderServiceImpl implements HistoryOrderService {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
 
@@ -277,7 +289,7 @@ public class HistoryOrderServiceImpl implements HistoryOrderService {
             }
         }
 
-        result.put("Stations", list);
+        result.put("Stations", stations);
         result.put("Totals", totals);
         result.put("AllTotals", allTotal);
         return result;
@@ -291,11 +303,11 @@ public class HistoryOrderServiceImpl implements HistoryOrderService {
      * @return
      * @throws Exception
      */
-    @Override
-    public MonthlyPoles queryChargePoles(@Param("companyId") String companyId) throws Exception {
-        MonthlyPoles queryChargePoles = historyOrderDao.queryChargePoles(companyId);
-        return queryChargePoles;
-    }
+//    @Override
+//    public MonthlyPoles queryChargePoles(@Param("companyId") String companyId) throws Exception {
+//        MonthlyPoles queryChargePoles = historyOrderDao.queryChargePoles(companyId);
+//        return queryChargePoles;
+//    }
 
     /**
      * 计算每个场站当月的总电量
@@ -316,7 +328,6 @@ public class HistoryOrderServiceImpl implements HistoryOrderService {
         }
         list.clear();
         list.addAll(map.values());
-        System.out.println(list);
         return list;
     }
 
