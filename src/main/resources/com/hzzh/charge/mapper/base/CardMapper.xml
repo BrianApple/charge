@@ -24,6 +24,7 @@
 
     <!--分页查询-->
     <resultMap id="queryPageMap" type="com.hzzh.charge.model.card_po.QueryPage">
+        <result column="GUID_" property="guid"/>
         <result column="CARD_NO" property="cardNo"/>
         <result column="OWNER_ID" property="ownerId"/>
         <result column="OWNER_NAME" property="ownerName"/>
@@ -33,20 +34,178 @@
     </resultMap>
     <select id="queryPage" resultMap="queryPageMap">
         SELECT
+        c.GUID_,
         c.CARD_NO,
         c.OWNER_ID,
         c.OWNER_NAME,
         c.CAR_NO,
         c.CARD_BALANCE,
-        c.CARD_STATUS
+        c.CARD_STATUS,
+        c.CREATE_TIME
         FROM
         t_ev_card c
         <where>
             and c.COMPANY_ID=#{companyId}
             <if test="cardNo!='' and cardNo!=null">
                 and c.CARD_NO LIKE '%${cardNo}%'
+                or c.CAR_NO LIKE '%${cardNo}%'
+            </if>
+        </where>
+        order by
+        c.CREATE_TIME
+        DESC
+    </select>
+    <update id="update" parameterType="com.hzzh.charge.model.Card">
+        UPDATE
+        t_ev_card c
+        SET
+        c.CARD_NO=#{cardNo},
+        c.CAR_NO=#{carNo},
+        c.OWNER_NAME=#{ownerName}
+        WHERE
+        c.GUID_=#{guid}
+    </update>
+
+
+    <!--====================================电卡详情=====================================================  -->
+
+    <!--充值记录-->
+    <resultMap id="recharge_map" type="com.hzzh.charge.model.card_po.RechargeRecord">
+        <result column="OPERATE_TIME" property="dateTime"/>
+        <result column="CARD_MONEY" property="meney"/>
+        <result column="CARD_BALANCE" property="balance"/>
+        <result column="OPERATOR_NAME" property="person"/>
+    </resultMap>
+    <select id="rechargeRecord" resultMap="recharge_map">
+        SELECT
+        y.OPERATE_TIME,
+        y.CARD_MONEY,
+        y.CARD_BALANCE,
+        y.OPERATOR_NAME
+        FROM
+        t_ev_card_history y
+        <where>
+            AND
+            y.OPERATOR_TYPE = '1'
+            AND
+            y.CARD_NO = #{cardNo}
+            <if test="dateTime!=null and dateTime!=''">
+                AND DATE_FORMAT(y.OPERATE_TIME,'%Y%m%d') &gt;= DATE_FORMAT(#{dateTime},'%Y%m%d')
+                AND DATE_FORMAT(y.OPERATE_TIME, '%Y%m%d') &lt;= DATE_FORMAT(#{endTime}, '%Y%m%d')
             </if>
 
         </where>
+        order by
+        y.OPERATE_TIME DESC
     </select>
+
+    <!--支出记录-->
+    <resultMap id="pay_map" type="com.hzzh.charge.model.card_po.PayRecord">
+        <result column="CHARGE_END" property="payDate"/>
+        <result column="STATION_NAME" property="stationName"/>
+        <result column="MONETARY" property="pay"/>
+        <result column="BALANCE_" property="balance"/>
+    </resultMap>
+    <select id="payRecord" resultMap="pay_map">
+        SELECT
+        o.CHARGE_END,
+        o.STATION_NAME,
+        o.MONETARY,
+        o.BALANCE_
+        FROM
+        t_ev_order o
+        <where>
+            and
+            o.STATUS_='3'
+            and
+            o.CARD_NO=#{cardNo}
+            <if test="dateTime!='' and dateTime!=null">
+                AND
+                DATE_FORMAT(o.CHARGE_BEGIN,'%Y%m%d') &gt;= DATE_FORMAT(#{dateTime},'%Y%m%d')
+                AND
+                DATE_FORMAT(o.CHARGE_BEGIN,'%Y%m%d') &lt;= DATE_FORMAT(#{endTime},'%Y%m%d')
+            </if>
+        </where>
+        order by
+        o.CHARGE_BEGIN DESC
+    </select>
+
+    <!--状态变更记录-->
+    <resultMap id="statusChange_map" type="com.hzzh.charge.model.card_po.StatusChangeRecord">
+        <result column="OPERATE_TIME" property="opDate"/>
+        <result column="OPERATOR_NAME" property="opName"/>
+        <result column="CARD_STATUS" property="status"/>
+    </resultMap>
+    <select id="statusChangeRecord" resultMap="statusChange_map">
+        SELECT
+        h.OPERATE_TIME,
+        h.OPERATOR_NAME,
+        h.CARD_STATUS
+        FROM
+        t_ev_card_history h
+        <where>
+            AND
+            h.CARD_STATUS!='0'
+            <if test="cardNo!='' and cardNo!=null">
+                AND
+                h.CARD_NO=#{cardNo}
+            </if>
+        </where>
+        order by
+        h.OPERATE_TIME DESC
+    </select>
+
+    <!--==========================================移动端登录=======================================================-->
+
+    <!--查询卡信息用于移动端登录-->
+    <resultMap id="login_map" type="com.hzzh.charge.model.Card">
+        <result column="GUID_" property="guid"/>
+        <result column="CARD_NO" property="cardNo"/>
+        <result column="CARD_PWD" property="cardPwd"/>
+        <result column="CAR_NO" property="carNo"/>
+        <result column="COMPANY_ID" property="companyId"/>
+        <result column="COMPANY_NAME" property="companyName"/>
+        <result column="OWNER_ID" property="ownerId"/>
+        <result column="OWNER_NAME" property="ownerName"/>
+        <result column="CARD_BALANCE" property="cardBalance"/>
+        <result column="CARD_STATUS" property="cardStatus"/>
+        <result column="CARD_TYPE" property="cardType"/>
+        <result column="CREATOR_ID" property="creatorId"/>
+        <result column="CREATOR_NAME" property="creatorName"/>
+        <result column="CREATE_TIME" property="createTime"/>
+
+    </resultMap>
+    <select id="login" resultMap="login_map">
+        SELECT
+        c.GUID_,
+        c.CARD_NO,
+        c.CARD_PWD,
+        c.CAR_NO,
+        c.COMPANY_ID,
+        c.COMPANY_NAME,
+        c.OWNER_ID,
+        c.OWNER_NAME,
+        c.CARD_BALANCE,
+        c.CARD_STATUS,
+        c.CARD_TYPE,
+        c.CREATOR_ID,
+        c.CREATOR_NAME,
+        c.CREATE_TIME
+        FROM
+        t_ev_card c
+        WHERE
+        c.CARD_NO=#{cardNo}
+        AND
+        c.CARD_PWD=#{cardPwd}
+    </select>
+
+    <!--移动端修改密码-->
+    <update id="editPwd" parameterType="string">
+       UPDATE
+        t_ev_card c
+        SET
+        c.CARD_PWD=#{cardPwd}
+        WHERE
+        c.CARD_NO=#{cardNo}
+   </update>
 </mapper>

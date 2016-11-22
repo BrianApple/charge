@@ -26,7 +26,7 @@ public class HistoryOrderControllerTest {
     public void testQueryPage() {
         Map<String,Object> map=new HashedMap();
         map.put("pageNum",1);
-        map.put("pageSize",5);
+        map.put("pageSize",10);
         map.put("cardNo","");
         map.put("companyId","a67bef10-5db2-11e5-bd9d-19cc9cdf5fc1");
         map.put("stationName","");

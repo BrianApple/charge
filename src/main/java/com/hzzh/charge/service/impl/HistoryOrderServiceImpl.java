@@ -219,6 +219,7 @@ public class HistoryOrderServiceImpl implements HistoryOrderService {
          * 6.将List<StationTotal>集合添加到StationPo对象中。
          */
         List<StationTotal> totals = new ArrayList<>();
+
         //单个场站月统计集合
         List<SingleTotal> singleStation = new ArrayList<>();
         Map<String, Object> result = new HashMap<String, Object>();
@@ -280,6 +281,12 @@ public class HistoryOrderServiceImpl implements HistoryOrderService {
                 allTotal.add(s.getTotalCharge());
             }
         }
+
+        /**
+         * 判断集合total中的days是否等于null
+         * 如果等于null，将remove。因为在数据库中分组统计时
+         * 是按天进行分组的，所以统计后的结果，days会为null.
+         */
         for (int i = 0; i < totals.size(); i++) {
             Iterator<StationTotal> iterator = totals.iterator();
             while (iterator.hasNext()) {
@@ -295,6 +302,8 @@ public class HistoryOrderServiceImpl implements HistoryOrderService {
         return result;
 
     }
+
+
 
     /**
      * 查询当月总共接入了多少充电桩
@@ -316,10 +325,15 @@ public class HistoryOrderServiceImpl implements HistoryOrderService {
      * @return
      */
     private List<SingleTotal> getsingleSum(List<SingleTotal> list) {
+        /**
+         * 计算单个场站的月电量总和，以及金额，按月统计
+         */
         if (list == null || list.size() <= 0) {
             return null;
         }
+
         HashMap<String, SingleTotal> map = new HashMap<>();
+
         for (SingleTotal s : list) {
             if (map.containsKey(s.getStationName())) {
                 s.setStationTotal(map.get(s.getStationName()).getStationTotal() + s.getStationTotal());
@@ -338,16 +352,25 @@ public class HistoryOrderServiceImpl implements HistoryOrderService {
      * @param list
      */
     private List<TotalReport> getCarSum(List<CarReport> list) {
-
+        //创建chargeJ集合用于存放尖电量
         List<Double> chargeJ = new ArrayList<Double>();
+        //创建chargeF集合用于存放峰电量
         List<Double> chargeF = new ArrayList<Double>();
+        //创建chargeP集合用于存放平电量
         List<Double> chargeP = new ArrayList<Double>();
+        //创建chargeG集合用于存放谷电量
         List<Double> chargeG = new ArrayList<Double>();
+        //创建totalCharge集合用于存放尖，峰，平，谷，总电量
         List<Double> totalCharge = new ArrayList<Double>();
+        //创建expenseJ集合用于存放尖电费
         List<Double> expenseJ = new ArrayList<Double>();
+        //创建expenseF集合用于存放峰电费
         List<Double> expenseF = new ArrayList<Double>();
+        //创建expenseP集合用于存放平电费
         List<Double> expenseP = new ArrayList<Double>();
+        //创建expenseG集合用于存放谷电费
         List<Double> expenseG = new ArrayList<Double>();
+        //创建totalExpense集合用于存放尖，峰，平，谷，总电费
         List<Double> totalExpense = new ArrayList<Double>();
 
         List<TotalReport> result = new ArrayList<>();
@@ -369,21 +392,31 @@ public class HistoryOrderServiceImpl implements HistoryOrderService {
 
         //车辆总汇实例
         CarTotal carTotal = new CarTotal();
-        //获取尖，峰，平，谷电量的总和
+        /**
+         * 通过ReportUtil工具类，计算尖，峰，平，谷电量的总和
+         */
         double toChargeJ = ReportUtil.totalChargeJ(chargeJ);
         double totalChargeF = ReportUtil.totalChargeF(chargeF);
         double totalChargeP = ReportUtil.totalChargeP(chargeP);
         double totalChargeG = ReportUtil.totalChargeG(chargeG);
+        /**
+         * 将计算出来的尖，峰，平，谷电量的总和添加到carTotal对象中
+         */
         carTotal.setTotalChargeF(totalChargeF);
         carTotal.setTotalChargeJ(toChargeJ);
         carTotal.setTotalChargeP(totalChargeP);
         carTotal.setTotalChargeG(totalChargeG);
 
-        //获取尖，峰，平，谷电费的总和
+        /**
+         * 通过ReportUtil工具类，计算尖，峰，平，谷电费的总和
+         */
         double totalExpenseJ = ReportUtil.totalExpenseJ(expenseJ);
         double totalExpenseF = ReportUtil.totalExpenseF(expenseF);
         double totalExpenseP = ReportUtil.totalExpenseP(expenseP);
         double totalExpenseG = ReportUtil.totalExpenseG(expenseG);
+        /**
+         * 将计算出来的尖，峰，平，谷电费的总和添加到carTotal对象中
+         */
         carTotal.setTotalExpenseJ(totalExpenseJ);
         carTotal.setTotalExpenseF(totalExpenseF);
         carTotal.setTotalExpenseP(totalExpenseP);
@@ -403,4 +436,6 @@ public class HistoryOrderServiceImpl implements HistoryOrderService {
         result.add(totalReport);
         return result;
     }
+
+
 }

@@ -6,28 +6,30 @@ import java.io.Serializable;
  * 类名称：t_ev_card表的实体类Card
  * 内容摘要：t_ev_card表的各个元素的取得、设定方法
  * @author TaoRan
- * @version 1.0 2016年10月26日
+ * @version 1.0 2016年11月18日
  */@SuppressWarnings("serial")
 public class Card implements Serializable {
 
     /** 主键编码 */
     private String guid;
-    /** 卡编号 */
+    /** 卡编号(或手机号)--loginID */
     private String cardNo;
+    /** 卡密码,加密 */
+    private String cardPwd;
     /** 车牌号 */
     private String carNo;
-    /** 所属公司ID */
+    /** 运营公司ID */
     private String companyId;
-    /** 所属公司名称 */
+    /** 运营公司名称 */
     private String companyName;
-    /** 卡持所有人ID */
+    /** 卡持有人ID */
     private String ownerId;
     private String ownerName;
     /** 卡余额 */
     private java.math.BigDecimal cardBalance;
     /** 卡状态:0-未激活,1-正常(已激活),2-锁定,3-注销 */
     private String cardStatus;
-    /** 卡类型:0-扣款卡 */
+    /** 卡类型:0-扣款卡(内部),1-手机号(外部) */
     private String cardType;
     /** 操作员ID */
     private String creatorId;
@@ -53,19 +55,35 @@ public class Card implements Serializable {
     }
 
     /**
-     * 取得 卡编号
-     * @return 卡编号
+     * 取得 卡编号(或手机号)--loginID
+     * @return 卡编号(或手机号)--loginID
      */
     public String getCardNo() {
         return cardNo;
     }
 
     /**
-     * 设定 卡编号
-     * @param cardNo 卡编号
+     * 设定 卡编号(或手机号)--loginID
+     * @param cardNo 卡编号(或手机号)--loginID
      */
     public void setCardNo(String cardNo) {
         this.cardNo = cardNo;
+    }
+
+    /**
+     * 取得 卡密码,加密
+     * @return 卡密码,加密
+     */
+    public String getCardPwd() {
+        return cardPwd;
+    }
+
+    /**
+     * 设定 卡密码,加密
+     * @param cardPwd 卡密码,加密
+     */
+    public void setCardPwd(String cardPwd) {
+        this.cardPwd = cardPwd;
     }
 
     /**
@@ -85,48 +103,48 @@ public class Card implements Serializable {
     }
 
     /**
-     * 取得 所属公司ID
-     * @return 所属公司ID
+     * 取得 运营公司ID
+     * @return 运营公司ID
      */
     public String getCompanyId() {
         return companyId;
     }
 
     /**
-     * 设定 所属公司ID
-     * @param companyId 所属公司ID
+     * 设定 运营公司ID
+     * @param companyId 运营公司ID
      */
     public void setCompanyId(String companyId) {
         this.companyId = companyId;
     }
 
     /**
-     * 取得 所属公司名称
-     * @return 所属公司名称
+     * 取得 运营公司名称
+     * @return 运营公司名称
      */
     public String getCompanyName() {
         return companyName;
     }
 
     /**
-     * 设定 所属公司名称
-     * @param companyName 所属公司名称
+     * 设定 运营公司名称
+     * @param companyName 运营公司名称
      */
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
 
     /**
-     * 取得 卡持所有人ID
-     * @return 卡持所有人ID
+     * 取得 卡持有人ID
+     * @return 卡持有人ID
      */
     public String getOwnerId() {
         return ownerId;
     }
 
     /**
-     * 设定 卡持所有人ID
-     * @param ownerId 卡持所有人ID
+     * 设定 卡持有人ID
+     * @param ownerId 卡持有人ID
      */
     public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
@@ -173,16 +191,16 @@ public class Card implements Serializable {
     }
 
     /**
-     * 取得 卡类型:0-扣款卡
-     * @return 卡类型:0-扣款卡
+     * 取得 卡类型:0-扣款卡(内部),1-手机号(外部)
+     * @return 卡类型:0-扣款卡(内部),1-手机号(外部)
      */
     public String getCardType() {
         return cardType;
     }
 
     /**
-     * 设定 卡类型:0-扣款卡
-     * @param cardType 卡类型:0-扣款卡
+     * 设定 卡类型:0-扣款卡(内部),1-手机号(外部)
+     * @param cardType 卡类型:0-扣款卡(内部),1-手机号(外部)
      */
     public void setCardType(String cardType) {
         this.cardType = cardType;

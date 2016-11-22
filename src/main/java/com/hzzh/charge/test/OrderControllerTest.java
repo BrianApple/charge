@@ -43,6 +43,11 @@ public class OrderControllerTest {
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateTime = sf.format(date);
         order.setChargeBegin(dateTime);
+        //消费金额
+        BigDecimal bigDecimal1 = new BigDecimal("100.00");
+        order.setMonetary(bigDecimal1);
+        //资金余额
+        order.setBalance("6000");
         //充电类型
         order.setChargeType("1");
         //枪
@@ -58,18 +63,21 @@ public class OrderControllerTest {
     public void testUpdate() {
         Order order = new Order();
         //卡号
-        order.setCardNo("75984623");
+        order.setCardNo("31291938");
         //站编号
-        order.setStationCode("421200000001");
+        order.setStationCode("421200000002");
+
         //设备编号
-        order.setDevCode("0002");
+        order.setDevCode("0006");
+
         //结束时间
         Date date = new Date();
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateTime = sf.format(date);
         order.setChargeEnd(dateTime);
-        //停止充电原因
-        order.setStopReason("结算");
+        //枪
+        order.setPort("1000");
+
         //充电尖度数
         order.setElectricChargeJ("20");
         //充电峰度数
@@ -111,4 +119,74 @@ public class OrderControllerTest {
         String message = HttpClientUtils.testUrl("/order/currentOrder", map);
         System.out.println(message);
     }
+
+    //数据重传测试
+    @Test
+    public void testRepeatData() {
+        Order order = new Order();
+        order.setGuid("78965645345363456");
+        order.setCardNo("1111111");
+        order.setStationCode("421200000002");
+        order.setDevCode("0008");
+        order.setPort("1000");
+        Date date = new Date();
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateTime = sf.format(date);
+        order.setChargeBegin(dateTime);
+
+        order.setChargeEnd(dateTime);
+        BigDecimal decimal=new BigDecimal("80.00");
+        order.setElectricCharge(decimal);
+        order.setExpense("160.00");
+        order.setBalance("6000");
+        order.setMonetary(new BigDecimal("23"));
+
+        String message = HttpClientUtils.testUrl("/order/repeat", order);
+        System.out.println(message);
+
+        Order order1 = new Order();
+        order1.setGuid("456fsdfnsfdn4sd5f4nsdfnsdfn51");
+        order1.setCardNo("1111111");
+        order1.setStationCode("421200000002");
+        order1.setDevCode("0008");
+        order1.setPort("1000");
+        order1.setChargeBegin(dateTime);
+        order1.setChargeEnd(dateTime);
+        order.setElectricCharge(new BigDecimal("160"));
+        order.setExpense("160.00");
+        order.setBalance("6000");
+        order.setMonetary(new BigDecimal("23"));
+
+        String message1 = HttpClientUtils.testUrl("/order/repeat", order1);
+        System.out.println(message1);
+//
+//        Order order2 = new Order();
+//        order2.setGuid("456fsdfnsfdn4sd5f4nsdfnsdfn51");
+//        order2.setCardNo("1111111");
+//        order2.setStationCode("421200000002");
+//        order2.setDevCode("0008");
+//        order2.setPort("1000");
+//        order2.setChargeBegin(dateTime);
+//        order2.setChargeEnd(dateTime);
+//
+//
+//        String message2 = HttpClientUtils.testUrl("/order/repeat", order2);
+//        System.out.println(message2);
+
+
+    }
+
+    //查询所有数据,用于车辆日充电详细报表数据导出
+    @Test
+    public void testFindAll() {
+        Map<String, Object> map = new HashedMap();
+        map.put("cardNo", "");
+        map.put("companyId","a67bef10-5db2-11e5-bd9d-19cc9cdf5fc1");
+        map.put("stationName","马桥站");
+        map.put("startTime","2016-11-13");
+        map.put("endTime","2016-11-14");
+        String message=HttpClientUtils.testUrl("/order/exportOrders",map);
+        System.out.println(message);
+    }
 }
+

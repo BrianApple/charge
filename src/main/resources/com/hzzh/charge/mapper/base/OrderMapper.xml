@@ -46,6 +46,71 @@
         and
         d.STATION_CODE=#{stationCode}
     </select>
+    <!--更新当前订单-->
+    <update id="updateCurrentOrder" parameterType="com.hzzh.charge.model.Order">
+        UPDATE
+        t_ev_order o
+        SET
+        o.CHARGE_END=#{chargeEnd},
+        o.ELECTRIC_CHARGE=#{electricCharge},
+        o.ELECTRIC_CHARGE_J=#{electricChargeJ},
+        o.ELECTRIC_CHARGE_F=#{electricChargeF},
+        o.ELECTRIC_CHARGE_P=#{electricChargeP},
+        o.ELECTRIC_CHARGE_G=#{electricChargeG},
+        o.EXPENSE=#{expense},
+        o.EXPENSE_J=#{expenseJ},
+        o.EXPENSE_F=#{expenseF},
+        o.EXPENSE_P=#{expenseP},
+        o.EXPENSE_G=#{expenseG},
+        o.MONETARY=#{monetary},
+        o.BALANCE_=#{balance},
+        o.STATUS_='3'
+        WHERE
+        o.CARD_NO=#{cardNo}
+        AND
+        o.STATION_CODE=#{stationCode}
+        AND
+        o.DEV_CODE=#{devCode}
+        AND
+        (o.CHARGE_END is null or o.CHARGE_END='')
+        AND
+        o.PORT_=#{port}
+
+    </update>
+    <!--查询重复数据-->
+    <resultMap id="repeat_Map" type="com.hzzh.charge.model.Order">
+        <result column="CARD_NO" property="cardNo"/>
+        <result column="CHARGE_BEGIN" property="chargeBegin"/>
+        <result column="CHARGE_END" property="chargeEnd"/>
+        <result column="STATION_CODE" property="stationCode"/>
+        <result column="DEV_CODE" property="devCode"/>
+        <result column="PORT_" property="port"/>
+        <result column="STATUS_" property="status"/>
+    </resultMap>
+    <select id="queryRepeat" resultMap="repeat_Map">
+        SELECT
+        o.CARD_NO,
+        o.CHARGE_BEGIN,
+        o.CHARGE_END,
+        o.STATION_CODE,
+        o.DEV_CODE,
+        o.PORT_,
+        o.STATUS_
+        FROM
+        t_ev_order o
+        WHERE
+        o.CARD_NO=#{cardNo}
+        AND
+        o.CHARGE_BEGIN=#{chargeBegin}
+        AND
+        o.STATION_CODE=#{stationCode}
+        AND
+        o.DEV_CODE=#{devCode}
+        AND
+        o.PORT_=#{port}
+
+
+    </select>
     <!--查询当前订单-->
     <resultMap id="order_map" type="com.hzzh.charge.model.order_po.CurrentOrder">
         <result column="CARD_NO" property="cardNo"/>
@@ -91,6 +156,23 @@
         order by o.CHARGE_BEGIN
     </select>
 
+    <update id="beforeUpdate" parameterType="string">
+        UPDATE
+        t_ev_order o
+        SET
+        o.STATUS_='3'
+        WHERE
+        o.CARD_NO =#{cardNo}
+        AND
+        o.STATION_CODE!=#{stationCode}
+        AND
+        o.DEV_CODE!=#{devCode}
+        AND
+        o.PORT_!=#{port}
+        AND
+        o.STATUS_='2'
+    </update>
+
     <!--更新长时间不能结算的订单-->
     <update id="specialUpdate" parameterType="string">
         UPDATE
@@ -98,7 +180,7 @@
         SET
         o.STATUS_='3'
         WHERE
-        o.CARD_NO &lt;&gt;#{cardNo}
+        o.CARD_NO!=#{cardNo}
         AND
         o.STATION_CODE=#{stationCode}
         AND
@@ -107,6 +189,64 @@
         o.PORT_=#{port}
         AND
         o.STATUS_='2'
+    </update>
+
+
+
+    <!--根据条件查询所有数据用于车辆日充电详细报表导出-->
+    <resultMap id="export_Map" type="com.hzzh.charge.model.order_po.ExportOrder">
+        <result column="CAR_NO" property="carNo"/>
+        <result column="CARD_NO" property="cardNo"/>
+        <result column="CHARGE_BEGIN" property="chargeBegin"/>
+        <result column="CHARGE_END" property="chargeEnd"/>
+        <result column="STATION_NAME" property="stationName"/>
+        <result column="DEV_NAME" property="devName"/>
+        <result column="DEV_NAME" property="devName"/>
+        <result column="ELECTRIC_CHARGE" property="electricCharge"/>
+        <result column="EXPENSE" property="expense"/>
+    </resultMap>
+    <select id="exportOrder" resultMap="export_Map">
+        SELECT
+        o.CAR_NO,
+        o.CARD_NO,
+        o.CHARGE_BEGIN,
+        o.CHARGE_END,
+        o.STATION_NAME,
+        o.DEV_NAME,
+        o.ELECTRIC_CHARGE,
+        o.EXPENSE
+        FROM
+        t_ev_order o
+        <where>
+            and o.STATUS_='3'
+            and o.COMPANY_ID=#{companyId}
+            <if test="startTime!=null and startTime!=''">
+                and DATE_FORMAT(o.CHARGE_BEGIN,'%Y%m%d%H%i%s') &gt;=DATE_FORMAT(#{startTime},'%Y%m%d%H%i%s')
+            </if>
+            <if test="endTime!=null and endTime!=''">
+                and DATE_FORMAT(o.CHARGE_END,'%Y%m%d%H%i%s') &lt;=DATE_FORMAT(#{endTime},'%Y%m%d%H%i%s')
+            </if>
+            <if test="stationName!='' and stationName!=null">
+                and o.STATION_NAME=#{stationName}
+            </if>
+            <if test="cardNo!='' and cardNo!=null">
+                and (o.CARD_NO LIKE '%${cardNo}%' or o.CAR_NO LIKE '%${cardNo}%')
+            </if>
+
+        </where>
+        order by o.CHARGE_BEGIN
+    </select>
+
+    <!--更新order表中没有车牌号的车辆-->
+    <update id="updateCarNo" parameterType="string">
+        UPDATE
+        t_ev_order o
+        SET
+        o.CAR_NO=#{carNo}
+        WHERE
+        o.CARD_NO=#{cardNo}
+        AND
+        (o.CAR_NO is null or o.CAR_NO='')
     </update>
 
 </mapper>

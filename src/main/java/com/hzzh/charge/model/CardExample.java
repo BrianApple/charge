@@ -8,7 +8,7 @@ import java.math.BigDecimal;
  * 类名称：t_ev_card表的查询条件类CardExample
  * 内容摘要：t_ev_card表的各个元素的查询条件
  * @author 工具生成
- * @version 1.0 2016年10月26日
+ * @version 1.0 2016年11月18日
  */
 public class CardExample {
 
@@ -314,6 +314,76 @@ protected abstract static class GeneratedCriteria {
 
         public Criteria andcardNoNotBetween(Integer value1, Integer value2) {
             addCriterion("tec.CARD_NO not between", value1, value2, "cardNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andcardPwdIsNull() {
+            addCriterion("tec.CARD_PWD is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andcardPwdIsNotNull() {
+            addCriterion("tec.CARD_PWD is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andcardPwdEqualTo(String value) {
+            addCriterion("tec.CARD_PWD =", value, "cardPwd");
+            return (Criteria) this;
+        }
+
+        public Criteria andcardPwdNotEqualTo(String value) {
+            addCriterion("tec.CARD_PWD <>", value, "cardPwd");
+            return (Criteria) this;
+        }
+
+        public Criteria andcardPwdGreaterThan(String value) {
+            addCriterion("tec.CARD_PWD >", value, "cardPwd");
+            return (Criteria) this;
+        }
+
+        public Criteria andcardPwdGreaterThanOrEqualTo(String value) {
+            addCriterion("tec.CARD_PWD >=", value, "cardPwd");
+            return (Criteria) this;
+        }
+
+        public Criteria andcardPwdLessThan(String value) {
+            addCriterion("tec.CARD_PWD <", value, "cardPwd");
+            return (Criteria) this;
+        }
+
+        public Criteria andcardPwdLessThanOrEqualTo(String value) {
+            addCriterion("tec.CARD_PWD <=", value, "cardPwd");
+            return (Criteria) this;
+        }
+
+        public Criteria andcardPwdIn(List<String> values) {
+            addCriterion("tec.CARD_PWD in", values, "cardPwd");
+            return (Criteria) this;
+        }
+
+        public Criteria andcardPwdNotIn(List<String> values) {
+            addCriterion("tec.CARD_PWD not in", values, "cardPwd");
+            return (Criteria) this;
+        }
+
+        public Criteria andcardPwdLike(String value) {
+            addCriterion("tec.CARD_PWD like", "%" + value + "%", "cardPwd");
+            return (Criteria) this;
+        }
+
+        public Criteria andcardPwdNotLike(String value) {
+            addCriterion("tec.CARD_PWD not like", "%" + value + "%", "cardPwd");
+            return (Criteria) this;
+        }
+
+        public Criteria andcardPwdBetween(Integer value1, Integer value2) {
+            addCriterion("tec.CARD_PWD between", value1, value2, "cardPwd");
+            return (Criteria) this;
+        }
+
+        public Criteria andcardPwdNotBetween(Integer value1, Integer value2) {
+            addCriterion("tec.CARD_PWD not between", value1, value2, "cardPwd");
             return (Criteria) this;
         }
 

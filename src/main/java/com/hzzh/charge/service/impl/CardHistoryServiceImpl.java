@@ -27,7 +27,7 @@ public class CardHistoryServiceImpl implements CardHistoryService {
     private CardHistoryDao cardHistoryDao;
 
     /**
-     * 充值卡详单
+     * 电卡明细
      *
      * @param companyId
      * @param operateTime
@@ -65,7 +65,7 @@ public class CardHistoryServiceImpl implements CardHistoryService {
     }
 
     /**
-     * 计算总充值金额
+     * 统计卡内余额，充值前金额，充值金额
      */
     private List<Object> getSumBalance(List<RechargeDetail> list) {
         //充值前金额集合
@@ -114,15 +114,15 @@ public class CardHistoryServiceImpl implements CardHistoryService {
     }
 
     /**
-     * 计算充值前总金额
+     * 计算充值前金额
      *
      * @param list
      * @return
      */
     private double getOldBalance(List<Double> list) {
         double sum = 0;
-        for (Double d : list) {
-            sum += d;
+        for (Double oldBalance : list) {
+            sum += oldBalance;
         }
         //四舍五入
         BigDecimal bigDecimal = new BigDecimal(sum);
@@ -131,15 +131,15 @@ public class CardHistoryServiceImpl implements CardHistoryService {
     }
 
     /**
-     * 计算充值总金额
+     * 计算充值金额
      *
      * @param list
      * @return
      */
     private double getMoney(List<Double> list) {
         double sum = 0;
-        for (Double d : list) {
-            sum += d;
+        for (Double money : list) {
+            sum += money;
         }
         //四舍五入
         BigDecimal bigDecimal = new BigDecimal(sum);
@@ -148,15 +148,15 @@ public class CardHistoryServiceImpl implements CardHistoryService {
     }
 
     /**
-     * 计算总余额
+     * 计算余额
      *
      * @param list
      * @return
      */
     private double getBalance(List<Double> list) {
         double sum = 0;
-        for (Double d : list) {
-            sum += d;
+        for (Double balance : list) {
+            sum += balance;
         }
         //四舍五入
         BigDecimal bigDecimal = new BigDecimal(sum);

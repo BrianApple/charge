@@ -1,7 +1,7 @@
 package com.hzzh.charge.model.report_po;
 
 /**
- * 统计扩展类
+ * 统计尖，峰，平，谷电量,电费扩展类
  * Created by TaoRan on 2016/10/13.
  */
 public class CarTotal {

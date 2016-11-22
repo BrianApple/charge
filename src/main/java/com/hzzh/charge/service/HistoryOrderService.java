@@ -58,9 +58,12 @@ public interface HistoryOrderService {
 
     /**
      * 查询当月总共接入了多少充电桩
-     * @param companyId
+     * @param
      * @return
      * @throws Exception
      */
 //    MonthlyPoles queryChargePoles(@Param("companyId") String companyId) throws Exception;
+
+
+
 }

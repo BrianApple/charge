@@ -52,7 +52,7 @@
 
     <!--===========车辆月报表============-->
     <resultMap id="report_Map" type="com.hzzh.charge.model.report_po.CarReport">
-        <result column="CAR_NO" property="carNo"/>
+        <result column="car_no" property="carNo"/>
         <result column="card_no" property="cardNo"/>
         <result column="COMPANY_ID" property="companyId"/>
         <result column="STATION_NAME" property="stationName"/>
@@ -60,7 +60,7 @@
 
     <select id="monthlyReport" resultMap="report_Map">
         select
-        o.CAR_NO,
+        IFNULL(o.car_no,'') car_no,
         o.card_no,
         o.charge_begin,
         o.COMPANY_ID,
@@ -98,7 +98,8 @@
 
         </where>
         --
-        group by o.car_no
+        group by
+        IFNULL(o.car_no,'')
     </select>
     <!--=====================车辆日统计报表========================-->
     <select id="dailyReport" resultMap="report_Map">
@@ -123,6 +124,7 @@
         t_ev_order o
         <where>
             AND o.STATUS_='3'
+            AND o.COMPANY_ID=#{companyId}
             <if test="dateTime!=null">
                 <choose>
                     <when test='dateTime!=null and dateTime!=""'>
@@ -134,9 +136,8 @@
                     </otherwise>
                 </choose>
             </if>
-            AND o.COMPANY_ID=#{companyId}
         </where>
-        group by o.car_no
+        group by IFNULL(o.car_no,'')
     </select>
     <!--=====================场站月统计报表========================-->
     <resultMap id="stationReport_Map" type="com.hzzh.charge.model.report_po.StationPo">

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 历史订单管理控制器
+ * 历史订单控制器
  * 订单管理模块
  * Created by TaoRan on 2016/10/8.
  */

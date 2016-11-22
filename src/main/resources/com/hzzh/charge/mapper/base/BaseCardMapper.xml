@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.hzzh.charge.model.Card">
         <id column="GUID_" jdbcType="VARCHAR" property="guid" />
         <result column="CARD_NO" jdbcType="VARCHAR" property="cardNo" />
+        <result column="CARD_PWD" jdbcType="VARCHAR" property="cardPwd" />
         <result column="CAR_NO" jdbcType="VARCHAR" property="carNo" />
         <result column="COMPANY_ID" jdbcType="VARCHAR" property="companyId" />
         <result column="COMPANY_NAME" jdbcType="VARCHAR" property="companyName" />
@@ -73,6 +74,7 @@
     <sql id="Base_Column_List">
         tec.GUID_,
         tec.CARD_NO,
+        tec.CARD_PWD,
         tec.CAR_NO,
         tec.COMPANY_ID,
         tec.COMPANY_NAME,
@@ -130,6 +132,7 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             GUID_,
             CARD_NO,
+            CARD_PWD,
             CAR_NO,
             COMPANY_ID,
             COMPANY_NAME,
@@ -145,6 +148,7 @@
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             #{guid,jdbcType=VARCHAR},
             #{cardNo,jdbcType=VARCHAR},
+            #{cardPwd,jdbcType=VARCHAR},
             #{carNo,jdbcType=VARCHAR},
             #{companyId,jdbcType=VARCHAR},
             #{companyName,jdbcType=VARCHAR},
@@ -165,6 +169,7 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             GUID_,
             CARD_NO,
+            CARD_PWD,
             CAR_NO,
             COMPANY_ID,
             COMPANY_NAME,
@@ -181,6 +186,7 @@
             <trim suffixOverrides=",">
                 #{item.guid,jdbcType=VARCHAR},
                 #{item.cardNo,jdbcType=VARCHAR},
+                #{item.cardPwd,jdbcType=VARCHAR},
                 #{item.carNo,jdbcType=VARCHAR},
                 #{item.companyId,jdbcType=VARCHAR},
                 #{item.companyName,jdbcType=VARCHAR},
@@ -205,6 +211,9 @@
             </if>
             <if test="cardNo != null">
                 CARD_NO,
+            </if>
+            <if test="cardPwd != null">
+                CARD_PWD,
             </if>
             <if test="carNo != null">
                 CAR_NO,
@@ -246,6 +255,9 @@
             </if>
             <if test="cardNo != null">
                 #{cardNo,jdbcType=VARCHAR},
+            </if>
+            <if test="cardPwd != null">
+                #{cardPwd,jdbcType=VARCHAR},
             </if>
             <if test="carNo != null">
                 #{carNo,jdbcType=VARCHAR},
@@ -293,6 +305,9 @@
             <if test="cardNo != null">
                 CARD_NO,
             </if>
+            <if test="cardPwd != null">
+                CARD_PWD,
+            </if>
             <if test="carNo != null">
                 CAR_NO,
             </if>
@@ -334,6 +349,9 @@
                 </if>
                 <if test="item.cardNo != null">
                     #{item.cardNo,jdbcType=VARCHAR},
+                </if>
+                <if test="item.cardPwd != null">
+                    #{item.cardPwd,jdbcType=VARCHAR},
                 </if>
                 <if test="item.carNo != null">
                     #{item.carNo,jdbcType=VARCHAR},
@@ -378,6 +396,7 @@
         <trim prefix="set" suffix="" suffixOverrides=",">
             tec.GUID_ = #{record.guid,jdbcType=VARCHAR},
             tec.CARD_NO = #{record.cardNo,jdbcType=VARCHAR},
+            tec.CARD_PWD = #{record.cardPwd,jdbcType=VARCHAR},
             tec.CAR_NO = #{record.carNo,jdbcType=VARCHAR},
             tec.COMPANY_ID = #{record.companyId,jdbcType=VARCHAR},
             tec.COMPANY_NAME = #{record.companyName,jdbcType=VARCHAR},
@@ -408,6 +427,9 @@
             </if>
             <if test="record.cardNo != null">
                 tec.CARD_NO = #{record.cardNo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.cardPwd != null">
+                tec.CARD_PWD = #{record.cardPwd,jdbcType=VARCHAR},
             </if>
             <if test="record.carNo != null">
                 tec.CAR_NO = #{record.carNo,jdbcType=VARCHAR},
@@ -480,6 +502,7 @@
         <set>
             tec.GUID_ = #{guid,jdbcType=VARCHAR},
             tec.CARD_NO = #{cardNo,jdbcType=VARCHAR},
+            tec.CARD_PWD = #{cardPwd,jdbcType=VARCHAR},
             tec.CAR_NO = #{carNo,jdbcType=VARCHAR},
             tec.COMPANY_ID = #{companyId,jdbcType=VARCHAR},
             tec.COMPANY_NAME = #{companyName,jdbcType=VARCHAR},
@@ -506,6 +529,9 @@
             </if>
             <if test="cardNo != null">
                 tec.CARD_NO = #{cardNo,jdbcType=VARCHAR},
+            </if>
+            <if test="cardPwd != null">
+                tec.CARD_PWD = #{cardPwd,jdbcType=VARCHAR},
             </if>
             <if test="carNo != null">
                 tec.CAR_NO = #{carNo,jdbcType=VARCHAR},

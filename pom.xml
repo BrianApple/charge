@@ -17,8 +17,11 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
     </properties>
+
+
 
 
     <dependencies>
@@ -118,25 +121,42 @@
 
     <!--maven插件-->
     <build>
+        <finalName>charge</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <fork>true</fork>
+                    <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
+                </configuration>
+                <!-- mvn spring-boot:repackage -->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>*.properties</exclude>
+                        <exclude>**\templates\**</exclude>
+                        <exclude>**\test\**</exclude>
+                        <!--<exclude>**\com\hzzh\charge\service\impl\OrderServiceImpl.class\**</exclude>-->
+                    </excludes>
+                    <!--jar包输出路径-->
+                    <!--<outputDirectory></outputDirectory>-->
+
                 </configuration>
             </plugin>
-
-            <!--打war包开启-->
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-war-plugin</artifactId>-->
-                <!--<configuration>-->
-                    <!--<warName>springboot</warName>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
         </plugins>
     </build>
+
+
 
 
 </project>

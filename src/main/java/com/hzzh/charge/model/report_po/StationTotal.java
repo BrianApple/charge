@@ -1,6 +1,7 @@
 package com.hzzh.charge.model.report_po;
 
 /**
+ * 按天统计场站的总电量的扩展类
  * Created by TaoRan on 2016/10/14.
  */
 public class StationTotal {

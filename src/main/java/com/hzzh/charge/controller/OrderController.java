@@ -2,6 +2,7 @@ package com.hzzh.charge.controller;
 
 import com.hzzh.charge.model.Order;
 import com.hzzh.charge.model.order_po.CurrentOrder;
+import com.hzzh.charge.model.order_po.ExportOrder;
 import com.hzzh.charge.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,12 +54,13 @@ public class OrderController {
         if (order == null) {
             return null;
         }
-        Integer update = orderService.update(order);
+        Integer update = orderService.updateCurrentOrder(order);
         return update;
     }
 
     /**
      * 查询当前订单
+     *
      * @param map
      * @return
      * @throws Exception
@@ -73,4 +75,41 @@ public class OrderController {
         List<CurrentOrder> list = orderService.currentOrder(companyId, cardNo);
         return list;
     }
+
+    /**
+     * 重传数据
+     *
+     * @return
+     */
+    @RequestMapping(value = "/repeat")
+    public Order queryRepeat(@RequestBody Order order) throws Exception {
+        Order count = orderService.queryRepeat(order);
+        return count;
+    }
+
+
+    /**
+     * 查询所有数据，用于车辆日充电详细报表数据导出
+     *
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/exportOrders")
+    public List<ExportOrder> exportOrders(@RequestBody Map<String, Object> map) throws Exception {
+        List<ExportOrder> list = null;
+        if (map.get("cardNo") != null
+                && map.get("companyId") != null
+                && map.get("stationName") != null
+                && map.get("startTime") != null
+                && map.get("endTime") != null) {
+            String cardNo = map.get("cardNo").toString();
+            String companyId = map.get("companyId").toString();
+            String stationName = map.get("stationName").toString();
+            String startTime = map.get("startTime").toString();
+            String endTime = map.get("endTime").toString();
+            list = orderService.exportOrder(cardNo, companyId, stationName, startTime, endTime);
+        }
+        return list;
+    }
+
 }

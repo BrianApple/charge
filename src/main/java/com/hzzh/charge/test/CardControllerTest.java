@@ -1,9 +1,11 @@
 package com.hzzh.charge.test;
+
 import com.hzzh.charge.MyBatisApplication;
 import com.hzzh.charge.model.Card;
 import com.hzzh.charge.model.CardHistory;
 import com.hzzh.charge.model.card_po.CardAction;
 import org.apache.commons.collections.map.HashedMap;
+import org.hibernate.validator.internal.util.privilegedactions.NewSchema;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -28,9 +30,9 @@ public class CardControllerTest {
     //添加卡
     @Test
     public void testAdd() {
-        CardAction cardAction=new CardAction();
+        CardAction cardAction = new CardAction();
         Card card = new Card();
-        CardHistory cardHistory=new CardHistory();
+        CardHistory cardHistory = new CardHistory();
 
         //主键
         card.setGuid("001");
@@ -154,7 +156,7 @@ public class CardControllerTest {
 
         card.setCardNo("888999");
         //余额
-        BigDecimal bigDecimal=new BigDecimal("200.00");
+        BigDecimal bigDecimal = new BigDecimal("200.00");
         card.setCardBalance(bigDecimal);
         card.setCarNo("鄂888AZ");
         card.setCompanyId("AAAAAAAA-B2AE-40CE-9FA7-1A409F636EDA");
@@ -165,7 +167,7 @@ public class CardControllerTest {
         //充值卡编号
         cardHistory.setCardNo("888999");
         //充值金额
-        BigDecimal bigDecimal1=new BigDecimal("200.00");
+        BigDecimal bigDecimal1 = new BigDecimal("200.00");
         cardHistory.setCardMoney(bigDecimal1);
 
         //状态为正常（卡状态:0-未激活,1-正常(已激活),2-锁定,3-注销）
@@ -199,5 +201,85 @@ public class CardControllerTest {
         System.out.println(message);
     }
 
+    //更新电卡
+    @Test
+    public void testUpdate() {
+        Card card = new Card();
+        card.setGuid("2F4376F2-5133-A250-7F59-784A1EF9457F");
+        card.setCardNo("21822498");
+//        card.setOwnerName("陶然");
+        card.setCarNo("浙A88888");
+        String message = HttpClientUtils.testUrl("/card/update", card);
+        System.out.println(message);
+    }
+
+    //充值记录测试
+    @Test
+    public void testRechargeRecord() {
+        Map<String, Object> map = new HashedMap();
+        map.put("cardNo", "0056");
+        map.put("dateTime", "2016-11-18");
+        map.put("endTime", "2016-11-21");
+        String message = HttpClientUtils.testUrl("/card/rechargeRecord", map);
+        System.out.println(message);
+    }
+
+    //支出记录测试
+    @Test
+    public void testPayRecord() {
+        Map<String, Object> map = new HashedMap();
+        map.put("cardNo", "0001");
+        map.put("dateTime", "2016-09-30");
+        map.put("endTime", "2016-11-15");
+        String message = HttpClientUtils.testUrl("/card/payRecord", map);
+        System.out.println(message);
+    }
+
+    //变更记录
+    @Test
+    public void testStatus(){
+        Map<String, Object> map = new HashedMap();
+        map.put("cardNo", "66668888");
+        String message=HttpClientUtils.testUrl("/card/statusRecord",map);
+        System.out.println(message);
+    }
+
+
+    //登录
+    @Test
+    public void testLogin(){
+        Map<String, Object> map = new HashedMap();
+        map.put("cardNo", "888888");
+        map.put("cardPwd","789");
+        String message=HttpClientUtils.testUrl("/card/login",map);
+        System.out.println(message);
+    }
+
+    //注册
+    @Test
+    public void testRegister(){
+        Card card=new Card();
+        card.setGuid(HttpClientUtils.getUUID());
+        card.setCardNo("888888");
+        card.setCardPwd("123");
+        card.setCarNo("浙A8888");
+        card.setCompanyId("avsdv151321vasd4bvsd22121");
+        Date date=new Date();
+        SimpleDateFormat df= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateTime=df.format(date);
+        card.setCreateTime(dateTime);
+        String message=HttpClientUtils.testUrl("/card/register",card);
+        System.out.println(message);
+    }
+
+    //修改密码
+    @Test
+    public void testEditPwd(){
+        Map<String, Object> map = new HashedMap();
+        map.put("cardNo", "888888");
+        map.put("cardPwd","789");
+        String message=HttpClientUtils.testUrl("/card/editPwd",map);
+        System.out.println(message);
+    }
 
 }

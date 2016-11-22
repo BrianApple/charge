@@ -6,6 +6,8 @@ package com.hzzh.charge.model.card_po;
  * Created by TaoRan on 2016/10/20.
  */
 public class QueryPage {
+    //GUID
+    private String guid;
     //卡号
     private String cardNo;
     //所属人id
@@ -65,5 +67,13 @@ public class QueryPage {
 
     public void setCardStatus(String cardStatus) {
         this.cardStatus = cardStatus;
+    }
+
+    public String getGuid() {
+        return guid;
+    }
+
+    public void setGuid(String guid) {
+        this.guid = guid;
     }
 }
