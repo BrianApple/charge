@@ -192,7 +192,6 @@
     </update>
 
 
-
     <!--根据条件查询所有数据用于车辆日充电详细报表导出-->
     <resultMap id="export_Map" type="com.hzzh.charge.model.order_po.ExportOrder">
         <result column="CAR_NO" property="carNo"/>
@@ -248,5 +247,82 @@
         AND
         (o.CAR_NO is null or o.CAR_NO='')
     </update>
+
+
+    <!--=======================================图表(车辆月充电统计)===============================================-->
+
+    <!--查询指定月的尖，峰，平，谷的电量-->
+    <resultMap id="Monthly_Data_Map" type="com.hzzh.charge.model.order_po.CarMonthlyChart">
+        <result column="CARD_NO" property="cardNo"/>
+        <result column="CAR_NO" property="carNo"/>
+        <result column="CHARGE_BEGIN" property="chargeBegin"/>
+        <result column="charge_J" property="electricChargeJ"/>
+        <result column="charge_F" property="electricChargeF"/>
+        <result column="charge_P" property="electricChargeP"/>
+        <result column="charge_G" property="electricChargeG"/>
+    </resultMap>
+    <select id="QueryMonthlyData" resultMap="Monthly_Data_Map">
+        SELECT
+        o.CARD_NO,
+        o.CAR_NO,
+        o.CHARGE_BEGIN,
+        ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE_J,0.00)),2) charge_J,
+        ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE_F,0.00)),2) charge_F,
+        ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE_P,0.00)),2) charge_P,
+        ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE_G,0.00)),2) charge_G,
+        DATE_FORMAT(o.CHARGE_BEGIN,'%Y-%m-%d') days
+        FROM
+        t_ev_order o
+        <where>
+            AND
+            o.STATUS_='3'
+            AND
+            o.COMPANY_ID=#{companyId}
+            AND
+            o.CARD_NO=#{cardNo}
+            <if test="dateTime!='' and dateTime!=null">
+                AND
+                DATE_FORMAT(#{dateTime},'%Y%m%')=DATE_FORMAT(o.CHARGE_BEGIN,'%Y%m%')
+            </if>
+
+        </where>
+        GROUP BY o.CARD_NO,days
+    </select>
+
+
+    <!--=======================================图表(场站月电量统计)===============================================-->
+    <resultMap id="station_Chart_Map" type="com.hzzh.charge.model.order_po.StationMonthlyChart">
+     <result column="STATION_NAME" property="stationName"/>
+     <result column="CHARGE_BEGIN" property="chargeBegin"/>
+     <result column="charge_J" property="charge_J"/>
+     <result column="charge_F" property="charge_F"/>
+     <result column="charge_P" property="charge_P"/>
+     <result column="charge_G" property="charge_G"/>
+    </resultMap>
+    <select id="stationMonthlyChart" resultMap="station_Chart_Map">
+        SELECT
+        o.STATION_NAME,
+        ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE_J,0.00)),2) charge_J,
+        ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE_F,0.00)),2) charge_F,
+        ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE_P,0.00)),2) charge_P,
+        ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE_G,0.00)),2) charge_G,
+        o.CHARGE_BEGIN,
+        DATE_FORMAT(o.CHARGE_BEGIN,'%Y-%m-%d') days
+        FROM
+        t_ev_order o
+        <where>
+          AND
+          o.STATUS_='3'
+          AND
+          o.COMPANY_ID=#{companyId}
+          AND
+          o.STATION_NAME=#{stationName}
+          <if test="dateTime!='' and dateTime!=null">
+          AND
+          DATE_FORMAT(#{dateTime},'%Y%m%')=DATE_FORMAT(o.CHARGE_BEGIN,'%Y%m%')
+          </if>
+        </where>
+          GROUP BY o.STATION_NAME,days
+    </select>
 
 </mapper>

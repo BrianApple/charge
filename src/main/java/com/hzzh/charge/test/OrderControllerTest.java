@@ -188,5 +188,27 @@ public class OrderControllerTest {
         String message=HttpClientUtils.testUrl("/order/exportOrders",map);
         System.out.println(message);
     }
+
+    //图表(车辆月充电统计)
+    @Test
+    public void testQueryMonthlyData(){
+        Map<String,Object>map=new HashedMap();
+        map.put("companyId","a67bef10-5db2-11e5-bd9d-19cc9cdf5fc1");
+        map.put("cardNo","59722480");
+        map.put("dateTime","2016-11");
+        String message=HttpClientUtils.testUrl("/order/monthlyData",map);
+        System.out.println(message);
+    }
+
+    //图表(场站月电量统计)
+    @Test
+    public void testStationMonthlyChart(){
+        Map<String,Object> map=new HashedMap();
+        map.put("companyId","a67bef10-5db2-11e5-bd9d-19cc9cdf5fc1");
+        map.put("stationName","义乌小商品站");
+        map.put("dateTime","2016-11");
+        String message=HttpClientUtils.testUrl("/order/stationChart",map);
+        System.out.println(message);
+    }
 }
 

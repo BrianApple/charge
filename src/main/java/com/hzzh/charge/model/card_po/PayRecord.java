@@ -13,6 +13,10 @@ public class PayRecord {
     private Double pay;
     //余额
     private Double balance;
+    //桩号
+    private String devName;
+    //电量
+    private String electricCharge;
 
     public String getPayDate() {
         return payDate;
@@ -44,6 +48,22 @@ public class PayRecord {
 
     public void setBalance(Double balance) {
         this.balance = balance;
+    }
+
+    public String getDevName() {
+        return devName;
+    }
+
+    public void setDevName(String devName) {
+        this.devName = devName;
+    }
+
+    public String getElectricCharge() {
+        return electricCharge;
+    }
+
+    public void setElectricCharge(String electricCharge) {
+        this.electricCharge = electricCharge;
     }
 }
 

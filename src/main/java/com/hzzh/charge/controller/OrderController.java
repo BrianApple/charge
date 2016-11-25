@@ -3,6 +3,8 @@ package com.hzzh.charge.controller;
 import com.hzzh.charge.model.Order;
 import com.hzzh.charge.model.order_po.CurrentOrder;
 import com.hzzh.charge.model.order_po.ExportOrder;
+import com.hzzh.charge.model.order_po.CarMonthlyChart;
+import com.hzzh.charge.model.order_po.StationMonthlyChart;
 import com.hzzh.charge.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -108,6 +110,46 @@ public class OrderController {
             String startTime = map.get("startTime").toString();
             String endTime = map.get("endTime").toString();
             list = orderService.exportOrder(cardNo, companyId, stationName, startTime, endTime);
+        }
+        return list;
+    }
+
+    /**
+     * 图表(车辆月充电统计)
+     * 查询指定月份的尖，峰，平，谷的电量。
+     *
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/monthlyData")
+    public List<CarMonthlyChart> queryMonthlyData(@RequestBody Map<String, Object> map) throws Exception {
+        List<CarMonthlyChart> list = null;
+        if (map.get("companyId") != null && map.get("cardNo") != null && map.get("dateTime") != null) {
+            String companyId = map.get("companyId").toString();
+            String cardNo = map.get("cardNo").toString();
+            String dateTime = map.get("dateTime").toString();
+            list = orderService.QueryMonthlyData(companyId, cardNo, dateTime);
+        }
+        return list;
+    }
+
+    /**
+     * 图表(场站月电量统计)
+     * 查询指定月份每一天的尖，峰，平，谷的电量
+     *
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/stationChart")
+    public List<StationMonthlyChart> stationChart(@RequestBody Map<String, Object> map) throws Exception {
+        List<StationMonthlyChart> list = null;
+        if (map.get("companyId") != null && map.get("stationName") != null && map.get("dateTime") != null) {
+            String companyId = map.get("companyId").toString();
+            String stationName = map.get("stationName").toString();
+            String dateTime = map.get("dateTime").toString();
+            list = orderService.stationMonthlyChart(companyId, stationName, dateTime);
         }
         return list;
     }

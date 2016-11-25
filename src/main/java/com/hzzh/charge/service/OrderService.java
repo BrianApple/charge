@@ -1,10 +1,7 @@
 package com.hzzh.charge.service;
 
 import com.hzzh.charge.model.Order;
-import com.hzzh.charge.model.order_po.CurrentOrder;
-import com.hzzh.charge.model.order_po.CustomOrder;
-import com.hzzh.charge.model.order_po.ExportOrder;
-import com.hzzh.charge.model.report_po.HistoryOrder;
+import com.hzzh.charge.model.order_po.*;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -151,4 +148,31 @@ public interface OrderService {
      * @throws Exception
      */
     Integer updateCarNo(@Param("carNo")String carNo,@Param("cardNo")String cardNo)throws Exception;
+
+    /**
+     * 图表(车辆月充电统计)
+     * 查询指定月份的尖，峰，平，谷,的电量
+     * @param companyId
+     * @param cardNo
+     * @param dateTime
+     * @return
+     * @throws Exception
+     */
+    List<CarMonthlyChart> QueryMonthlyData(@Param("companyId")String companyId,
+                                           @Param("cardNo")String cardNo,
+                                           @Param("dateTime")String dateTime)throws Exception;
+
+    /**
+     * 图表(场站月电量统计)
+     * 查询指定月份每一天的尖，峰，平，谷的电量
+     * @param companyId
+     * @param stationName
+     * @param dateTime
+     * @return
+     * @throws Exception
+     */
+    List<StationMonthlyChart> stationMonthlyChart(@Param("companyId")String companyId,
+                                                  @Param("stationName")String stationName,
+                                                  @Param("dateTime")String dateTime)throws Exception;
+
 }

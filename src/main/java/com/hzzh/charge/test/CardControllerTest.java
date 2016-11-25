@@ -228,9 +228,9 @@ public class CardControllerTest {
     @Test
     public void testPayRecord() {
         Map<String, Object> map = new HashedMap();
-        map.put("cardNo", "0001");
-        map.put("dateTime", "2016-09-30");
-        map.put("endTime", "2016-11-15");
+        map.put("cardNo", "28461122");
+        map.put("dateTime", "");
+        map.put("endTime", "");
         String message = HttpClientUtils.testUrl("/card/payRecord", map);
         System.out.println(message);
     }

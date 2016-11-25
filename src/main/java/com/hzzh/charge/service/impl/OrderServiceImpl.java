@@ -1,22 +1,17 @@
 package com.hzzh.charge.service.impl;
 
 import com.hzzh.charge.dao.CardDao;
-import com.hzzh.charge.dao.CardHistoryDao;
 import com.hzzh.charge.dao.OrderDao;
 import com.hzzh.charge.model.*;
-import com.hzzh.charge.model.order_po.CurrentOrder;
-import com.hzzh.charge.model.order_po.CustomOrder;
-import com.hzzh.charge.model.order_po.ExportOrder;
+import com.hzzh.charge.model.order_po.*;
 import com.hzzh.charge.service.OrderService;
-import com.hzzh.charge.utils.HttpClientUtils;
-import com.sun.org.apache.regexp.internal.RE;
+import com.hzzh.charge.utils.DateUtil;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -419,6 +414,49 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Integer updateCarNo(@Param("carNo") String carNo, @Param("cardNo") String cardNo) throws Exception {
         return orderDao.updateCarNo(carNo, cardNo);
+    }
+
+    /**
+     * 图表(车辆月充电统计)
+     * 查询指定月份的尖，峰，平，谷,的电量
+     * @param companyId
+     * @param cardNo
+     * @param dateTime
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<CarMonthlyChart> QueryMonthlyData(@Param("companyId") String companyId,
+                                                  @Param("cardNo") String cardNo,
+                                                  @Param("dateTime") String dateTime) throws Exception {
+        String date = "";
+        if (!dateTime.equals("")) {
+            date = DateUtil.monthFormat(dateTime);
+        }
+        List<CarMonthlyChart> list = orderDao.QueryMonthlyData(companyId, cardNo, date);
+        return list;
+    }
+
+    /**
+     * 图表(场站月电量统计)
+     * 查询指定月份每一天的尖，峰，平，谷的电量
+     *
+     * @param companyId
+     * @param stationName
+     * @param dateTime
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<StationMonthlyChart> stationMonthlyChart(@Param("companyId") String companyId,
+                                                         @Param("stationName") String stationName,
+                                                         @Param("dateTime") String dateTime) throws Exception {
+        String date="";
+        if(!dateTime.equals("")){
+            date=DateUtil.monthFormat(dateTime);
+        }
+        List<StationMonthlyChart> list=orderDao.stationMonthlyChart(companyId,stationName,date);
+        return list;
     }
 
 

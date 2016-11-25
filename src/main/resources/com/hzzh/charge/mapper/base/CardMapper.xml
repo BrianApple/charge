@@ -90,8 +90,10 @@
             AND
             y.CARD_NO = #{cardNo}
             <if test="dateTime!=null and dateTime!=''">
-                AND DATE_FORMAT(y.OPERATE_TIME,'%Y%m%d') &gt;= DATE_FORMAT(#{dateTime},'%Y%m%d')
-                AND DATE_FORMAT(y.OPERATE_TIME, '%Y%m%d') &lt;= DATE_FORMAT(#{endTime}, '%Y%m%d')
+            AND DATE_FORMAT(y.OPERATE_TIME,'%Y%m%d') &gt;= DATE_FORMAT(#{dateTime},'%Y%m%d')
+            </if>
+            <if test="endTime!=null and endTime!=''">
+            AND DATE_FORMAT(y.OPERATE_TIME, '%Y%m%d') &lt;= DATE_FORMAT(#{endTime}, '%Y%m%d')
             </if>
 
         </where>
@@ -105,23 +107,31 @@
         <result column="STATION_NAME" property="stationName"/>
         <result column="MONETARY" property="pay"/>
         <result column="BALANCE_" property="balance"/>
+        <result column="DEV_NAME" property="devName"/>
+        <result column="ELECTRIC_CHARGE" property="electricCharge"/>
     </resultMap>
     <select id="payRecord" resultMap="pay_map">
         SELECT
         o.CHARGE_END,
         o.STATION_NAME,
-        o.MONETARY,
-        o.BALANCE_
+        IFNULL(o.MONETARY, 0.00) MONETARY,
+        IFNULL(o.BALANCE_, 0.00) BALANCE_,
+        o.DEV_NAME,
+        o.ELECTRIC_CHARGE
         FROM
         t_ev_order o
         <where>
-            and
+            AND
             o.STATUS_='3'
-            and
+            AND
             o.CARD_NO=#{cardNo}
+            AND
+            o.BALANCE_ !='---'
             <if test="dateTime!='' and dateTime!=null">
                 AND
                 DATE_FORMAT(o.CHARGE_BEGIN,'%Y%m%d') &gt;= DATE_FORMAT(#{dateTime},'%Y%m%d')
+            </if>
+            <if test="endTime!='' and endTime!=null">
                 AND
                 DATE_FORMAT(o.CHARGE_BEGIN,'%Y%m%d') &lt;= DATE_FORMAT(#{endTime},'%Y%m%d')
             </if>
