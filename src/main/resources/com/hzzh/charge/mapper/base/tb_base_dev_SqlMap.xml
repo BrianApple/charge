@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzzh.charge.dao.DeviceDao">
+  <resultMap id="DeviceMap" type="com.hzzh.charge.model.Device" >
+    <result column="GUID_" property="guid" jdbcType="VARCHAR" />
+    <result column="NAME_" property="name" jdbcType="VARCHAR" />
+    <result column="CODE_" property="code" jdbcType="VARCHAR" />
+    <result column="PARENT_ID" property="parentId" jdbcType="VARCHAR" />
+    <result column="TYPE_ID" property="typeId" jdbcType="VARCHAR" />
+    <result column="TYPE_CODE" property="typeCode" jdbcType="VARCHAR" />
+    <result column="TYPE_NAME" property="typeName" jdbcType="VARCHAR" />
+    <result column="TABLE_NAME" property="tableName" jdbcType="VARCHAR" />
+    <result column="STATION_ID" property="stationId" jdbcType="VARCHAR" />
+    <result column="STATION_CODE" property="stationCode" jdbcType="VARCHAR" />
+    <result column="STATION_NAME" property="stationName" jdbcType="VARCHAR" />
+    <result column="FACTORY_ID" property="factoryId" jdbcType="VARCHAR" />
+    <result column="FACTORY_CODE" property="factoryCode" jdbcType="VARCHAR" />
+    <result column="FACTORY_NAME" property="factoryName" jdbcType="VARCHAR" />
+    <result column="MODEL_ID" property="modelId" jdbcType="VARCHAR" />
+    <result column="MODEL_CODE" property="modelCode" jdbcType="VARCHAR" />
+    <result column="MODEL_NAME" property="modelName" jdbcType="VARCHAR" />
+    <result column="SERIAL_NUMBER" property="serialNumber" jdbcType="VARCHAR" />
+    <result column="COMPANY_ID" property="companyId" jdbcType="VARCHAR" />
+    <result column="SEE_ID" property="seeId" jdbcType="VARCHAR" />
+    <result column="STATUS_" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getDevicesByTypeCode" resultMap="DeviceMap">
+    select * from tb_base_dev where COMPANY_ID=#{companyId} AND TYPE_CODE=#{typeCode} ORDER BY STATION_CODE,CODE_
+  </select>
+  <select id="getDevicesByCompanyID" resultMap="DeviceMap">
+    select * from tb_base_dev where COMPANY_ID=#{companyId} ORDER BY STATION_CODE,CODE_
+  </select>
+  <select id="getDevicesByStationCode" resultMap="DeviceMap">
+    select * from tb_base_dev where STATION_CODE=#{stationCode} ORDER BY STATION_CODE,CODE_
+  </select>
+  <delete id="deleteByStationCode" parameterType="com.hzzh.charge.model.Device">
+    delete from tb_base_dev where STATION_CODE=#{stationCode}
+  </delete>
+  <update id="editStationName"  parameterType="com.hzzh.charge.model.Device">
+    update tb_base_dev set STATION_NAME=#{stationName} where STATION_CODE=#{stationCode}
+  </update>
+  <select id="getPoleMaxSerialNum" resultMap="DeviceMap">
+    select IFNULL(MAX(SERIAL_NUMBER),'0') as SERIAL_NUMBER from tb_base_dev where TYPE_CODE='300001' and LEFT(SERIAL_NUMBER,2)=#{modelCode}
+  </select>
+  <select id="getPoleMaxCode" resultMap="DeviceMap">
+    select IFNULL(MAX(CODE_),'0') as CODE_ from tb_base_dev where TYPE_CODE='300001'and STATION_CODE=#{stationCode}
+  </select>
+  <insert id="addPole"  parameterType="com.hzzh.charge.model.Device">
+    insert into tb_base_dev(GUID_,NAME_,CODE_,TYPE_ID,TYPE_CODE,TYPE_NAME,COMPANY_ID,STATION_ID,STATION_CODE,STATION_NAME,FACTORY_ID,FACTORY_CODE,FACTORY_NAME,SERIAL_NUMBER,MODEL_ID,MODEL_CODE,MODEL_NAME) values(#{guid},#{name},#{code},#{typeId},#{typeCode},#{typeName},#{companyId},#{stationId},#{stationCode},#{stationName},#{factoryId},#{factoryCode},#{factoryName},#{serialNumber},#{modelId},#{modelCode},#{modelName})
+  </insert>
+  <delete id="delete" parameterType="com.hzzh.charge.model.Device">
+    delete from tb_base_dev where GUID_=#{guid}
+  </delete>
+</mapper>

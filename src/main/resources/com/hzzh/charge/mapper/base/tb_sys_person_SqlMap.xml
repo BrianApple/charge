@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzzh.charge.dao.PersonDao">
+	<resultMap id="PersonMap" type="com.hzzh.charge.model.Person">
+		<result column="GUID_" property="guid" jdbcType="VARCHAR" />
+		<result column="NAME_" property="name" jdbcType="VARCHAR" />
+		<result column="SEX_" property="sex" jdbcType="VARCHAR" />
+		<result column="BIRTHDAY_" property="birthday" jdbcType="VARCHAR" />
+		<result column="CODE_" property="code" jdbcType="VARCHAR" />
+		<result column="IDENTITY_CARD" property="identityCard" jdbcType="VARCHAR" />
+		<result column="LOGIN_ID" property="loginId" jdbcType="VARCHAR" />
+		<result column="PASSWD_" property="passwd" jdbcType="VARCHAR" />
+		<result column="E_MAIL" property="eMail" jdbcType="VARCHAR" />
+		<result column="PHONE_" property="phone" jdbcType="VARCHAR" />
+		<result column="COMPANY_ID" property="companyId" jdbcType="VARCHAR" />
+		<result column="COMPANY_NAME" property="companyName" jdbcType="VARCHAR" />
+		<result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
+		<result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR" />
+		<result column="DUTY_ID" property="dutyId" jdbcType="VARCHAR" />
+		<result column="DUTY_NAME" property="dutyName" jdbcType="VARCHAR" />
+		<result column="AREA_CODE" property="areaCode" jdbcType="VARCHAR" />
+		<result column="LON" property="lon" jdbcType="VARCHAR" />
+		<result column="LAT" property="lat" jdbcType="VARCHAR" />
+		<result column="STATUS_" property="status" jdbcType="VARCHAR" />
+		<result column="USER_TYPE" property="userType" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="getAll" resultMap="PersonMap">
+		SELECT TB_SYS_PERSON.*,tb_sys_company.USER_TYPE FROM TB_SYS_PERSON join tb_sys_company on TB_SYS_PERSON.COMPANY_ID=tb_sys_company.GUID_
+	</select>
+	<select id="getLogin" resultMap="PersonMap">
+		SELECT TB_SYS_PERSON.*,tb_sys_company.USER_TYPE FROM TB_SYS_PERSON join tb_sys_company on TB_SYS_PERSON.COMPANY_ID=tb_sys_company.GUID_ where LOGIN_ID=#{loginId} and PASSWD_=#{pwd}
+	</select>
+	<select id="getByCompanyIDAndRoleID" resultMap="PersonMap">
+		select tb_sys_person.* from tb_sys_person join tb_sys_person_role on tb_sys_person.GUID_=tb_sys_person_role.PERSON_ID
+		where tb_sys_person.COMPANY_ID=#{companyId} and tb_sys_person_role.ROLE_ID=#{roleId}
+	</select>
+	<select id="getByCompanyIDWithoutAdmin" resultMap="PersonMap">
+		select tb_sys_person.* from tb_sys_person
+		join tb_sys_company on tb_sys_person.COMPANY_ID=tb_sys_company.GUID_
+		join tb_sys_role on tb_sys_role.COMPANY_ID=tb_sys_company.USER_TYPE
+		join tb_sys_person_role on tb_sys_person.GUID_=tb_sys_person_role.PERSON_ID
+		where tb_sys_role.GUID_=tb_sys_person_role.ROLE_ID and tb_sys_role.NAME_!="DEVELOPER" and tb_sys_role.NAME_!="ADMINISTRATOR"
+		and tb_sys_person.COMPANY_ID=#{companyId}
+	</select>
+
+	<update id="editPhone"  parameterType="com.hzzh.charge.model.Person">
+		update tb_sys_person set PHONE_=#{phone} where GUID_=#{guid}
+	</update>
+	<update id="editPass"  parameterType="com.hzzh.charge.model.Person">
+		update tb_sys_person set PASSWD_=#{newPass} where GUID_=#{guid} and PASSWD_=#{oldPass}
+	</update>
+	<update id="editPassword"  parameterType="com.hzzh.charge.model.Person">
+		update tb_sys_person set PASSWD_=#{password} where GUID_=#{guid}
+	</update>
+	<insert id="addPerson"  parameterType="com.hzzh.charge.model.Person">
+		insert into tb_sys_person(GUID_,NAME_,LOGIN_ID,PASSWD_,COMPANY_ID,COMPANY_NAME,DEPT_ID,DEPT_NAME,PHONE_) values(#{guid},#{name},#{loginId},#{passwd},#{companyId},#{companyName},#{deptId},#{deptName},#{phone});
+	</insert>
+	<update id="editPerson"  parameterType="com.hzzh.charge.model.Person">
+		update tb_sys_person set NAME_=#{name},DEPT_ID=#{deptId},DEPT_NAME=#{deptName},PHONE_=#{phone} where GUID_=#{guid}
+	</update>
+	<delete id="deletePerson" parameterType="com.hzzh.charge.model.Person">
+		delete from tb_sys_person_role  where PERSON_ID=#{guid};
+		delete from tb_sys_person where GUID_=#{guid};
+
+	</delete>
+</mapper>

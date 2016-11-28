@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzzh.charge.dao.TagIndexDao">
+  <resultMap id="TagIndexMap" type="com.hzzh.charge.model.TagIndex" >
+    <result column="GUID_" property="guid" jdbcType="VARCHAR" />
+    <result column="CODE_" property="code" jdbcType="VARCHAR" />
+    <result column="NAME_" property="name" jdbcType="VARCHAR" />
+    <result column="STATION_ID" property="stationId" jdbcType="VARCHAR" />
+    <result column="STATION_CODE" property="stationCode" jdbcType="VARCHAR" />
+    <result column="STATION_NAME" property="stationName" jdbcType="VARCHAR" />
+    <result column="COMPANY_ID" property="companyId" jdbcType="VARCHAR" />
+    <result column="COMPANY_NAME" property="companyName" jdbcType="VARCHAR" />
+    <result column="DEV_NAME" property="devName" jdbcType="VARCHAR" />
+    <result column="DEV_CODE" property="devCode" jdbcType="VARCHAR" />
+    <result column="MODULE_CODE" property="moduleCode" jdbcType="VARCHAR" />
+    <result column="SIGNAL_CODE" property="signalCode" jdbcType="VARCHAR" />
+    <result column="SIGNAL_NAME" property="signalName" jdbcType="VARCHAR" />
+    <result column="SIGNAL_TYPE" property="signalType" jdbcType="VARCHAR" />
+    <result column="UNIT_" property="unit" jdbcType="VARCHAR" />
+    <result column="DEV_TYPE_CODE" property="devTypeCode" jdbcType="VARCHAR" />
+    <result column="MANUFACTURER_CODE" property="manufacturerCode" jdbcType="VARCHAR" />
+    <result column="DEV_MODEL_CODE" property="devModelCode" jdbcType="VARCHAR" />
+    <result column="DEV_SERIAL_NUMBER" property="devSerialNumber" jdbcType="VARCHAR" />
+    <result column="IF_AVAILABLE" property="ifAvailable" jdbcType="VARCHAR" />
+    <result column="DATA_STATUS" property="dataStatus" jdbcType="VARCHAR" />
+    <result column="SUB_CODE" property="subCode" jdbcType="VARCHAR" />
+    <result column="LAST_VALUE" property="lastValue" jdbcType="VARCHAR" />
+    <result column="ACQ_TIME" property="acqTime" jdbcType="VARCHAR" />
+    <result column="ALARM_LEVEL" property="alarmLevel" jdbcType="VARCHAR" />
+    <result column="ALARM_AUDIO" property="alarmAudio" jdbcType="VARCHAR" />
+    <result column="PORTAL_ID" property="portalId" jdbcType="VARCHAR" />
+    <result column="INDUSTRY_CODE" property="industryCode" jdbcType="VARCHAR" />
+    <result column="IS_MEASURE" property="isMeasure" jdbcType="VARCHAR" />
+    <result column="ORDER_NUM" property="orderNum" jdbcType="INTEGER" />
+    <result column="MANAGEMENT_COMPANY" property="managementCompany" jdbcType="VARCHAR" />
+    <result column="TAG_CODE" property="tagCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByStationCode" parameterType="com.hzzh.charge.model.TagIndex">
+    delete from tb_base_tag_index where STATION_CODE=#{stationCode}
+  </delete>
+  <update id="editStationName"  parameterType="com.hzzh.charge.model.TagIndex">
+    update tb_base_tag_index set STATION_NAME=#{stationName} where STATION_CODE=#{stationCode}
+  </update>
+</mapper>

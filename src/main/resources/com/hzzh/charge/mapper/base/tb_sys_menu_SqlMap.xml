@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzzh.charge.dao.MenuDao">
+  <resultMap id="MenuMap" type="com.hzzh.charge.model.Menu">
+    <result column="GUID_" property="guid" jdbcType="VARCHAR" />
+    <result column="COMPANY_ID" property="companyId" jdbcType="VARCHAR" />
+    <result column="PORTAL_ID" property="portalId" jdbcType="VARCHAR" />
+    <result column="PORTAL_NAME" property="portalName" jdbcType="VARCHAR" />
+    <result column="MODULE_ID" property="moduleId" jdbcType="VARCHAR" />
+    <result column="MODULE_NAME" property="moduleName" jdbcType="VARCHAR" />
+    <result column="NAME_" property="name" jdbcType="VARCHAR" />
+    <result column="PARENT_ID" property="parentId" jdbcType="VARCHAR" />
+    <result column="LAYER_" property="layer" jdbcType="VARCHAR" />
+    <result column="ORDER_NUM" property="orderNum" jdbcType="INTEGER" />
+    <result column="STATUS_" property="status" jdbcType="VARCHAR" />
+    <result column="TYPE_" property="type" jdbcType="CHAR" />
+    <result column="ICON_" property="icon" jdbcType="VARCHAR" />
+    <result column="URL_" property="url" jdbcType="VARCHAR" />
+    <result column="BEAN_" property="bean" jdbcType="VARCHAR" />
+    <result column="FUNCTION_" property="function" jdbcType="VARCHAR" />
+    <result column="SERVICE_" property="service" jdbcType="VARCHAR" />
+    <result column="PARAMTER" property="paramter" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getMenus" resultMap="MenuMap">
+    SELECT tb_sys_menu.GUID_,tb_sys_menu.NAME_,tb_sys_menu.MODULE_ID,tb_sys_menu.PARENT_ID,tb_sys_moudle.NAME_ as MODULE_NAME,
+        tb_sys_moudle.URL_,tb_sys_moudle.BEAN_,tb_sys_moudle.FUNCTION_,tb_sys_moudle.PARAMTER,tb_sys_moudle.SERVICE_,tb_sys_menu.ICON_
+        FROM tb_sys_menu left join tb_sys_moudle on tb_sys_menu.MODULE_ID=tb_sys_moudle.GUID_,tb_sys_role_menu,tb_sys_person_role
+        WHERE tb_sys_role_menu.MENU_ID=tb_sys_menu.GUID_
+        and tb_sys_role_menu.ROLE_ID=tb_sys_person_role.ROLE_ID
+        and tb_sys_person_role.PERSON_ID=#{personId} order by tb_sys_menu.LAYER_,tb_sys_menu.ORDER_NUM
+  </select>
+  <select id="getMenusByCompanyID" resultMap="MenuMap">
+    SELECT tb_sys_menu.GUID_,tb_sys_menu.NAME_,tb_sys_menu.MODULE_ID,tb_sys_menu.PARENT_ID,tb_sys_moudle.NAME_ as MODULE_NAME,
+    tb_sys_moudle.URL_,tb_sys_moudle.BEAN_,tb_sys_moudle.FUNCTION_,tb_sys_moudle.PARAMTER,tb_sys_moudle.SERVICE_,tb_sys_menu.ICON_
+    FROM tb_sys_menu left join tb_sys_moudle on tb_sys_menu.MODULE_ID=tb_sys_moudle.GUID_
+    WHERE tb_sys_menu.COMPANY_ID=#{companyId}
+    order by tb_sys_menu.LAYER_,tb_sys_menu.ORDER_NUM
+  </select>
+  <insert id="addMenuGroup"  parameterType="com.hzzh.charge.model.Menu">
+    insert into tb_sys_menu(GUID_,COMPANY_ID,MODULE_NAME,NAME_,LAYER_,ORDER_NUM,STATUS_,TYPE_) values(#{guid},#{companyId},#{moduleName},#{name},#{layer},#{orderNum},#{status},#{type})
+  </insert>
+  <insert id="addMenuItem"  parameterType="com.hzzh.charge.model.Menu">
+    insert into tb_sys_menu(GUID_,COMPANY_ID,PORTAL_ID,PORTAL_NAME,MODULE_ID,MODULE_NAME,NAME_,PARENT_ID,LAYER_,ORDER_NUM,STATUS_,TYPE_) values(#{guid},#{companyId},#{portalId},#{portalName},#{moduleId},#{moduleName},#{name},#{parentId},#{layer},#{orderNum},#{status},#{type})
+  </insert>
+  <select id="getMaxOrderByCompanyID" resultMap="MenuMap">
+    select ifnull(max(ORDER_NUM),0) as ORDER_NUM from tb_sys_menu Where COMPANY_ID=#{companyId} and PARENT_ID=#{parentId}
+  </select>
+  <update id="editMenu"  parameterType="com.hzzh.charge.model.Menu">
+    update tb_sys_menu set NAME_=#{name},ICON_=#{icon} where GUID_=#{guid};
+  </update>
+  <update id="editMenuOrder"  parameterType="com.hzzh.charge.model.Menu">
+    update tb_sys_menu set ORDER_NUM=#{orderNum} where GUID_=#{guid}
+  </update>
+  <delete id="deleteMenu" parameterType="com.hzzh.charge.model.Menu">
+    delete from tb_sys_role_menu where MENU_ID=#{menuId} or MENU_ID in(select GUID_ from tb_sys_menu where PARENT_ID=#{menuId});
+    delete from tb_sys_menu where GUID_=#{menuId};
+    delete from tb_sys_menu where PARENT_ID=#{menuId};
+  </delete>
+
+</mapper>
