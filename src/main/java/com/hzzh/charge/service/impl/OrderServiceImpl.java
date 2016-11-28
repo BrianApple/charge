@@ -28,6 +28,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private CardDao cardDao;
 
+    private String example(){
+        return null;
+    }
 
     /**
      * 添加订单

@@ -223,7 +223,7 @@
                 and DATE_FORMAT(o.CHARGE_BEGIN,'%Y%m%d%H%i%s') &gt;=DATE_FORMAT(#{startTime},'%Y%m%d%H%i%s')
             </if>
             <if test="endTime!=null and endTime!=''">
-                and DATE_FORMAT(o.CHARGE_END,'%Y%m%d%H%i%s') &lt;=DATE_FORMAT(#{endTime},'%Y%m%d%H%i%s')
+                and DATE_FORMAT(o.CHARGE_BEGIN,'%Y%m%d%H%i%s') &lt;=DATE_FORMAT(#{endTime},'%Y%m%d%H%i%s')
             </if>
             <if test="stationName!='' and stationName!=null">
                 and o.STATION_NAME=#{stationName}

@@ -1,13 +1,13 @@
 package com.hzzh.charge.dao;
+import com.hzzh.charge.model.Area;
+import org.apache.ibatis.annotations.Param;
 
-import com.hzzh.charge.dao.base.BaseAreaDao;
+import java.util.List;
 
 /**
- * 类名称：tb_sys_area表的DAO接口类AreaDao
- * 内容摘要：自行追加的数据库操作方法
- * @author TaoRan
- * @version 1.0 2016年10月24日
+ * Created by lilaifeng on 2016/9/22.
  */
-public interface AreaDao extends BaseAreaDao {
+public interface AreaDao {
+    public List<Area> getAreasByParentCode(@Param("parentCode") String parentCode) throws Exception;
 
 }
