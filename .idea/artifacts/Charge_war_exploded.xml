@@ -4,7 +4,7 @@
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="Charge" />
+          <element id="module-output" name="ChargePlatformServer" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-devtools:1.3.3.RELEASE" />
@@ -89,7 +89,7 @@
           <element id="library" level="project" name="Maven: jaxen:jaxen:1.1.6" />
         </element>
       </element>
-      <element id="javaee-facet-resources" facet="Charge/web/Web" />
+      <element id="javaee-facet-resources" facet="ChargePlatformServer/web/Web" />
     </root>
   </artifact>
 </component>
