@@ -8,7 +8,7 @@ import java.util.List;
  * Created by lilaifeng on 2016/9/22.
  */
 public interface DeviceDao {
-    public List<Device> getDevicesByTypeCode(@Param("companyId") String companyId,@Param("typeCode") String typeCode) throws Exception;
+    public List<Device> getDevicesByTypeCode(@Param("typeCode") String typeCode) throws Exception;
     public List<Device> getDevicesByCompanyID(@Param("companyId") String companyId) throws Exception;
     public List<Device> getDevicesByStationCode(@Param("stationCode") String stationCode) throws Exception;
     public int deleteByStationCode(@Param("stationCode") String stationCode) throws Exception;

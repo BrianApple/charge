@@ -2,7 +2,9 @@ package com.hzzh.charge.service.impl;
 
 import com.hzzh.charge.dao.StationDao;
 import com.hzzh.charge.model.Station;
+import com.hzzh.charge.model.station_po.StationInfo;
 import com.hzzh.charge.service.StationService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -43,4 +45,34 @@ public class StationServiceImpl implements StationService {
     public int deleteStation(String code) throws Exception{
         return stationDao.deleteStation(code);
     }
+
+    /**
+     * 查询场站列表
+     *
+     * @param companyId
+     * @param name
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<StationInfo> queryStations(@Param("companyId") String companyId,
+                                           @Param("name") String name) throws Exception {
+        return stationDao.queryStations(companyId,name);
+    }
+
+    /**
+     * 通过companyId,stationName查询场站信息
+     *
+     * @param companyId
+     * @param name
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Station queryStationInfo(@Param("companyId") String companyId,
+                                    @Param("name") String name) throws Exception {
+        return stationDao.queryStationInfo(companyId,name);
+    }
+
+
 }

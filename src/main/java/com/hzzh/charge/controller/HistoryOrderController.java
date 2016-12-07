@@ -98,6 +98,20 @@ public class HistoryOrderController {
     }
 
     /**
+     * 查询所有公司当月的总电量和总电费
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/getCurrentMonthlyReport")
+    public List<TotalReport>getCurrentMonthlyReport(@RequestBody Map<String, Object> map)throws Exception{
+        String dateTime = map.get("dateTime").toString();
+        List<TotalReport> list = historyOrderService.getCurrentMonthlyReport(dateTime);
+        return list;
+    }
+
+
+    /**
      * 车辆日报表统计
      *
      * @param map
@@ -135,6 +149,19 @@ public class HistoryOrderController {
         String dateTime = map.get("dateTime").toString();
         String companyId = map.get("companyId").toString();
         Map<String, Object> list = historyOrderService.stationReport(dateTime, companyId);
+        return list;
+    }
+
+    /**
+     * 查询所有公司的场站当月总电量
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/getCurrentMonthlyStationReport")
+    public Map<String, Object> getCurrentMonthlyStationReport(@RequestBody Map<String, Object> map) throws Exception {
+        String dateTime = map.get("dateTime").toString();
+        Map<String, Object> list = historyOrderService.getCurrentStationReport(dateTime);
         return list;
     }
 

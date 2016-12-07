@@ -38,6 +38,15 @@ public interface HistoryOrderDao {
     List<CarReport> monthlyReport(@Param("dateTime") String dateTime, @Param("companyId") String companyId) throws Exception;
 
     /**
+     * 查询所有公司当月的总电量和总电费
+     * @param dateTime
+     * @param
+     * @return
+     * @throws Exception
+     */
+    List<CarReport>getCurrentMonthlyReport(@Param("dateTime") String dateTime)throws Exception;
+
+    /**
      * 车辆日报表统计
      *
      * @param dateTime
@@ -58,12 +67,22 @@ public interface HistoryOrderDao {
     List<StationPo> stationReport(@Param("dateTime") String dateTime, @Param("companyId") String companyId) throws Exception;
 
     /**
+     * 查询所有公司当月场站的电量
+     * @param dateTime
+     * @return
+     * @throws Exception
+     */
+    List<StationPo> getCurrentStationReport(@Param("dateTime") String dateTime)throws Exception;
+
+    /**
      * 查询当月总共接入了多少充电桩
      * @param companyId
      * @return
      * @throws Exception
      */
-    MonthlyPoles queryChargePoles(@Param("companyId") String companyId) throws Exception;
+//    MonthlyPoles queryChargePoles(@Param("companyId") String companyId) throws Exception;
+
+
 
 
 

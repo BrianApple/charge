@@ -1,7 +1,9 @@
 package com.hzzh.charge.service;
 
 
+import com.hzzh.charge.model.report_po.CarReport;
 import com.hzzh.charge.model.report_po.HistoryOrder;
+import com.hzzh.charge.model.report_po.StationPo;
 import com.hzzh.charge.model.report_po.TotalReport;
 import org.apache.ibatis.annotations.Param;
 
@@ -39,6 +41,15 @@ public interface HistoryOrderService {
     List<TotalReport> monthlyReport(String dateTime, String companyId) throws Exception;
 
     /**
+     * 查询所有公司当月的总电量和总电费
+     * @param dateTime
+     * @param
+     * @return
+     * @throws Exception
+     */
+    List<TotalReport>getCurrentMonthlyReport(@Param("dateTime") String dateTime)throws Exception;
+
+    /**
      * 车辆日报表统计
      * @param dateTime
      * @param companyId
@@ -63,6 +74,14 @@ public interface HistoryOrderService {
      * @throws Exception
      */
 //    MonthlyPoles queryChargePoles(@Param("companyId") String companyId) throws Exception;
+
+    /**
+     * 查询所有公司当月场站的电量
+     * @param dateTime
+     * @return
+     * @throws Exception
+     */
+    Map<String,Object> getCurrentStationReport(@Param("dateTime") String dateTime)throws Exception;
 
 
 

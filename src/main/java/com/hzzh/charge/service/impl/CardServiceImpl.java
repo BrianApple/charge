@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * 类名称：t_ev_card表的ServiceImpl接口类CardServiceImpl
  * 内容摘要：扩展ServiceImpl
@@ -349,9 +350,9 @@ public class CardServiceImpl implements CardService {
             sum += d;
         }
         //保留两位小数返回
-        BigDecimal bigDecimal = new BigDecimal(sum);
-        double result = bigDecimal.setScale(2, BigDecimal.ROUND_CEILING).doubleValue();
-        return result;
+//        BigDecimal bigDecimal = new BigDecimal(sum);
+//        double result = bigDecimal.setScale(2, BigDecimal.ROUND_CEILING).doubleValue();
+        return sum;
 
     }
 
@@ -392,9 +393,9 @@ public class CardServiceImpl implements CardService {
             sum += d;
         }
 
-        BigDecimal decimal = new BigDecimal(sum);
-        Double result = decimal.setScale(2, BigDecimal.ROUND_CEILING).doubleValue();
-        return result;
+//        BigDecimal decimal = new BigDecimal(sum);
+//        Double result = decimal.setScale(2, BigDecimal.ROUND_CEILING).doubleValue();
+        return sum;
 
     }
 

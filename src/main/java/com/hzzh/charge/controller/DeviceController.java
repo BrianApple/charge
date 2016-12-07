@@ -19,7 +19,7 @@ public class DeviceController {
     @RequestMapping(value = "/getByTypeCode",method=RequestMethod.POST)
     @ResponseBody
     public List<Device> getDevicesByTypeCode(@RequestBody Map<String,Object> parms) throws Exception {
-        return deviceService.getDevicesByTypeCode(parms.get("companyId").toString(),parms.get("typeCode").toString());
+        return deviceService.getDevicesByTypeCode(parms.get("typeCode").toString());
     }
     @RequestMapping(value = "/getByCompanyID",method=RequestMethod.POST)
     @ResponseBody

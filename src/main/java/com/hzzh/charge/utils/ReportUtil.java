@@ -1,6 +1,7 @@
 package com.hzzh.charge.utils;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,8 +29,8 @@ public class ReportUtil {
         }
 
         //保留两位小数返回
-        BigDecimal bigDecimal = new BigDecimal(sum);
-        double result = bigDecimal.setScale(2, BigDecimal.ROUND_CEILING).doubleValue();
+        BigDecimal bigDecimal = new BigDecimal(Double.toString(sum));
+        double result = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         return result;
     }
 
@@ -48,8 +49,8 @@ public class ReportUtil {
             }
         }
         //保留两位小数返回
-        BigDecimal bigDecimal = new BigDecimal(sum);
-        double result = bigDecimal.setScale(2, BigDecimal.ROUND_CEILING).doubleValue();
+        BigDecimal bigDecimal = new BigDecimal(Double.toString(sum));
+        double result = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         return result;
 
     }
@@ -68,8 +69,8 @@ public class ReportUtil {
             }
         }
         //保留两位小数返回
-        BigDecimal bigDecimal = new BigDecimal(sum);
-        double result = bigDecimal.setScale(2, BigDecimal.ROUND_CEILING).doubleValue();
+        BigDecimal bigDecimal = new BigDecimal(Double.toString(sum));
+        double result = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         return result;
 
     }
@@ -87,8 +88,8 @@ public class ReportUtil {
                 sum += g;
             }
         }
-        BigDecimal bigDecimal = new BigDecimal(sum);
-        double result = bigDecimal.setScale(2, BigDecimal.ROUND_CEILING).doubleValue();
+        BigDecimal bigDecimal = new BigDecimal(Double.toString(sum));
+        double result = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         return result;
     }
 
@@ -106,9 +107,8 @@ public class ReportUtil {
             }
         }
         //保留两位小数
-        BigDecimal bigDecimal = new BigDecimal(sum);
-        double result = bigDecimal.setScale(2, BigDecimal.ROUND_CEILING).doubleValue();
-
+        BigDecimal bigDecimal = new BigDecimal(Double.toString(sum));
+        double result = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         return result;
     }
 
@@ -125,8 +125,8 @@ public class ReportUtil {
                 sum += f;
             }
         }
-        BigDecimal bigDecimal = new BigDecimal(sum);
-        double result = bigDecimal.setScale(2, BigDecimal.ROUND_CEILING).doubleValue();
+        BigDecimal bigDecimal = new BigDecimal(Double.toString(sum));
+        double result = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         return result;
 
     }
@@ -144,8 +144,8 @@ public class ReportUtil {
                 sum += p;
             }
         }
-        BigDecimal bigDecimal = new BigDecimal(sum);
-        double result = bigDecimal.setScale(2, BigDecimal.ROUND_CEILING).doubleValue();
+        BigDecimal bigDecimal = new BigDecimal(Double.toString(sum));
+        double result = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         return result;
     }
 
@@ -162,8 +162,8 @@ public class ReportUtil {
                 sum += G;
             }
         }
-        BigDecimal bigDecimal = new BigDecimal(sum);
-        double result = bigDecimal.setScale(2, BigDecimal.ROUND_CEILING).doubleValue();
+        BigDecimal bigDecimal = new BigDecimal(Double.toString(sum));
+        double result = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         return result;
     }
 
@@ -180,8 +180,8 @@ public class ReportUtil {
                 sum += charage;
             }
         }
-        BigDecimal bigDecimal = new BigDecimal(sum);
-        double result = bigDecimal.setScale(2, BigDecimal.ROUND_CEILING).doubleValue();
+        BigDecimal bigDecimal = new BigDecimal(Double.toString(sum));
+        double result = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         return result;
     }
 
@@ -198,8 +198,9 @@ public class ReportUtil {
                 sum += expense;
             }
         }
-        BigDecimal bigDecimal = new BigDecimal(sum);
-        double result = bigDecimal.setScale(2, BigDecimal.ROUND_CEILING).doubleValue();
+        BigDecimal bigDecimal = new BigDecimal(Double.toString(sum));
+        double result = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         return result;
     }
+
 }

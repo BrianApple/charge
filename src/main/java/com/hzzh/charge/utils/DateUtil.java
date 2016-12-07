@@ -22,7 +22,7 @@ public class DateUtil {
      */
     public static String getTime(String beginTime, String endTime) throws ParseException {
         String useTime = null;
-        if (beginTime != null || endTime != null) {
+        if (beginTime != null && endTime != null) {
             Date sTime = sdf.parse(beginTime);
             Date eTime = sdf.parse(endTime);
             Long hour = (eTime.getTime() - sTime.getTime()) / (1000 * 60 * 60);//获得小时

@@ -25,7 +25,7 @@
     <result column="STATUS_" property="status" jdbcType="VARCHAR" />
   </resultMap>
   <select id="getDevicesByTypeCode" resultMap="DeviceMap">
-    select * from tb_base_dev where COMPANY_ID=#{companyId} AND TYPE_CODE=#{typeCode} ORDER BY STATION_CODE,CODE_
+    select * from tb_base_dev where TYPE_CODE=#{typeCode} ORDER BY STATION_CODE,CODE_
   </select>
   <select id="getDevicesByCompanyID" resultMap="DeviceMap">
     select * from tb_base_dev where COMPANY_ID=#{companyId} ORDER BY STATION_CODE,CODE_

@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzzh.charge.dao.CompanyDao">
+    <resultMap id="BaseResultMap" type="com.hzzh.charge.model.Company">
+        <id column="GUID_" jdbcType="VARCHAR" property="guid" />
+        <result column="NAME_" jdbcType="VARCHAR" property="name" />
+        <result column="FULL_NAME" jdbcType="VARCHAR" property="fullName" />
+        <result column="INDUSTRY_CODE" jdbcType="VARCHAR" property="industryCode" />
+        <result column="INDUSTRY_NAME" jdbcType="VARCHAR" property="industryName" />
+        <result column="PORTAL_ID" jdbcType="VARCHAR" property="portalId" />
+        <result column="STATUS_" jdbcType="VARCHAR" property="status" />
+        <result column="LOGO_PATH" jdbcType="VARCHAR" property="logoPath" />
+        <result column="USER_TYPE" jdbcType="VARCHAR" property="userType" />
+        <result column="AREA_CODE" jdbcType="VARCHAR" property="areaCode" />
+        <result column="AREA_NAME" jdbcType="VARCHAR" property="areaName" />
+        <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <foreach collection="oredCriteria" item="criteria" separator="or">
+            <if test="criteria.valid">
+                <trim prefix="(" prefixOverrides="and" suffix=")">
+                    <foreach collection="criteria.criteria" item="criterion">
+                        <choose>
+                            <when test="criterion.noValue">
+                                and ${criterion.condition}
+                            </when>
+                            <when test="criterion.singleValue">
+                                and ${criterion.condition} #{criterion.value}
+                            </when>
+                            <when test="criterion.betweenValue">
+                                and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                            </when>
+                            <when test="criterion.listValue">
+                                and ${criterion.condition}
+                                <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                    #{listItem}
+                                </foreach>
+                            </when>
+                        </choose>
+                    </foreach>
+                </trim>
+            </if>
+        </foreach>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <foreach collection="example.oredCriteria" item="criteria" separator="or">
+            <if test="criteria.valid">
+                <trim prefix="(" prefixOverrides="and" suffix=")">
+                    <foreach collection="criteria.criteria" item="criterion">
+                        <choose>
+                            <when test="criterion.noValue">
+                                and ${criterion.condition}
+                            </when>
+                            <when test="criterion.singleValue">
+                                and ${criterion.condition} #{criterion.value}
+                            </when>
+                            <when test="criterion.betweenValue">
+                                and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                            </when>
+                            <when test="criterion.listValue">
+                                and ${criterion.condition}
+                                <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                    #{listItem}
+                                </foreach>
+                            </when>
+                        </choose>
+                    </foreach>
+                </trim>
+            </if>
+        </foreach>
+    </sql>
+    <sql id="Base_Column_List">
+        tsc.GUID_,
+        tsc.NAME_,
+        tsc.FULL_NAME,
+        tsc.INDUSTRY_CODE,
+        tsc.INDUSTRY_NAME,
+        tsc.PORTAL_ID,
+        tsc.STATUS_,
+        tsc.LOGO_PATH,
+        tsc.USER_TYPE,
+        tsc.AREA_CODE,
+        tsc.AREA_NAME,
+        tsc.ADDRESS
+    </sql>
+    <!-- 根据条件统计表中数据数量 所有数据 -->
+    <select id="countByExample" parameterType="com.hzzh.charge.model.CompanyExample" resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            tb_sys_company tsc
+        where
+            1 = 1
+        <if test="_parameter != null">
+            <trim prefix="and (" suffix=")">
+                <include refid="Example_Where_Clause" />
+            </trim>
+        </if>
+    </select>
+    <!-- 根据条件查询表中数据 所有数据 -->
+    <select id="selectByExample" parameterType="com.hzzh.charge.model.CompanyExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct 
+        </if>
+        <include refid="Base_Column_List" />
+        from
+            tb_sys_company tsc
+        where
+            1 = 1
+        <if test="_parameter != null">
+            <trim prefix="and (" suffix=")">
+                <include refid="Example_Where_Clause" />
+            </trim>
+        </if>
+        <if test="orderByClause != null">
+            order by
+                ${orderByClause}
+        </if>
+        <if test="currentSize != null">
+            limit #{currentSize} , #{pageSize}
+        </if>
+    </select>
+    <!-- 往表中插入一条数据 系统字段需要输入 -->
+    <insert id="insert" parameterType="com.hzzh.charge.model.Company">
+        insert into
+            tb_sys_company
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            GUID_,
+            NAME_,
+            FULL_NAME,
+            INDUSTRY_CODE,
+            INDUSTRY_NAME,
+            PORTAL_ID,
+            STATUS_,
+            LOGO_PATH,
+            USER_TYPE,
+            AREA_CODE,
+            AREA_NAME,
+            ADDRESS,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{guid,jdbcType=VARCHAR},
+            #{name,jdbcType=VARCHAR},
+            #{fullName,jdbcType=VARCHAR},
+            #{industryCode,jdbcType=VARCHAR},
+            #{industryName,jdbcType=VARCHAR},
+            #{portalId,jdbcType=VARCHAR},
+            #{status,jdbcType=VARCHAR},
+            #{logoPath,jdbcType=VARCHAR},
+            #{userType,jdbcType=VARCHAR},
+            #{areaCode,jdbcType=VARCHAR},
+            #{areaName,jdbcType=VARCHAR},
+            #{address,jdbcType=VARCHAR},
+        </trim>
+    </insert>
+    <!-- 往表中批量插入数据 系统字段需要输入 -->
+    <insert id="insertList" parameterType="java.util.List">
+        insert into
+            tb_sys_company
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            GUID_,
+            NAME_,
+            FULL_NAME,
+            INDUSTRY_CODE,
+            INDUSTRY_NAME,
+            PORTAL_ID,
+            STATUS_,
+            LOGO_PATH,
+            USER_TYPE,
+            AREA_CODE,
+            AREA_NAME,
+            ADDRESS,
+        </trim>
+        <foreach collection="list" item="item" open="values (" close=")" separator=" ), ( ">
+            <trim suffixOverrides=",">
+                #{item.guid,jdbcType=VARCHAR},
+                #{item.name,jdbcType=VARCHAR},
+                #{item.fullName,jdbcType=VARCHAR},
+                #{item.industryCode,jdbcType=VARCHAR},
+                #{item.industryName,jdbcType=VARCHAR},
+                #{item.portalId,jdbcType=VARCHAR},
+                #{item.status,jdbcType=VARCHAR},
+                #{item.logoPath,jdbcType=VARCHAR},
+                #{item.userType,jdbcType=VARCHAR},
+                #{item.areaCode,jdbcType=VARCHAR},
+                #{item.areaName,jdbcType=VARCHAR},
+                #{item.address,jdbcType=VARCHAR},
+            </trim>
+        </foreach>
+    </insert>
+    <!-- 往表中插入一条数据 字段为空不插入 系统字段需要输入 -->
+    <insert id="insertSelective" parameterType="com.hzzh.charge.model.Company">
+        insert into
+            tb_sys_company
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="guid != null">
+                GUID_,
+            </if>
+            <if test="name != null">
+                NAME_,
+            </if>
+            <if test="fullName != null">
+                FULL_NAME,
+            </if>
+            <if test="industryCode != null">
+                INDUSTRY_CODE,
+            </if>
+            <if test="industryName != null">
+                INDUSTRY_NAME,
+            </if>
+            <if test="portalId != null">
+                PORTAL_ID,
+            </if>
+            <if test="status != null">
+                STATUS_,
+            </if>
+            <if test="logoPath != null">
+                LOGO_PATH,
+            </if>
+            <if test="userType != null">
+                USER_TYPE,
+            </if>
+            <if test="areaCode != null">
+                AREA_CODE,
+            </if>
+            <if test="areaName != null">
+                AREA_NAME,
+            </if>
+            <if test="address != null">
+                ADDRESS,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="guid != null">
+                #{guid,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="fullName != null">
+                #{fullName,jdbcType=VARCHAR},
+            </if>
+            <if test="industryCode != null">
+                #{industryCode,jdbcType=VARCHAR},
+            </if>
+            <if test="industryName != null">
+                #{industryName,jdbcType=VARCHAR},
+            </if>
+            <if test="portalId != null">
+                #{portalId,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="logoPath != null">
+                #{logoPath,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                #{userType,jdbcType=VARCHAR},
+            </if>
+            <if test="areaCode != null">
+                #{areaCode,jdbcType=VARCHAR},
+            </if>
+            <if test="areaName != null">
+                #{areaName,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <!-- 往表中批量插入数据 字段为空不插入 系统字段需要输入 -->
+    <insert id="insertListSelective" parameterType="java.util.List">
+        insert into
+            tb_sys_company
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="guid != null">
+                GUID_,
+            </if>
+            <if test="name != null">
+                NAME_,
+            </if>
+            <if test="fullName != null">
+                FULL_NAME,
+            </if>
+            <if test="industryCode != null">
+                INDUSTRY_CODE,
+            </if>
+            <if test="industryName != null">
+                INDUSTRY_NAME,
+            </if>
+            <if test="portalId != null">
+                PORTAL_ID,
+            </if>
+            <if test="status != null">
+                STATUS_,
+            </if>
+            <if test="logoPath != null">
+                LOGO_PATH,
+            </if>
+            <if test="userType != null">
+                USER_TYPE,
+            </if>
+            <if test="areaCode != null">
+                AREA_CODE,
+            </if>
+            <if test="areaName != null">
+                AREA_NAME,
+            </if>
+            <if test="address != null">
+                ADDRESS,
+            </if>
+        </trim>
+        <foreach collection="list" item="item" open="values (" close=")" separator=" ), ( ">
+            <trim suffixOverrides=",">
+                <if test="item.guid != null">
+                    #{item.guid,jdbcType=VARCHAR},
+                </if>
+                <if test="item.name != null">
+                    #{item.name,jdbcType=VARCHAR},
+                </if>
+                <if test="item.fullName != null">
+                    #{item.fullName,jdbcType=VARCHAR},
+                </if>
+                <if test="item.industryCode != null">
+                    #{item.industryCode,jdbcType=VARCHAR},
+                </if>
+                <if test="item.industryName != null">
+                    #{item.industryName,jdbcType=VARCHAR},
+                </if>
+                <if test="item.portalId != null">
+                    #{item.portalId,jdbcType=VARCHAR},
+                </if>
+                <if test="item.status != null">
+                    #{item.status,jdbcType=VARCHAR},
+                </if>
+                <if test="item.logoPath != null">
+                    #{item.logoPath,jdbcType=VARCHAR},
+                </if>
+                <if test="item.userType != null">
+                    #{item.userType,jdbcType=VARCHAR},
+                </if>
+                <if test="item.areaCode != null">
+                    #{item.areaCode,jdbcType=VARCHAR},
+                </if>
+                <if test="item.areaName != null">
+                    #{item.areaName,jdbcType=VARCHAR},
+                </if>
+                <if test="item.address != null">
+                    #{item.address,jdbcType=VARCHAR},
+                </if>
+            </trim>
+        </foreach>
+    </insert>
+    <!-- 根据条件修改数据 所有数据 -->
+    <update id="updateByExample" parameterType="java.util.Map">
+        update
+            tb_sys_company tsc
+        <trim prefix="set" suffix="" suffixOverrides=",">
+            tsc.GUID_ = #{record.guid,jdbcType=VARCHAR},
+            tsc.NAME_ = #{record.name,jdbcType=VARCHAR},
+            tsc.FULL_NAME = #{record.fullName,jdbcType=VARCHAR},
+            tsc.INDUSTRY_CODE = #{record.industryCode,jdbcType=VARCHAR},
+            tsc.INDUSTRY_NAME = #{record.industryName,jdbcType=VARCHAR},
+            tsc.PORTAL_ID = #{record.portalId,jdbcType=VARCHAR},
+            tsc.STATUS_ = #{record.status,jdbcType=VARCHAR},
+            tsc.LOGO_PATH = #{record.logoPath,jdbcType=VARCHAR},
+            tsc.USER_TYPE = #{record.userType,jdbcType=VARCHAR},
+            tsc.AREA_CODE = #{record.areaCode,jdbcType=VARCHAR},
+            tsc.AREA_NAME = #{record.areaName,jdbcType=VARCHAR},
+            tsc.ADDRESS = #{record.address,jdbcType=VARCHAR},
+        </trim>
+        where
+            1 = 1
+        <if test="_parameter != null">
+            <trim prefix="and (" suffix=")">
+                <include refid="Update_By_Example_Where_Clause" />
+            </trim>
+        </if>
+    </update>
+    <!-- 根据条件修改数据 字段为空不修改 所有数据 -->
+    <update id="updateByExampleSelective" parameterType="java.util.Map">
+        update
+            tb_sys_company tsc
+        <set>
+            <if test="record.guid != null">
+                tsc.GUID_ = #{record.guid,jdbcType=VARCHAR},
+            </if>
+            <if test="record.name != null">
+                tsc.NAME_ = #{record.name,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fullName != null">
+                tsc.FULL_NAME = #{record.fullName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.industryCode != null">
+                tsc.INDUSTRY_CODE = #{record.industryCode,jdbcType=VARCHAR},
+            </if>
+            <if test="record.industryName != null">
+                tsc.INDUSTRY_NAME = #{record.industryName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.portalId != null">
+                tsc.PORTAL_ID = #{record.portalId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.status != null">
+                tsc.STATUS_ = #{record.status,jdbcType=VARCHAR},
+            </if>
+            <if test="record.logoPath != null">
+                tsc.LOGO_PATH = #{record.logoPath,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userType != null">
+                tsc.USER_TYPE = #{record.userType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.areaCode != null">
+                tsc.AREA_CODE = #{record.areaCode,jdbcType=VARCHAR},
+            </if>
+            <if test="record.areaName != null">
+                tsc.AREA_NAME = #{record.areaName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.address != null">
+                tsc.ADDRESS = #{record.address,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where
+            1 = 1
+        <if test="_parameter != null">
+            <trim prefix="and (" suffix=")">
+                <include refid="Update_By_Example_Where_Clause" />
+            </trim>
+        </if>
+    </update>
+    <!-- 根据条件删除数据 物理删除 -->
+    <delete id="deleteByExample" parameterType="com.hzzh.charge.model.CompanyExample">
+        delete from
+            tb_sys_company tsc
+        where
+            1 = 1
+        <if test="_parameter != null">
+            <trim prefix="and (" suffix=")">
+                <include refid="Example_Where_Clause" />
+            </trim>
+        </if>
+    </delete>
+    <!-- 根据主键查询数据 所有数据 -->
+    <select id="selectByPrimaryKey" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List" />
+        from
+            tb_sys_company tsc
+        where
+            1 = 1
+        and tsc.GUID_ = #{guid}
+    </select>
+    <!-- 根据主键修改数据 所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.hzzh.charge.model.Company">
+        update
+            tb_sys_company tsc
+        <set>
+            tsc.GUID_ = #{guid,jdbcType=VARCHAR},
+            tsc.NAME_ = #{name,jdbcType=VARCHAR},
+            tsc.FULL_NAME = #{fullName,jdbcType=VARCHAR},
+            tsc.INDUSTRY_CODE = #{industryCode,jdbcType=VARCHAR},
+            tsc.INDUSTRY_NAME = #{industryName,jdbcType=VARCHAR},
+            tsc.PORTAL_ID = #{portalId,jdbcType=VARCHAR},
+            tsc.STATUS_ = #{status,jdbcType=VARCHAR},
+            tsc.LOGO_PATH = #{logoPath,jdbcType=VARCHAR},
+            tsc.USER_TYPE = #{userType,jdbcType=VARCHAR},
+            tsc.AREA_CODE = #{areaCode,jdbcType=VARCHAR},
+            tsc.AREA_NAME = #{areaName,jdbcType=VARCHAR},
+            tsc.ADDRESS = #{address,jdbcType=VARCHAR},
+        </set>
+        where
+            1 = 1
+        and tsc.GUID_ = #{guid,jdbcType=VARCHAR}
+    </update>
+    <!-- 根据主键修改数据 字段为空不修改 所有数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.hzzh.charge.model.Company">
+        update
+            tb_sys_company tsc
+        <set>
+            <if test="guid != null">
+                tsc.GUID_ = #{guid,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                tsc.NAME_ = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="fullName != null">
+                tsc.FULL_NAME = #{fullName,jdbcType=VARCHAR},
+            </if>
+            <if test="industryCode != null">
+                tsc.INDUSTRY_CODE = #{industryCode,jdbcType=VARCHAR},
+            </if>
+            <if test="industryName != null">
+                tsc.INDUSTRY_NAME = #{industryName,jdbcType=VARCHAR},
+            </if>
+            <if test="portalId != null">
+                tsc.PORTAL_ID = #{portalId,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                tsc.STATUS_ = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="logoPath != null">
+                tsc.LOGO_PATH = #{logoPath,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                tsc.USER_TYPE = #{userType,jdbcType=VARCHAR},
+            </if>
+            <if test="areaCode != null">
+                tsc.AREA_CODE = #{areaCode,jdbcType=VARCHAR},
+            </if>
+            <if test="areaName != null">
+                tsc.AREA_NAME = #{areaName,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                tsc.ADDRESS = #{address,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where
+            1 = 1
+        and tsc.GUID_ = #{guid,jdbcType=VARCHAR}
+    </update>
+    <!-- 根据主键删除数据 物理删除 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.util.Map">
+        delete from
+            tb_sys_company
+        where
+            1 = 1
+        and GUID_ = #{guid}
+    </delete>
+</mapper>

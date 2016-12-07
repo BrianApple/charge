@@ -6,10 +6,8 @@ import com.hzzh.charge.service.HistoryOrderService;
 import com.hzzh.charge.utils.DateUtil;
 import com.hzzh.charge.utils.ReportUtil;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -106,8 +104,8 @@ public class HistoryOrderServiceImpl implements HistoryOrderService {
         }
 
         //保留两位小数返回
-        BigDecimal bigDecimal = new BigDecimal(sum);
-        double result = bigDecimal.setScale(2, BigDecimal.ROUND_CEILING).doubleValue();
+        BigDecimal bigDecimal = new BigDecimal(Double.toString(sum));
+        double result = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         return result;
     }
 
@@ -123,8 +121,8 @@ public class HistoryOrderServiceImpl implements HistoryOrderService {
             sum += d;
         }
         //保留两位小数返回
-        BigDecimal bigDecimal = new BigDecimal(sum);
-        double result = bigDecimal.setScale(2, BigDecimal.ROUND_CEILING).doubleValue();
+        BigDecimal bigDecimal = new BigDecimal(Double.toString(sum));
+        double result = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         return result;
     }
 
@@ -155,6 +153,31 @@ public class HistoryOrderServiceImpl implements HistoryOrderService {
         //计算总和
         List<TotalReport> result = this.getCarSum(list);
         return result;
+    }
+
+    /**
+     * 查询所有公司当月的总电量和总电费
+     *
+     * @param dateTime
+     * @param
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<TotalReport> getCurrentMonthlyReport(@Param("dateTime") String dateTime) throws Exception {
+        String date = "";
+        if (!dateTime.equals("")) {
+            date = DateUtil.monthFormat(dateTime);//格式化日期
+        }
+        List<CarReport> list = totalReport.getReports();
+        list = historyOrderDao.getCurrentMonthlyReport(date);
+        if (list == null || list.size() <= 0) {
+            return null;
+        }
+        //计算总和
+        List<TotalReport> result = this.getCarSum(list);
+        return result;
+
     }
 
     /**
@@ -263,8 +286,8 @@ public class HistoryOrderServiceImpl implements HistoryOrderService {
                 for (SingleTotal l : stationMonthlyTotal) {
                     if (s.getStationName().equals(l.getStationName())) {
                         //四舍五入
-                        BigDecimal bigDecimal = new BigDecimal(l.getStationTotal());
-                        double sum = bigDecimal.setScale(2, BigDecimal.ROUND_CEILING).doubleValue();
+                        BigDecimal bigDecimal = new BigDecimal(Double.toString(l.getStationTotal()));
+                        double sum = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                         s.setTotal(sum);
 
                     }
@@ -303,6 +326,121 @@ public class HistoryOrderServiceImpl implements HistoryOrderService {
 
     }
 
+    /**
+     * 查询所有公司当月场站的电量
+     *
+     * @param dateTime
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Map<String, Object> getCurrentStationReport(@Param("dateTime") String dateTime) throws Exception {
+        /**
+         * 1.获取日期，并进行格式化
+         * 2.获取数据添加到list集合中。
+         * 3.计算总和
+         */
+        String date = "";
+        if (!dateTime.equals("")) {
+            date = DateUtil.monthFormat(dateTime);
+        }
+        List<StationPo> list = historyOrderDao.getCurrentStationReport(date);
+        if (list == null || list.size() <= 0) {
+            return null;
+        }
+
+        /**
+         * 1.第一层循环遍历StationPo对象，此对象中包含了StationReportPo对象。
+         * 2.第二层循环遍历StationReportPo对象中的属性。
+         * 3.第三层循环，去掉场站名为null元素。
+         * 4.创建了StationTotal对象，用于添加从StationReportPo对象中遍历出来的属性
+         * 5.创建List<StationTotal>集合，用于存放StationTotal对象。
+         * 6.将List<StationTotal>集合添加到StationPo对象中。
+         */
+        List<StationTotal> totals = new ArrayList<>();
+
+        //单个场站月统计集合
+        List<SingleTotal> singleStation = new ArrayList<>();
+        Map<String, Object> result = new HashMap<String, Object>();
+        for (StationPo stationPo : list) {
+            List<StationReportPo> sp = stationPo.getChargeInfo();
+            for (StationReportPo s : sp) {
+                if (s.getStationName() != null) {
+                    SingleTotal singleTotal = new SingleTotal();
+                    singleTotal.setStationName(s.getStationName());
+                    singleTotal.setStationTotal(Double.parseDouble(s.getTotalCharge()));
+                    singleStation.add(singleTotal);
+                }
+                if (s.getStationName() == null) {
+                    StationTotal stationTotal = new StationTotal();
+                    stationTotal.setDays(s.getDays());
+                    stationTotal.setTotalCharge(s.getTotalCharge());
+                    totals.add(stationTotal);
+                }
+            }
+            for (int i = 0; i < sp.size(); i++) {
+                Iterator<StationReportPo> iterator = sp.iterator();
+                while (iterator.hasNext()) {
+                    if (iterator.next().getStationName() == null) {
+                        iterator.remove();
+                    }
+                }
+            }
+        }
+        //llf 去除空数据
+        List<StationPo> stations = new ArrayList<>();
+        for (StationPo item : list) {
+            if (item.getStationName() != null) {
+                stations.add(item);
+            }
+        }
+        //endllf
+        //每个场站的月总计
+        List<SingleTotal> stationMonthlyTotal = this.getsingleSum(singleStation);
+        try {
+            for (StationPo s : stations) {
+                for (SingleTotal l : stationMonthlyTotal) {
+                    if (s.getStationName().equals(l.getStationName())) {
+                        //四舍五入
+                        BigDecimal bigDecimal = new BigDecimal(Double.toString(l.getStationTotal()));
+                        double sum = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                        s.setTotal(sum);
+
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        List<Object> allTotal = new ArrayList<>();
+        for (StationTotal s : totals) {
+            if (s.getDays() == null) {
+                allTotal.add(s.getTotalCharge());
+            }
+        }
+
+        /**
+         * 判断集合total中的days是否等于null
+         * 如果等于null，将remove。因为在数据库中分组统计时
+         * 是按天进行分组的，所以统计后的结果，days会为null.
+         */
+        for (int i = 0; i < totals.size(); i++) {
+            Iterator<StationTotal> iterator = totals.iterator();
+            while (iterator.hasNext()) {
+                if (iterator.next().getDays() == null) {
+                    iterator.remove();
+                }
+            }
+        }
+
+        result.put("Stations", stations);
+        result.put("Totals", totals);
+        result.put("AllTotals", allTotal);
+        return result;
+
+    }
 
 
     /**

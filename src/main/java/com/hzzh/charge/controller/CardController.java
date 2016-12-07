@@ -80,6 +80,7 @@ public class CardController {
         String companyId = map.get("companyId").toString();
         PageHelper.startPage(pageNum, pageSize);
         List<QueryPage> list = cardService.queryPage(cardNo, companyId);
+        System.out.println("火星人在查卡!");
         return new PageInfo(list);
     }
 

@@ -10,7 +10,7 @@ import java.util.List;
  * Created by lilaifeng on 2016/9/22.
  */
 public interface DeviceService {
-    List<Device> getDevicesByTypeCode(String companyId,String typeCode) throws Exception;
+    List<Device> getDevicesByTypeCode(String typeCode) throws Exception;
     List<Device> getDevicesByCompanyID(String companyId) throws Exception;
     List<Device> getDevicesByStationCode(String stationCode) throws Exception;
     int deleteByStationCode(String stationCode) throws Exception;

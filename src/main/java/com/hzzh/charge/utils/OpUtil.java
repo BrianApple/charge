@@ -18,4 +18,9 @@ public class OpUtil {
     public static final String NORMAL = "正常";
     public static final String LOCKED = "锁定";
     public static final String CANCEL = "注销";
+
+    //杭州中恒云能源互联网技术有限公司
+    public static final String HZ_MAIN_COMPANY_ID="AAAAAAAA-B2AE-40CE-9FA7-1A409F636EDA";
+    //苏州中恒普瑞电能服务公司
+    public static final String HZ_SUB_COMPANY_ID="BBBBBBBB-B2AE-40CE-9FA7-1A409F636EDA";
 }

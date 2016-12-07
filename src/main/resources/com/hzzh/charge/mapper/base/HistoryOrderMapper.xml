@@ -37,7 +37,7 @@
                 and DATE_FORMAT(o.CHARGE_BEGIN,'%Y%m%d%H%i%s') &gt;=DATE_FORMAT(#{startTime},'%Y%m%d%H%i%s')
             </if>
             <if test="endTime!=null and endTime!=''">
-                and DATE_FORMAT(o.CHARGE_END,'%Y%m%d%H%i%s') &lt;=DATE_FORMAT(#{endTime},'%Y%m%d%H%i%s')
+                and DATE_FORMAT(o.CHARGE_BEGIN,'%Y%m%d%H%i%s') &lt;=DATE_FORMAT(#{endTime},'%Y%m%d%H%i%s')
             </if>
             <if test="stationName!='' and stationName!=null">
                 and o.STATION_NAME=#{stationName}
@@ -56,13 +56,13 @@
         <result column="card_no" property="cardNo"/>
         <result column="COMPANY_ID" property="companyId"/>
         <result column="STATION_NAME" property="stationName"/>
-        <result column="days" property="stationName"/>
+        <result column="days" property="days"/>
     </resultMap>
 
     <select id="monthlyReport" resultMap="report_Map">
         select
-        IFNULL(o.car_no,'') car_no,
-        o.card_no,
+        o.car_no,
+        IFNULL(o.card_no,'') card_no,
         o.charge_begin,
         o.COMPANY_ID,
         DATE_FORMAT(o.CHARGE_BEGIN,'%Y-%m') months,
@@ -100,14 +100,56 @@
 
         </where>
         --
-        group by
-        IFNULL(o.car_no,'')
+        group by IFNULL(o.CARD_NO,'')
     </select>
+
+    <!--查询所有公司当月的总电量和总电费-->
+    <select id="getCurrentMonthlyReport" resultMap="report_Map">
+        select
+        o.car_no,
+        IFNULL(o.card_no,'') card_no,
+        o.charge_begin,
+        o.COMPANY_ID,
+        DATE_FORMAT(o.CHARGE_BEGIN,'%Y-%m') months,
+        DATE_FORMAT(o.CHARGE_BEGIN,'%Y-%m-%d') days,
+        ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE_J,0.00)),2) charge_J,
+        ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE_F,0.00)),2) charge_F,
+        ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE_P,0.00)),2) charge_P,
+        ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE_G,0.00)),2) charge_G,
+        ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE,0.00)),2) total_charge,
+        --
+        ROUND(SUM(IFNULL(o.EXPENSE_J,0.00)),2) expense_J,
+        ROUND(SUM(IFNULL(o.EXPENSE_F,0.00)),2) expense_F,
+        ROUND(SUM(IFNULL(o.EXPENSE_P,0.00)),2) expense_P,
+        ROUND(SUM(IFNULL(o.EXPENSE_G,0.00)),2) expense_G,
+        ROUND(SUM(IFNULL(o.EXPENSE,0.00)),2) total_expense
+        FROM
+        t_ev_order o
+        <where>
+            AND
+            o.STATUS_='3'
+            <if test="dateTime!=null">
+                <choose>
+                    <when test='dateTime!=null and dateTime!=""'>
+                        and DATE_FORMAT(#{dateTime},'%Y%m%')=DATE_FORMAT(o.CHARGE_BEGIN,'%Y%m%')
+                        and DATE_FORMAT(#{dateTime},'%Y%m%d%') &lt; DATE_FORMAT(o.CHARGE_BEGIN,'%Y%m%d')
+                    </when>
+                    <otherwise>
+                        and DATE_FORMAT(o.CHARGE_BEGIN,'%Y%m%')=DATE_FORMAT(now(),'%Y%m%')
+                    </otherwise>
+                </choose>
+            </if>
+
+        </where>
+        --
+        group by IFNULL(o.CARD_NO,'')
+    </select>
+
     <!--=====================车辆日统计报表========================-->
     <select id="dailyReport" resultMap="report_Map">
         select
         o.CAR_NO,
-        o.card_no,
+        IFNULL(o.card_no,'') card_no,
         o.charge_begin,
         o.COMPANY_ID,
         DATE_FORMAT(o.CHARGE_BEGIN,'%Y-%m-%d %H:%i:%s') days,
@@ -139,8 +181,9 @@
                 </choose>
             </if>
         </where>
-        group by IFNULL(o.car_no,'')
+        group by IFNULL(o.CARD_NO,'')
     </select>
+
     <!--=====================场站月统计报表========================-->
     <resultMap id="stationReport_Map" type="com.hzzh.charge.model.report_po.StationPo">
         <result column="station_name" property="stationName"/>
@@ -188,16 +231,50 @@
         WITH ROLLUP
     </select>
 
-    <!--本月接入充电桩个数-->
-    <resultMap id="poleMap" type="com.hzzh.charge.model.report_po.MonthlyPoles">
-        <result column="poles" property="chargePoles"/>
-    </resultMap>
-    <select id="queryChargePoles" resultMap="poleMap">
-        SELECT
-        COUNT(s.CODE_) poles
+    <!--=====================所有公司场站当月统计========================-->
+    <select id="getCurrentStationReport" resultMap="stationReport_Map">
+        select
+        o.station_name,
+        o.charge_begin,
+        o.COMPANY_ID,
+        DATE_FORMAT(o.charge_begin,'%Y-%m-%d') days,
+        DATE_FORMAT(o.charge_begin,'%Y-%m') months,
+        ROUND(SUM(IFNULL(o.ELECTRIC_CHARGE,0.00)),2) total_charge
         FROM
-        tb_base_station s
-        WHERE
-        s.COMPANY_=#{companyId}
+        t_ev_order o
+        <where>
+            AND o.STATUS_='3'
+            <if test="dateTime!=null">
+                <choose>
+                    <when test='dateTime!="" and dateTime!=null'>
+                        and
+                        DATE_FORMAT(#{dateTime},'%Y%m%')=DATE_FORMAT(o.CHARGE_BEGIN,'%Y%m%')
+                        and
+                        DATE_FORMAT(#{dateTime},'%Y%m%d%') &lt;= DATE_FORMAT(o.CHARGE_BEGIN,'%Y%m%d')
+                    </when>
+                    <otherwise>
+                        AND
+                        DATE_FORMAT(o.charge_begin,'%Y%m')=DATE_FORMAT(NOW(),'%Y%m')
+                    </otherwise>
+                </choose>
+
+            </if>
+        </where>
+        group by
+        days,o.STATION_NAME
+        WITH ROLLUP
     </select>
+
+    <!--本月接入充电桩个数-->
+    <!--<resultMap id="poleMap" type="com.hzzh.charge.model.report_po.MonthlyPoles">-->
+        <!--<result column="poles" property="chargePoles"/>-->
+    <!--</resultMap>-->
+    <!--<select id="queryChargePoles" resultMap="poleMap">-->
+        <!--SELECT-->
+        <!--COUNT(s.CODE_) poles-->
+        <!--FROM-->
+        <!--tb_base_station s-->
+        <!--WHERE-->
+        <!--s.COMPANY_=#{companyId}-->
+    <!--</select>-->
 </mapper>

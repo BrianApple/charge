@@ -9,7 +9,6 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Date;
 import java.util.Map;
 
 /**
@@ -51,8 +50,8 @@ public class HistoryOrderControllerTest {
     @Test
     public void testDailyReport(){
         Map<String,Object> map=new HashedMap();
-        map.put("dateTime","");
-        map.put("companyId","a67bef10-5db2-11e5-bd9d-19cc9cdf5fc1");
+        map.put("dateTime","2016-11-28");
+        map.put("companyId","5ffa25c0-6e5a-11e6-9a31-3343dda8a182");
         String message=HttpClientUtils.testUrl("/charge/dailyReport",map);
         System.out.println(message);
 
@@ -64,7 +63,7 @@ public class HistoryOrderControllerTest {
 
         Map<String,Object> map=new HashedMap();
         map.put("dateTime","2016-10");
-        map.put("companyId","a67bef10-5db2-11e5-bd9d-19cc9cdf5fc1");
+        map.put("companyId","5ffa25c0-6e5a-11e6-9a31-3343dda8a182");
         String message=HttpClientUtils.testUrl("/charge/stationReport",map);
         System.out.println(message);
 
@@ -77,6 +76,26 @@ public class HistoryOrderControllerTest {
         map.put("companyId","ecbaeb3e-238d-11e5-bb46-00155d165f08");
         String message=HttpClientUtils.testUrl("/charge/poleCount",map);
         System.out.println(message);
+    }
+
+    //测试所有公司的当月的总电量和电费
+    @Test
+    public void testGetCurrentMonthlReport(){
+        Map<String,Object> map=new HashedMap();
+        map.put("dateTime","");
+        String message=HttpClientUtils.testUrl("/charge/getCurrentMonthlyReport",map);
+        System.out.println(message);
+    }
+
+    //所有公司场站月报表测试
+    @Test
+    public void testGetCurrentStationReport(){
+
+        Map<String,Object> map=new HashedMap();
+        map.put("dateTime","2016-11");
+        String message=HttpClientUtils.testUrl("/charge/getCurrentMonthlyStationReport",map);
+        System.out.println(message);
+
     }
 
 

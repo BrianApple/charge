@@ -5,7 +5,6 @@ import com.hzzh.charge.model.Card;
 import com.hzzh.charge.model.CardHistory;
 import com.hzzh.charge.model.card_po.CardAction;
 import org.apache.commons.collections.map.HashedMap;
-import org.hibernate.validator.internal.util.privilegedactions.NewSchema;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.SpringApplicationConfiguration;

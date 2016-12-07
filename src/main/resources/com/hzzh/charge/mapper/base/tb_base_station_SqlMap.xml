@@ -1,50 +1,103 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hzzh.charge.dao.StationDao">
-  <resultMap id="StationMap" type="com.hzzh.charge.model.Station" >
-    <result column="GUID_" property="guid" jdbcType="VARCHAR" />
-    <result column="NAME_" property="name" jdbcType="VARCHAR" />
-    <result column="SHORT_NAME" property="shortName" jdbcType="VARCHAR" />
-    <result column="CODE_" property="code" jdbcType="VARCHAR" />
-    <result column="REF_CODE" property="refCode" jdbcType="VARCHAR" />
-    <result column="INDUSTRY_CODE" property="industryCode" jdbcType="VARCHAR" />
-    <result column="INDUSTRY_NAME" property="industryName" jdbcType="VARCHAR" />
-    <result column="STATION_TYPE" property="stationType" jdbcType="VARCHAR" />
-    <result column="AREA_ID" property="areaId" jdbcType="VARCHAR" />
-    <result column="AREA_CODE" property="areaCode" jdbcType="VARCHAR" />
-    <result column="AREA_NAME" property="areaName" jdbcType="VARCHAR" />
-    <result column="COMPANY_ID" property="companyId" jdbcType="VARCHAR" />
-    <result column="ADDRESS_" property="address" jdbcType="VARCHAR" />
-    <result column="LON" property="lon" jdbcType="VARCHAR" />
-    <result column="LAT" property="lat" jdbcType="VARCHAR" />
-    <result column="PICTURE_PATH" property="picturePath" jdbcType="VARCHAR" />
-    <result column="MANAGEMENT_COMPANY" property="managementCompany" jdbcType="VARCHAR" />
-    <result column="COMPLETED_DATE" property="completedDate" jdbcType="VARCHAR" />
-    <result column="CONTACT_PERSON" property="contactPerson" jdbcType="VARCHAR" />
-    <result column="CONTACT_TEL" property="contactTel" jdbcType="VARCHAR" />
-    <result column="RUNSTATUS" property="runstatus" jdbcType="VARCHAR" />
-    <result column="RUN_DAYS" property="runDays" jdbcType="VARCHAR" />
-    <result column="STATUS_" property="status" jdbcType="VARCHAR" />
-  </resultMap>
-  <select id="getStationsByCompanyID" resultMap="StationMap">
+    <resultMap id="StationMap" type="com.hzzh.charge.model.Station">
+        <result column="GUID_" property="guid" jdbcType="VARCHAR"/>
+        <result column="NAME_" property="name" jdbcType="VARCHAR"/>
+        <result column="SHORT_NAME" property="shortName" jdbcType="VARCHAR"/>
+        <result column="CODE_" property="code" jdbcType="VARCHAR"/>
+        <result column="REF_CODE" property="refCode" jdbcType="VARCHAR"/>
+        <result column="INDUSTRY_CODE" property="industryCode" jdbcType="VARCHAR"/>
+        <result column="INDUSTRY_NAME" property="industryName" jdbcType="VARCHAR"/>
+        <result column="STATION_TYPE" property="stationType" jdbcType="VARCHAR"/>
+        <result column="AREA_ID" property="areaId" jdbcType="VARCHAR"/>
+        <result column="AREA_CODE" property="areaCode" jdbcType="VARCHAR"/>
+        <result column="AREA_NAME" property="areaName" jdbcType="VARCHAR"/>
+        <result column="COMPANY_ID" property="companyId" jdbcType="VARCHAR"/>
+        <result column="ADDRESS_" property="address" jdbcType="VARCHAR"/>
+        <result column="LON" property="lon" jdbcType="VARCHAR"/>
+        <result column="LAT" property="lat" jdbcType="VARCHAR"/>
+        <result column="PICTURE_PATH" property="picturePath" jdbcType="VARCHAR"/>
+        <result column="MANAGEMENT_COMPANY" property="managementCompany" jdbcType="VARCHAR"/>
+        <result column="COMPLETED_DATE" property="completedDate" jdbcType="VARCHAR"/>
+        <result column="CONTACT_PERSON" property="contactPerson" jdbcType="VARCHAR"/>
+        <result column="CONTACT_TEL" property="contactTel" jdbcType="VARCHAR"/>
+        <result column="RUNSTATUS" property="runstatus" jdbcType="VARCHAR"/>
+        <result column="RUN_DAYS" property="runDays" jdbcType="VARCHAR"/>
+        <result column="STATUS_" property="status" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="getStationsByCompanyID" resultMap="StationMap">
     select * from tb_base_station where COMPANY_ID=#{companyId} ORDER BY CODE_
   </select>
-  <select id="getStationsByType" resultMap="StationMap">
+    <select id="getStationsByType" resultMap="StationMap">
     select * from tb_base_station where STATION_TYPE=#{stationType} ORDER BY CODE_
   </select>
-  <select id="getStationsByCompanyAndType" resultMap="StationMap">
+    <select id="getStationsByCompanyAndType" resultMap="StationMap">
     select * from tb_base_station where COMPANY_ID=#{companyId} and STATION_TYPE=#{stationType} ORDER BY CODE_
   </select>
-  <select id="getMaxCodeByCompanyID" resultMap="StationMap">
+    <select id="getMaxCodeByCompanyID" resultMap="StationMap">
     select IFNULL(max(CODE_),'0') as CODE_ from tb_base_station where COMPANY_ID=#{companyId}
   </select>
-  <insert id="addStation"  parameterType="com.hzzh.charge.model.Station">
+    <insert id="addStation" parameterType="com.hzzh.charge.model.Station">
     insert into tb_base_station(GUID_,NAME_,CODE_,STATION_TYPE,AREA_ID,AREA_CODE,AREA_NAME,COMPANY_ID,ADDRESS_,CONTACT_PERSON,CONTACT_TEL) values(#{guid},#{name},#{code},#{stationType},#{areaId},#{areaCode},#{areaName},#{companyId},#{address},#{contactPerson},#{contactTel})
   </insert>
-  <update id="editStation"  parameterType="com.hzzh.charge.model.Station">
+    <update id="editStation" parameterType="com.hzzh.charge.model.Station">
     update tb_base_station set NAME_=#{name},ADDRESS_=#{address},CONTACT_PERSON=#{contactPerson},CONTACT_TEL=#{contactTel} where CODE_=#{code}
   </update>
-  <delete id="deleteStation" parameterType="com.hzzh.charge.model.Station">
+    <delete id="deleteStation" parameterType="com.hzzh.charge.model.Station">
     delete from tb_base_station where CODE_=#{code};
   </delete>
+
+    <!--通过companyId查询所有场站-->
+    <resultMap id="queryStationMap" type="com.hzzh.charge.model.station_po.StationInfo">
+        <result column="GUID_" property="guid"/>
+        <result column="NAME_" property="name"/>
+        <result column="CODE_" property="stationCode"/>
+        <result column="CONTACT_PERSON" property="contactPerson"/>
+        <result column="CONTACT_TEL" property="contactTel"/>
+        <result column="ADDRESS" property="address"/>
+        <result column="FULL_NAME" property="companyName"/>
+        <result column="INDUSTRY_NAME" property="industryName"/>
+    </resultMap>
+    <select id="queryStations" resultMap="queryStationMap">
+        SELECT
+        s.GUID_,
+        s.NAME_,
+        s.CONTACT_PERSON,
+        s.CONTACT_TEL,
+        s.CODE_,
+        c.ADDRESS,
+        c.FULL_NAME,
+        c.INDUSTRY_NAME
+        FROM
+        tb_base_station s
+        INNER JOIN
+        tb_sys_company c
+        ON(c.guid_=s.company_id)
+        <where>
+            s.COMPANY_ID=#{companyId}
+            <if test="name!=null and name!=''">
+                AND
+                s.NAME_=#{name}
+            </if>
+        </where>
+    </select>
+
+    <!--通过companyID，场站名称，查询场站信息-->
+    <select id="queryStationInfo" resultMap="StationMap">
+        SELECT
+        *
+        FROM
+        tb_base_station s
+        <where>
+            AND
+            s.COMPANY_ID=#{companyId}
+            <if test="name!='' and name!=null">
+                AND
+                s.NAME_=#{name}
+            </if>
+        </where>
+
+
+    </select>
 </mapper>

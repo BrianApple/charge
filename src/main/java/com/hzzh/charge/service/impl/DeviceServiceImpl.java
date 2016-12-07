@@ -16,8 +16,8 @@ public class DeviceServiceImpl implements DeviceService {
     private DeviceDao deviceDao;
 
     @Override
-    public List<Device> getDevicesByTypeCode(String companyId,String typeCode)  throws Exception {
-        return deviceDao.getDevicesByTypeCode(companyId,typeCode);
+    public List<Device> getDevicesByTypeCode(String typeCode)  throws Exception {
+        return deviceDao.getDevicesByTypeCode(typeCode);
     }
     @Override
     public List<Device> getDevicesByCompanyID(String companyId) throws Exception{
